@@ -1,16 +1,19 @@
 {
   "name": "myingram",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:production": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:styles": "stylelint \"**/*.scss\"",
     "lint:styles:fix": "stylelint \"**/*.scss\" --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "echo 'Тесты не настроены' && exit 0"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
