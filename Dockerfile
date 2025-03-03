@@ -1,4 +1,4 @@
-# Устанавливаем зависимости
+#Устанавливаем зависимости
 FROM node:20.11-alpine as dependencies
 WORKDIR /app
 COPY package*.json ./
