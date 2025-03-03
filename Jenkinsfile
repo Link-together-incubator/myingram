@@ -4,12 +4,12 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 3774
+        PORT = 3775
         NAMESPACE = "myin-gram-ru"
         REGISTRY_HOSTNAME = "idogmat"
         REGISTRY = "registry.hub.docker.com"
-        PROJECT = "next-dev"
-        DEPLOYMENT_NAME = "next-dev-deployment"
+        PROJECT = "next-dev-v2"
+        DEPLOYMENT_NAME = "next-dev-v2-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
     }
