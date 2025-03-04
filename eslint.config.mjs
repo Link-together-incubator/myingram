@@ -12,22 +12,19 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends(
-    "next/core-web-vitals", // Базовые правила Next.js
-    "next/typescript", // Поддержка TypeScript
-    "plugin:prettier/recommended", // Интеграция Prettier с ESLint
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:prettier/recommended",
   ),
   {
     rules: {
-      // Правила для React
-      "react/jsx-uses-react": "error", // Проверка использования React в JSX
-      "react/jsx-uses-vars": "error", // Проверка использования переменных в JSX
-      "react/react-in-jsx-scope": "off", // Отключить требование импорта React в JSX (актуально для React 17+)
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "react/react-in-jsx-scope": "off",
 
-      // Правила для React Hooks
-      "react-hooks/rules-of-hooks": "error", // Проверка правил использования хуков
-      "react-hooks/exhaustive-deps": "warn", // Проверка зависимостей хуков
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
 
-      // Правила для импортов
       "import/order": [
         "error",
         {
@@ -39,17 +36,38 @@ const eslintConfig = [
             "sibling",
             "index",
           ],
-          "newlines-between": "always", // Добавлять пустые строки между группами импортов
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+          pathGroups: [
+            {
+              pattern: "@/**",
+              group: "internal",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["builtin"],
         },
       ],
 
-      // Правила для Prettier
+      "import/no-unresolved": "error",
+      "import/no-duplicates": "error",
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          devDependencies: true,
+          optionalDependencies: false,
+          peerDependencies: false,
+        },
+      ],
+
       "prettier/prettier": [
         "warn",
         {
-          endOfLine: "auto", // решение проблемы с cr
+          endOfLine: "auto",
         },
-      ], // Ошибки, если код не соответствует правилам Prettier (Подумать, может быть отключить)
+      ],
     },
   },
 ];
