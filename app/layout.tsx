@@ -1,7 +1,7 @@
 import "@/_app/styles/globals.css";
 import { Montserrat } from "next/font/google";
 
-import { Header } from "../src/widgets/Header";
+import { Button } from "@/shared/ui";
 
 export const montserrat = Montserrat({
   variable: "--font-montserrat", // CSS-переменная для использования в SCSS/Tailwind
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
-        <Header />
+        <Button>test</Button>
         {children}
       </body>
     </html>

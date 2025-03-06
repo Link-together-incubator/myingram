@@ -6,7 +6,7 @@ import { Button } from "../../../shared/ui/Button/Button";
 
 import s from "./Header.module.css";
 
-export const Header = () => {
+export function Header() {
   const isLoggedIn = true;
 
   const onLogInHandler = () => {
@@ -56,4 +56,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+}
