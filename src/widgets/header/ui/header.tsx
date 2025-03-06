@@ -2,7 +2,7 @@
 
 import { BellRing } from "lucide-react";
 
-import { Button } from "../../../shared/ui/Button/Button";
+import { Button } from "@/shared/ui";
 
 import s from "./Header.module.css";
 
