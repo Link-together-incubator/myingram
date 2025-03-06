@@ -1,8 +1,10 @@
-@import "tailwindcss";
 @plugin "tailwindcss-animate";
-@custom-variant dark (&:is(.dark *));
+@import "tailwindcss";
+@import "./scroll.css";
 @import "./colors.css";
 @import "./fonts.css";
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
