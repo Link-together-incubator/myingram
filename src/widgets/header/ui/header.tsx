@@ -1,12 +1,13 @@
 "use client";
 
-import { Button } from "../../../shared/ui/button";
-import { Bell } from "../../../shared/ui/icons/bell";
+import { BellRing } from "lucide-react";
+
+import { Button } from "../../../shared/ui/Button/button";
 
 import s from "./header.module.css";
 
 export const Header = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   const onLogInHandler = () => {
     // Log in logic goes here
@@ -24,9 +25,7 @@ export const Header = () => {
         <div className={s["header-container-title"]}>Inctagram</div>
         {isLoggedIn ? (
           <div className={s["header-container-btns"]}>
-            <div>
-              <Bell />
-            </div>
+            <BellRing className="cursor-pointer" />
             <select name="language" id="1">
               <option value="english">English</option>
               <option value="russian">Russian</option>

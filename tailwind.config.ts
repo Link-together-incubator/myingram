@@ -5,6 +5,24 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: "var(--font-montserrat), sans-serif",
+      },
+      fontSize: {
+        large: "var(--font-large)",
+        h1: "var(--font-h1)",
+        h2: "var(--font-h2)",
+        h3: "var(--font-h3)",
+        regular16: "var(--font-regular-16)",
+        bold16: "var(--font-bold-16)",
+        regular14: "var(--font-regular-14)",
+        medium14: "var(--font-medium-14)",
+        bold14: "var(--font-bold-14)",
+        small12: "var(--font-small-12)",
+        semiBoldSmall12: "var(--font-semi-bold-small-12)",
+        regularLink: "var(--font-regular-link)",
+        smallLink: "var(--font-small-link)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

@@ -5,7 +5,7 @@ import * as React from "react";
 
 import { cn } from "@/shared/lib/css";
 
-function Switch({
+function SwitchButton({
   className,
   ...props
 }: React.ComponentProps<typeof SwitchPrimitive.Root>) {
@@ -28,4 +28,4 @@ function Switch({
   );
 }
 
-export { Switch };
+export { SwitchButton };
