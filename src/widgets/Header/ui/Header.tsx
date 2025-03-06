@@ -2,11 +2,11 @@
 
 import { BellRing } from "lucide-react";
 
-import { Button } from "../../../shared/ui/Button/button";
+import { Button } from "@/shared/ui";
 
-import s from "./header.module.css";
+import s from "./Header.module.css";
 
-export const Header = () => {
+export function Header() {
   const isLoggedIn = true;
 
   const onLogInHandler = () => {
@@ -56,4 +56,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+}

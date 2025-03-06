@@ -1,10 +1,9 @@
 import "@/_app/styles/globals.css";
-
 import { Montserrat } from "next/font/google";
 
 import { Header } from "@/widgets/Header";
 
-export const montserrat = Montserrat({
+const montserrat = Montserrat({
   variable: "--font-montserrat", // CSS-переменная для использования в SCSS/Tailwind
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
