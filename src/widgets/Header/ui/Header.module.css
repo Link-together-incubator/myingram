@@ -1,0 +1,43 @@
+.header {
+  width: 100%;
+  background-color: var(--background);
+  margin: 0 auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid var(--foreground);
+}
+
+.header-container {
+  max-width: 1180px;
+  background-color: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  margin: 0 auto;
+  color: var(--primary-foreground);
+}
+
+.header-container-title {
+  font: var(--font-large);
+  font-size: 32px;
+}
+
+.header-container-btns {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  padding: 0;
+
+  & select {
+    background-color: var(--background);
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header-container-btns {
+    gap: 15px;
+  }
+}

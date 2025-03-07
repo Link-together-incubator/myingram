@@ -1,0 +1,23 @@
+:root {
+  /* Основной шрифт */
+  --font-montserrat: "Montserrat", sans-serif;
+
+  /* Заголовки */
+  --font-large: 24px bold;
+  --font-h1: 22px bold;
+  --font-h2: 20px bold;
+  --font-h3: 18px bold;
+
+  /* Обычный текст */
+  --font-regular-16: 16px normal;
+  --font-bold-16: 16px bold;
+  --font-regular-14: 14px normal;
+  --font-medium-14: 14px 500;
+  --font-bold-14: 14px bold;
+  --font-small-12: 12px normal;
+  --font-semi-bold-small-12: 12px 600;
+
+  /* Ссылки */
+  --font-regular-link: 14px normal underline;
+  --font-small-link: 12px normal underline;
+}

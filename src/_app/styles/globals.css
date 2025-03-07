@@ -1,0 +1,168 @@
+@plugin "tailwindcss-animate";
+@import "tailwindcss";
+@import "./scroll.css";
+@import "./colors.css";
+@import "./fonts.css";
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* Основные цвета */
+  --background: var(--dark-900); /* Тёмный фон */
+  --foreground: var(--dark-300); /* Белый текст */
+
+  /* Карточки */
+  --card: var(--dark-500); /* Тёмный фон */
+  --card-foreground: var(--light-100); /* Белый текст */
+
+  /* Всплывающие элементы */
+  --popover: var(--dark-500); /* Тёмный фон */
+  --popover-foreground: var(--light-100); /* Белый текст */
+
+  /* Основной цвет */
+  --primary: var(--accent-500); /* Акцентный цвет (синий) */
+  --primary-foreground: var(--light-100); /* Белый текст */
+
+  /* Второстепенный цвет */
+  --secondary: var(--dark-300); /* Тёмный фон (светлее) */
+  --secondary-foreground: var(--light-100); /* Белый текст */
+
+  /* Мутный цвет */
+  --muted: var(--dark-300); /* Тёмный фон (светлее) */
+  --muted-foreground: var(--light-700); /* Серый текст */
+
+  /* Акцентный цвет */
+  --accent: var(--accent-300); /* Акцентный цвет (светлее) */
+  --accent-foreground: var(--light-100); /* Белый текст */
+
+  /* Цвет для опасных действий */
+  --destructive: var(--danger-500); /* Красный */
+  --destructive-foreground: var(--light-100); /* Белый текст */
+
+  /* Границы и поля ввода */
+  --border: var(--dark-300); /* Тёмная граница */
+  --input: var(--dark-300); /* Тёмная граница */
+  --ring: var(--accent-500); /* Акцентный цвет */
+
+  /* Графики */
+  --chart-1: var(--accent-500); /* Синий */
+  --chart-2: var(--success-500); /* Зелёный */
+  --chart-3: var(--warning-500); /* Жёлтый */
+  --chart-4: var(--danger-500); /* Красный */
+  --chart-5: var(--dark-500); /* Тёмный */
+
+  /* Боковая панель */
+  --sidebar: var(--dark-500); /* Тёмный фон */
+  --sidebar-foreground: var(--light-100); /* Белый текст */
+  --sidebar-primary: var(--accent-500); /* Акцентный цвет */
+  --sidebar-primary-foreground: var(--light-100); /* Белый текст */
+  --sidebar-accent: var(--accent-300); /* Акцентный цвет (светлее) */
+  --sidebar-accent-foreground: var(--light-100); /* Белый текст */
+  --sidebar-border: var(--dark-300); /* Тёмная граница */
+  --sidebar-ring: var(--accent-500); /* Акцентный цвет */
+}
+
+.dark {
+  /* Основные цвета */
+  --background: var(--dark-900); /* Тёмный фон */
+  --foreground: var(--dark-300); /* Белый текст */
+
+  /* Карточки */
+  --card: var(--dark-500); /* Тёмный фон */
+  --card-foreground: var(--light-100); /* Белый текст */
+
+  /* Всплывающие элементы */
+  --popover: var(--dark-500); /* Тёмный фон */
+  --popover-foreground: var(--light-100); /* Белый текст */
+
+  /* Основной цвет */
+  --primary: var(--accent-500); /* Акцентный цвет (синий) */
+  --primary-foreground: var(--light-100); /* Белый текст */
+
+  /* Второстепенный цвет */
+  --secondary: var(--dark-300); /* Тёмный фон (светлее) */
+  --secondary-foreground: var(--light-100); /* Белый текст */
+
+  /* Мутный цвет */
+  --muted: var(--dark-300); /* Тёмный фон (светлее) */
+  --muted-foreground: var(--light-700); /* Серый текст */
+
+  /* Акцентный цвет */
+  --accent: var(--accent-300); /* Акцентный цвет (светлее) */
+  --accent-foreground: var(--light-100); /* Белый текст */
+
+  /* Цвет для опасных действий */
+  --destructive: var(--danger-500); /* Красный */
+  --destructive-foreground: var(--light-100); /* Белый текст */
+
+  /* Границы и поля ввода */
+  --border: var(--dark-300); /* Тёмная граница */
+  --input: var(--dark-300); /* Тёмная граница */
+  --ring: var(--accent-500); /* Акцентный цвет */
+
+  /* Графики */
+  --chart-1: var(--accent-500); /* Синий */
+  --chart-2: var(--success-500); /* Зелёный */
+  --chart-3: var(--warning-500); /* Жёлтый */
+  --chart-4: var(--danger-500); /* Красный */
+  --chart-5: var(--dark-500); /* Тёмный */
+
+  /* Боковая панель */
+  --sidebar: var(--dark-500); /* Тёмный фон */
+  --sidebar-foreground: var(--light-100); /* Белый текст */
+  --sidebar-primary: var(--accent-500); /* Акцентный цвет */
+  --sidebar-primary-foreground: var(--light-100); /* Белый текст */
+  --sidebar-accent: var(--accent-300); /* Акцентный цвет (светлее) */
+  --sidebar-accent-foreground: var(--light-100); /* Белый текст */
+  --sidebar-border: var(--dark-300); /* Тёмная граница */
+  --sidebar-ring: var(--accent-500); /* Акцентный цвет */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
