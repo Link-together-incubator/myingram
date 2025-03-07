@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { DatePicker } from "@/components/DatePicker/DatePicker";
+import { DateRangePicker } from "@/components/DateRangePicker/DateRangePicker";
 import { ThemeToggle } from "@/features/Toggle-Theme";
 import { Button } from "@/shared/ui/button";
 
@@ -15,6 +17,8 @@ export default function Home() {
       </Button>
       <h1>{counter}</h1>
       <ThemeToggle />
+      <DatePicker />
+      <DateRangePicker />
     </div>
   );
 }
