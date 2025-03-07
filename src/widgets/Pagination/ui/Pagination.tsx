@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+
 import { usePagination } from "../lib/usePagination";
 
 import { PaginationDropDown } from "./PaginationDropDown";
@@ -20,16 +22,18 @@ export function Pagination({ totalItems }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / Number(itemsPerPage));
 
   return (
-    <div className="flex items-center gap-2 justify-between rounded-md p-2 bg-background text-popover-foreground">
-      <PaginationNums
-        currentPage={Number(currentPage)}
-        onPageChange={onChangeCurrentPage}
-        totalPages={totalPages}
-      />
-      <PaginationDropDown
-        itemsPerPage={Number(itemsPerPage)}
-        onItemsPerPageChange={onChangeItemsPerPage}
-      />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="flex items-center gap-2 justify-between rounded-md p-2 bg-background text-popover-foreground">
+        <PaginationNums
+          currentPage={Number(currentPage)}
+          onPageChange={onChangeCurrentPage}
+          totalPages={totalPages}
+        />
+        <PaginationDropDown
+          itemsPerPage={Number(itemsPerPage)}
+          onItemsPerPageChange={onChangeItemsPerPage}
+        />
+      </div>
+    </Suspense>
   );
 }
