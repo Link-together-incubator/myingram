@@ -1,15 +1,13 @@
 @plugin "tailwindcss-animate";
 @import "tailwindcss";
 @import "./scroll.css";
-@import "./colors.css";
+@import "./themes/dark.css";
 @import "./fonts.css";
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -100,62 +98,82 @@
   --sidebar-accent-foreground: var(--light-100); /* Белый текст */
   --sidebar-border: var(--dark-300); /* Тёмная граница */
   --sidebar-ring: var(--accent-500); /* Акцентный цвет */
+
+  /* Основные цвета */
+  --background-5: var(--dark-900);
+  --background-4: var(--dark-700);
+  --background-3: var(--dark-500);
+  --background-2: var(--dark-300);
+  --background-1: var(--dark-100);
+
+  --foreground-5: var(--light-900);
+  --foreground-4: var(--light-700);
+  --foreground-3: var(--light-500);
+  --foreground-2: var(--light-300);
+  --foreground-1: var(--light-100);
+
+  --warning-5: var(--warning-900);
+  --warning-4: var(--warning-700);
+  --warning-3: var(--warning-500);
+  --warning-2: var(--warning-300);
+  --warning-1: var(--warning-100);
+
+  --danger-5: var(--danger-900);
+  --danger-4: var(--danger-700);
+  --danger-3: var(--danger-500);
+  --danger-2: var(--danger-300);
+  --danger-1: var(--danger-100);
+
+  --success-5: var(--success-900);
+  --success-4: var(--success-700);
+  --success-3: var(--success-500);
+  --success-2: var(--success-300);
+  --success-1: var(--success-100);
+
+  --accent-5: var(--accent-900);
+  --accent-4: var(--accent-700);
+  --accent-3: var(--accent-500);
+  --accent-2: var(--accent-300);
+  --accent-1: var(--accent-100);
 }
 
 .dark {
   /* Основные цвета */
-  --background: var(--dark-900); /* Тёмный фон */
-  --foreground: var(--dark-300); /* Белый текст */
+  --background-5: var(--dark-900);
+  --background-4: var(--dark-700);
+  --background-3: var(--dark-500);
+  --background-2: var(--dark-300);
+  --background-1: var(--dark-100);
 
-  /* Карточки */
-  --card: var(--dark-500); /* Тёмный фон */
-  --card-foreground: var(--light-100); /* Белый текст */
+  --foreground-5: var(--light-900);
+  --foreground-4: var(--light-700);
+  --foreground-3: var(--light-500);
+  --foreground-2: var(--light-300);
+  --foreground-1: var(--light-100);
 
-  /* Всплывающие элементы */
-  --popover: var(--dark-500); /* Тёмный фон */
-  --popover-foreground: var(--light-100); /* Белый текст */
+  --warning-5: var(--warning-900);
+  --warning-4: var(--warning-700);
+  --warning-3: var(--warning-500);
+  --warning-2: var(--warning-300);
+  --warning-1: var(--warning-100);
 
-  /* Основной цвет */
-  --primary: var(--accent-500); /* Акцентный цвет (синий) */
-  --primary-foreground: var(--light-100); /* Белый текст */
+  --danger-5: var(--danger-900);
+  --danger-4: var(--danger-700);
+  --danger-3: var(--danger-500);
+  --danger-2: var(--danger-300);
+  --danger-1: var(--danger-100);
 
-  /* Второстепенный цвет */
-  --secondary: var(--dark-300); /* Тёмный фон (светлее) */
-  --secondary-foreground: var(--light-100); /* Белый текст */
+  --success-5: var(--success-900);
+  --success-4: var(--success-700);
+  --success-3: var(--success-500);
+  --success-2: var(--success-300);
+  --success-1: var(--success-100);
 
-  /* Мутный цвет */
-  --muted: var(--dark-300); /* Тёмный фон (светлее) */
-  --muted-foreground: var(--light-700); /* Серый текст */
-
-  /* Акцентный цвет */
-  --accent: var(--accent-300); /* Акцентный цвет (светлее) */
-  --accent-foreground: var(--light-100); /* Белый текст */
-
-  /* Цвет для опасных действий */
-  --destructive: var(--danger-500); /* Красный */
-  --destructive-foreground: var(--light-100); /* Белый текст */
-
-  /* Границы и поля ввода */
-  --border: var(--dark-300); /* Тёмная граница */
-  --input: var(--dark-300); /* Тёмная граница */
-  --ring: var(--accent-500); /* Акцентный цвет */
-
-  /* Графики */
-  --chart-1: var(--accent-500); /* Синий */
-  --chart-2: var(--success-500); /* Зелёный */
-  --chart-3: var(--warning-500); /* Жёлтый */
-  --chart-4: var(--danger-500); /* Красный */
-  --chart-5: var(--dark-500); /* Тёмный */
-
-  /* Боковая панель */
-  --sidebar: var(--dark-500); /* Тёмный фон */
-  --sidebar-foreground: var(--light-100); /* Белый текст */
-  --sidebar-primary: var(--accent-500); /* Акцентный цвет */
-  --sidebar-primary-foreground: var(--light-100); /* Белый текст */
-  --sidebar-accent: var(--accent-300); /* Акцентный цвет (светлее) */
-  --sidebar-accent-foreground: var(--light-100); /* Белый текст */
-  --sidebar-border: var(--dark-300); /* Тёмная граница */
-  --sidebar-ring: var(--accent-500); /* Акцентный цвет */
+  --accent-5: var(--accent-900);
+  --accent-4: var(--accent-700);
+  --accent-3: var(--accent-500);
+  --accent-2: var(--accent-300);
+  --accent-1: var(--accent-100);
 }
 
 @layer base {
@@ -169,4 +187,5 @@
 
 body {
   font-family: var(--font-montserrat);
+  transition: all 0.3s ease;
 }
