@@ -1,0 +1,92 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.eyeButton{
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);  
+  left: 249px;
+  color: var(--primary-foreground);
+
+  &.disabled {
+    cursor: not-allowed;
+    color: var(--background-1);
+  }
+}
+
+.searchIcon{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: var(--foreground-5);
+
+  &:active {
+    color: var(--primary-foreground);
+  }
+
+  .searchInputWrapper:has(.input:disabled) & {
+    color: var(--background-1);
+    cursor: not-allowed;
+  }
+}
+
+.searchInputWrapper {
+
+  .input {
+    padding-left: 34px; 
+  }
+}
+
+.input {
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  padding: 6px 12px;
+  width: 100%;
+  max-width: 279px;
+  outline: none;
+
+  &.error {
+    border: 1px solid var(--danger-3);
+  }
+
+  &::placeholder {
+    color: var(--foreground-5);
+  }
+
+  &:active {
+    border-color: var(--primary-foreground);
+  }
+
+  &:focus {
+    border-color: var(--accent-3);
+  }
+
+  &:disabled {
+    border-color: var(--background-1);
+    cursor: not-allowed;
+  }
+
+  &:disabled::placeholder {
+    color: var(--background-1);
+  }
+}
+
+.label {
+  color: var(--foreground-5);
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.errorText {
+  color: var(--danger-3);
+  font-size: 14px;
+  line-height: 24px;
+}
