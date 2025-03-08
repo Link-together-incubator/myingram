@@ -10,7 +10,7 @@ type ModalProviderProps = {
 
 export function ModalProvider({ children }: ModalProviderProps) {
   const message = {
-    text: "Error! Server is not available",
+    text: "Your settings are saved",
     type: "success" as AlertType,
   }; // useSelector достаю из стейта состояние message
 

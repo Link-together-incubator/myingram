@@ -2,22 +2,17 @@
   /* Основной шрифт */
   --font-montserrat: "Montserrat", sans-serif;
 
-  /* Заголовки */
-  --font-large: 24px bold;
-  --font-h1: 22px bold;
-  --font-h2: 20px bold;
-  --font-h3: 18px bold;
-
-  /* Обычный текст */
-  --font-regular-16: 16px normal;
-  --font-bold-16: 16px bold;
-  --font-regular-14: 14px normal;
-  --font-medium-14: 14px 500;
-  --font-bold-14: 14px bold;
-  --font-small-12: 12px normal;
-  --font-semi-bold-small-12: 12px 600;
-
-  /* Ссылки */
-  --font-regular-link: 14px normal underline;
-  --font-small-link: 12px normal underline;
+  --font-large: bold 24px var(--font-montserrat);
+  --font-h1: bold 22px var(--font-montserrat);
+  --font-h2: bold 20px var(--font-montserrat);
+  --font-h3: bold 18px var(--font-montserrat);
+  --font-regular-16: normal 16px var(--font-montserrat);
+  --font-bold-16: bold 16px var(--font-montserrat);
+  --font-regular-14: normal 14px var(--font-montserrat);
+  --font-medium-14: 500 14px var(--font-montserrat);
+  --font-bold-14: bold 14px var(--font-montserrat);
+  --font-small-12: normal 12px var(--font-montserrat);
+  --font-semi-bold-small-12: 600 12px var(--font-montserrat);
+  --font-regular-link: normal 14px var(--font-montserrat);
+  --font-small-link: normal 12px var(--font-montserrat);
 }

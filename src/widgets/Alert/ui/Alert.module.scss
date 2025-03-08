@@ -10,6 +10,8 @@
   max-width: 360px;
   width: 100%;
   justify-content: space-between;
+  animation: slideIn 0.5s ease-out;
+  transition: opacity 0.5s ease-out;
 }
 .btn {
   cursor: pointer;
@@ -37,4 +39,15 @@
 .classic {
   background-color: var(--foreground-5);
   border-color: var(--danger-1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
