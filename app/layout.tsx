@@ -1,5 +1,6 @@
 import "@/_app/styles/globals.css";
 import { Montserrat } from "next/font/google";
+import Script from "next/script";
 
 import { ModalProvider } from "@/_app/providers";
 import { Header } from "@/widgets/Header";
@@ -21,6 +22,10 @@ export default function RootLayout({
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <Header />
         <ModalProvider>{children}</ModalProvider>
+        <Script
+          src="https://www.google.com/recaptcha/api.js?hl=en"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

@@ -1,0 +1,15 @@
+.container {
+  padding: 8px 8px 45px;
+  background: var(--background);
+}
+
+.requiredMessage {
+  border: 1px solid #ff0000;
+  padding-bottom: 15px;
+}
+
+.text {
+  color: #ff0000;
+  font: var(--font-small-12);
+  margin-top: 15px;
+}
