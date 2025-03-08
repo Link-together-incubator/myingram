@@ -1,0 +1,40 @@
+.alert {
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+  color: var(--foreground-1);
+  display: flex;
+  max-width: 360px;
+  width: 100%;
+  justify-content: space-between;
+}
+.btn {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.alertMessage {
+  font-weight: bold;
+}
+
+.error {
+  background-color: var(--danger-5);
+  border-color: var(--danger-3);
+}
+
+.success {
+  background-color: var(--success-5);
+  border-color: var(--success-3);
+}
+
+.classic {
+  background-color: var(--foreground-5);
+  border-color: var(--danger-1);
+}

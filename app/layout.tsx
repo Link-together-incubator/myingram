@@ -2,6 +2,7 @@ import "@/_app/styles/globals.css";
 
 import { Montserrat } from "next/font/google";
 
+import { ModalProvider } from "@/_app/providers";
 import { Header } from "@/widgets/Header";
 
 const montserrat = Montserrat({
@@ -20,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <Header />
-        {children}
+        <ModalProvider>{children}</ModalProvider>
       </body>
     </html>
   );
