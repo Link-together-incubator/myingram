@@ -1,8 +1,13 @@
+"use client";
+
 import "@/_app/styles/globals.css";
+
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
+import { Provider } from "react-redux";
 
 import { ModalProvider } from "@/_app/providers";
+import { store } from "@/_app/store";
 import { Header } from "@/widgets/Header";
 
 const montserrat = Montserrat({
@@ -20,12 +25,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
-        <Header />
-        <ModalProvider>{children}</ModalProvider>
-        <Script
-          src="https://www.google.com/recaptcha/api.js?hl=en"
-          strategy="afterInteractive"
-        />
+        <Provider store={store}>
+          <Header />
+          <ModalProvider>{children}</ModalProvider>
+          <Script
+            src="https://www.google.com/recaptcha/api.js?hl=en"
+            strategy="afterInteractive"
+          />
+        </Provider>
       </body>
     </html>
   );
