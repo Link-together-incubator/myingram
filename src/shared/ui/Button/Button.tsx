@@ -1,39 +1,54 @@
 import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+
+import { cn } from "@/shared/lib/css";
 
 import s from "./Button.module.scss";
 
-type ButtonType = "default" | "secondary" | "outline" | "link";
+export const buttonVariants = cva(s.button, {
+  variants: {
+    variant: {
+      default: s.default,
+      secondary: s.secondary,
+      outline: s.outline,
+      link: s.link,
+    },
+    disabled: {
+      true: s.disabled,
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
 type ButtonProps = {
-  type: ButtonType;
+  variant: VariantProps<typeof buttonVariants>["variant"];
   asChild?: boolean;
   disabled?: boolean;
   href?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClick?: () => void;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>;
 
 export const Button = ({
-  type,
+  variant,
   asChild = false,
   children,
   disabled,
   onClick,
+  className,
   href,
   ...props
 }: ButtonProps) => {
-  const isLink = type === "link";
-
-  const className = `${type === "link" ? s.link : `${s.button} ${s[type]}`} ${
-    disabled ? s.disabled : ""
-  }`;
+  const isLink = variant === "link";
 
   const Comp = asChild ? Slot : isLink ? "a" : "button";
 
   return (
     <Comp
-      className={className}
+      className={cn(buttonVariants({ variant, disabled }), className)}
       disabled={!isLink && disabled}
       onClick={disabled ? undefined : onClick}
       href={isLink ? href : undefined}

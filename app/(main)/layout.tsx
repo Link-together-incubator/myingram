@@ -12,7 +12,7 @@ export default function Layout({
     <>
       <SidebarProvider>
         <AppSidebar />
-        <SidebarTrigger />
+        <SidebarTrigger variant="secondary" />
         {children}
       </SidebarProvider>
     </>
