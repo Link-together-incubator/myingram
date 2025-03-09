@@ -1,8 +1,12 @@
+"use client";
+
 import "@/_app/styles/globals.css";
 
 import { Montserrat } from "next/font/google";
+import { Provider } from "react-redux";
 
 import { ModalProvider } from "@/_app/providers";
+import { store } from "@/_app/store";
 import { Header } from "@/widgets/Header";
 
 const montserrat = Montserrat({
@@ -20,8 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
-        <Header />
-        <ModalProvider>{children}</ModalProvider>
+        <Provider store={store}>
+          <Header />
+          <ModalProvider>{children}</ModalProvider>
+        </Provider>
       </body>
     </html>
   );
