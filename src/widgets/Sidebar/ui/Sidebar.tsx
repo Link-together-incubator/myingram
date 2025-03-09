@@ -261,8 +261,6 @@ function SidebarTrigger({
     <Button
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon"
       className={cn("h-7 w-7 fixed left-0 top-[70px] z-50", className)}
       onClick={(event) => {
         onClick?.(event);

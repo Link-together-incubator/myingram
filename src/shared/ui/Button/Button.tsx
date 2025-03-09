@@ -29,7 +29,7 @@ type ButtonProps = {
   disabled?: boolean;
   href?: string;
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
 } & React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>;
 
 export const Button = ({
