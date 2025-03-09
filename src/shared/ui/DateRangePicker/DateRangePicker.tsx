@@ -7,8 +7,12 @@ import { DateRange } from "react-day-picker";
 
 import { cn } from "@/shared/lib/css";
 import { Button } from "@/shared/ui";
-import { Calendar } from "@/shared/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
+import { Calendar } from "@/shared/ui/Calendar/Calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shared/ui/Popover/Popover";
 
 export function DateRangePicker({
   className,

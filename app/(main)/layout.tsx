@@ -1,7 +1,7 @@
 "use client";
 
-import { AppSidebar } from "@/shared/ui/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
+import { AppSidebar } from "@/widgets/Sidebar/ui/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/widgets/Sidebar/ui/Sidebar";
 
 export default function Layout({
   children,

@@ -1,6 +1,12 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 import { VariantProps, cva } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
@@ -8,22 +14,15 @@ import * as React from "react";
 import { cn } from "@/shared/lib/css";
 import { useIsMobile } from "@/shared/lib/react/use-mobile";
 import { Button } from "@/shared/ui/Button/Button";
-import { Input } from "@/shared/ui/input";
-import { Separator } from "@/shared/ui/separator";
+import { Separator } from "@/shared/ui/Separator/Separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/shared/ui/sheet";
-import { Skeleton } from "@/shared/ui/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/shared/ui/tooltip";
+} from "@/shared/ui/Sheet/Sheet";
+import { Skeleton } from "@/shared/ui/Skeleton/Skeleton";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -139,7 +138,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full fixed min-h-screen",
+            "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full min-h-screen",
             className,
           )}
           {...props}
@@ -264,7 +263,7 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon"
-      className={cn("h-7 w-7 absolute left-0 top-[70px] z-50", className)}
+      className={cn("h-7 w-7 fixed left-0 top-[70px] z-50", className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
@@ -311,20 +310,6 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
         "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
         className,
       )}
-      {...props}
-    />
-  );
-}
-
-function SidebarInput({
-  className,
-  ...props
-}: React.ComponentProps<typeof Input>) {
-  return (
-    <Input
-      data-slot="sidebar-input"
-      data-sidebar="input"
-      className={cn("bg-background h-8 w-full shadow-none", className)}
       {...props}
     />
   );
@@ -708,7 +693,6 @@ export {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarInput,
   SidebarInset,
   SidebarMenu,
   SidebarMenuAction,
