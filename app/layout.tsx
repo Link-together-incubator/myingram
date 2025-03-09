@@ -1,6 +1,8 @@
 import "@/_app/styles/globals.css";
 import { Montserrat } from "next/font/google";
 
+import { AppSidebar } from "@/shared/ui/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
 import { Header } from "@/widgets/Header";
 
 const montserrat = Montserrat({
@@ -19,6 +21,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <Header />
+        <SidebarProvider>
+          <AppSidebar />
+          <main>
+            <SidebarTrigger />
+            {children}
+          </main>
+        </SidebarProvider>
         {children}
       </body>
     </html>

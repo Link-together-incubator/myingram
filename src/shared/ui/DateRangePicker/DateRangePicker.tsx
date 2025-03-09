@@ -6,7 +6,7 @@ import * as React from "react";
 import { DateRange } from "react-day-picker";
 
 import { cn } from "@/shared/lib/css";
-import { Button } from "@/shared/ui/button";
+import { Button } from "@/shared/ui";
 import { Calendar } from "@/shared/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 
