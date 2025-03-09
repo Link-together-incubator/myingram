@@ -5555,11 +5555,11 @@ snapshots:
 
   react-redux@9.2.0(@types/react@19.0.10)(react@19.0.0)(redux@5.0.1):
     dependencies:
-      '@types/use-sync-external-store': 0.0.6
+      "@types/use-sync-external-store": 0.0.6
       react: 19.0.0
       use-sync-external-store: 1.4.0(react@19.0.0)
     optionalDependencies:
-      '@types/react': 19.0.10
+      "@types/react": 19.0.10
       redux: 5.0.1
 
   react@19.0.0: {}
