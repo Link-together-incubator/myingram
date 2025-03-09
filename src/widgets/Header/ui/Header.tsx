@@ -4,7 +4,7 @@ import { BellRing } from "lucide-react";
 
 import { Button } from "@/shared/ui";
 
-import s from "./Header.module.css";
+import s from "./Header.module.scss";
 
 export function Header() {
   const isLoggedIn = true;

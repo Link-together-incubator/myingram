@@ -187,5 +187,5 @@
 
 body {
   font-family: var(--font-montserrat);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-out;
 }

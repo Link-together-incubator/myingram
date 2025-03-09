@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   background-color: var(--background);
-  margin: 0 auto;
+  padding-left: 30px;
   position: fixed;
   top: 0;
   left: 0;
@@ -10,13 +10,13 @@
 }
 
 .header-container {
-  max-width: 1180px;
+  max-width: 1580px;
   background-color: var(--background);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 15px 20px;
-  margin: 0 auto;
+  width: 100%;
   color: var(--primary-foreground);
 }
 
@@ -34,6 +34,9 @@
   & select {
     background-color: var(--background);
     cursor: pointer;
+    &:hover {
+      background-color: var(--accent-300);
+    }
   }
 }
 
