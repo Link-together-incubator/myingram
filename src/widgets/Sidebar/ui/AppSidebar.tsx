@@ -17,7 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/shared/ui/sidebar";
+} from "@/widgets/Sidebar/ui/Sidebar";
 
 const mainItems = [
   {
