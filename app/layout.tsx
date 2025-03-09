@@ -22,6 +22,7 @@ export default function RootLayout({
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <Header />
         <SidebarProvider>
+          <div>a</div>
           <AppSidebar />
           <main>
             <SidebarTrigger />
