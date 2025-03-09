@@ -3,9 +3,9 @@ import * as React from "react";
 
 import s from "./Button.module.scss";
 
-type ButtonType = "default" | "secondary" | "outline" | "link"
+type ButtonType = "default" | "secondary" | "outline" | "link";
 
-type  ButtonProps = {
+type ButtonProps = {
   type: ButtonType;
   asChild?: boolean;
   disabled?: boolean;
@@ -25,18 +25,21 @@ export const Button = ({
 }: ButtonProps) => {
   const isLink = type === "link";
 
-  const className = type === "link" ? s.link : `${s.button} ${s[type]}`;
+  const className = `${type === "link" ? s.link : `${s.button} ${s[type]}`} ${
+    disabled ? s.disabled : ""
+  }`;
 
   const Comp = asChild ? Slot : isLink ? "a" : "button";
-  
+
   return (
-    <Comp className={className}
-    disabled={disabled}
-    onClick={onClick}
-    href={isLink ? href : undefined}
-    {...props}>
+    <Comp
+      className={className}
+      disabled={!isLink && disabled}
+      onClick={disabled ? undefined : onClick}
+      href={isLink ? href : undefined}
+      {...props}
+    >
       {children}
     </Comp>
   );
-}
-
+};

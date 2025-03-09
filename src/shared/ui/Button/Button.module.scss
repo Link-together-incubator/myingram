@@ -78,6 +78,7 @@
 
 .link {
   min-width: 100px;
+  padding: 6px 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -85,7 +86,6 @@
   border: none;
   color: var(--accent-3);
   cursor: pointer;
-  padding: 0; 
 
   &:hover {
     color: var(--accent-1);
@@ -96,10 +96,14 @@
     color: var(--accent-4);
   }
 
-  &:disabled {
-    color: var(--foreground-5);
+  &:focus {
+    outline: 1px solid var(--accent-4);
+    border-radius: 3px;
+  }
+
+  &.disabled {
+    color: var(--accent-5);
     cursor: not-allowed;
-    text-decoration: none;
+    pointer-events: none;
   }
 }
-
