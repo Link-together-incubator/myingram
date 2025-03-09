@@ -1,5 +1,4 @@
 "use client";
-
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import * as React from "react";
 
@@ -58,4 +57,4 @@ function TooltipContent({
   );
 }
 
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
