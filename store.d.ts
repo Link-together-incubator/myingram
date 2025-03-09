@@ -1,7 +1,7 @@
 import {
   RootState as AppState,
   AppDispatch as AppStateDispatch,
-} from "./src/_app/store/StoreProvider";
+} from "@/_app/store";
 
 declare global {
   type RootState = AppState;
