@@ -1,7 +1,8 @@
-import * as React from "react";
-import s from "./Input.module.scss";
 import { Eye, EyeClosed, Search } from "lucide-react";
+import * as React from "react";
 import { useState } from "react";
+
+import s from "./Input.module.scss";
 
 type InputType = "default" | "email" | "search" | "password";
 
@@ -35,8 +36,10 @@ export const Input = ({ type, error, disabled }: InputProps) => {
   return (
     <div className={s.wrapper}>
       <label className={s.label}>{labels[type]}</label>
-      <div className={`${s.inputWrapper} ${type === "search" ? s.searchInputWrapper : ""}`}>
-      {type === "search" && <Search className={s.searchIcon} size={20} />}
+      <div
+        className={`${s.inputWrapper} ${type === "search" ? s.searchInputWrapper : ""}`}
+      >
+        {type === "search" && <Search className={s.searchIcon} size={20} />}
         <input
           className={`${s.input} ${error ? s.error : ""}`}
           type={type === "password" && !showPassword ? "password" : "text"}

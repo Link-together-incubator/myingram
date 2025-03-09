@@ -7,11 +7,11 @@
   position: relative;
 }
 
-.eyeButton{
+.eyeButton {
   position: absolute;
   cursor: pointer;
   top: 50%;
-  transform: translateY(-50%);  
+  transform: translateY(-50%);
   left: 249px;
   color: var(--primary-foreground);
 
@@ -21,7 +21,7 @@
   }
 }
 
-.searchIcon{
+.searchIcon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -39,9 +39,8 @@
 }
 
 .searchInputWrapper {
-
   .input {
-    padding-left: 34px; 
+    padding-left: 34px;
   }
 }
 
