@@ -9,6 +9,8 @@ import { Provider } from "react-redux";
 import { ModalProvider } from "@/_app/providers";
 import { store } from "@/_app/store";
 import { AppSidebar } from "@/shared/ui/app-sidebar";
+import { DatePicker } from "@/shared/ui/DatePicker/DatePicker";
+import { DateRangePicker } from "@/shared/ui/DateRangePicker/DateRangePicker";
 import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
 import { Header } from "@/widgets/Header";
 
@@ -28,15 +30,17 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <Provider store={store}>
-          <Header />
-          <SidebarProvider>
-            <AppSidebar />
-            <main>
-              <SidebarTrigger />
-              {children}
-            </main>
-          </SidebarProvider>
-          <ModalProvider>{children}</ModalProvider>
+          {/*<Header />*/}
+          {/*<SidebarProvider>*/}
+          {/*  <AppSidebar />*/}
+          {/*  <main>*/}
+          {/*    <SidebarTrigger />*/}
+          {/*    {children}*/}
+          {/*  </main>*/}
+          {/*</SidebarProvider>*/}
+          {/*<ModalProvider>{children}</ModalProvider>*/}
+          <DatePicker />
+          <DateRangePicker />
           <Script
             src="https://www.google.com/recaptcha/api.js?hl=en"
             strategy="afterInteractive"

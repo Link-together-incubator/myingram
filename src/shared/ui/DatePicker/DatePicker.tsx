@@ -18,12 +18,27 @@ export function DatePicker() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[158px] h-[36px] justify-start text-left font-normal ",
+            "w-[158px] h-[36px] text-left font-normal flex justify-between p-1.5 text-base transition-colors",
             !date && "text-muted-foreground",
           )}
+          style={{
+            backgroundColor: "transparent", // начальный цвет фона (можно изменить)
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = "var(--dark-500)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = "transparent"; // или ваш цвет по умолчанию
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = "var(--accent-700)";
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = "transparent"; // или ваш цвет по умолчанию
+          }}
         >
-          {date ? format(date, "dd/MM/yyyy") : <span>Pick a date</span>}
-          <CalendarIcon className=" h-4 w-4" />
+          {date ? format(date, "dd/MM/yyyy") : format(new Date(), "dd/MM/yyyy")}
+          <CalendarIcon style={{ height: 24, width: 24 }} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

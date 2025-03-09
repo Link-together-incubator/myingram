@@ -90,7 +90,7 @@
   --chart-5: var(--dark-500); /* Тёмный */
 
   /* Боковая панель */
-  --sidebar: var(--dark-500); /* Тёмный фон */
+  --sidebar: var(--dark-700); /* Тёмный фон */
   --sidebar-foreground: var(--light-100); /* Белый текст */
   --sidebar-primary: var(--accent-500); /* Акцентный цвет */
   --sidebar-primary-foreground: var(--light-100); /* Белый текст */
@@ -105,31 +105,26 @@
   --background-3: var(--dark-500);
   --background-2: var(--dark-300);
   --background-1: var(--dark-100);
-
   --foreground-5: var(--light-900);
   --foreground-4: var(--light-700);
   --foreground-3: var(--light-500);
   --foreground-2: var(--light-300);
   --foreground-1: var(--light-100);
-
   --warning-5: var(--warning-900);
   --warning-4: var(--warning-700);
   --warning-3: var(--warning-500);
   --warning-2: var(--warning-300);
   --warning-1: var(--warning-100);
-
   --danger-5: var(--danger-900);
   --danger-4: var(--danger-700);
   --danger-3: var(--danger-500);
   --danger-2: var(--danger-300);
   --danger-1: var(--danger-100);
-
   --success-5: var(--success-900);
   --success-4: var(--success-700);
   --success-3: var(--success-500);
   --success-2: var(--success-300);
   --success-1: var(--success-100);
-
   --accent-5: var(--accent-900);
   --accent-4: var(--accent-700);
   --accent-3: var(--accent-500);
@@ -144,31 +139,26 @@
   --background-3: var(--dark-500);
   --background-2: var(--dark-300);
   --background-1: var(--dark-100);
-
   --foreground-5: var(--light-900);
   --foreground-4: var(--light-700);
   --foreground-3: var(--light-500);
   --foreground-2: var(--light-300);
   --foreground-1: var(--light-100);
-
   --warning-5: var(--warning-900);
   --warning-4: var(--warning-700);
   --warning-3: var(--warning-500);
   --warning-2: var(--warning-300);
   --warning-1: var(--warning-100);
-
   --danger-5: var(--danger-900);
   --danger-4: var(--danger-700);
   --danger-3: var(--danger-500);
   --danger-2: var(--danger-300);
   --danger-1: var(--danger-100);
-
   --success-5: var(--success-900);
   --success-4: var(--success-700);
   --success-3: var(--success-500);
   --success-2: var(--success-300);
   --success-1: var(--success-100);
-
   --accent-5: var(--accent-900);
   --accent-4: var(--accent-700);
   --accent-3: var(--accent-500);
@@ -180,6 +170,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
