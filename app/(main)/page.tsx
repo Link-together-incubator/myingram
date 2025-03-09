@@ -3,6 +3,7 @@
 import {
   DatePicker,
   DateRangePicker,
+  Input,
   Pagination,
   RecaptchaForm,
 } from "@/shared/ui";
@@ -14,6 +15,7 @@ export default function Home() {
     >
       <Pagination totalItems={101} />
       <RecaptchaForm />
+      <Input type="search" />
       <DateRangePicker />
       <DatePicker />
     </div>

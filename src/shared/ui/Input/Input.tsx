@@ -1,5 +1,4 @@
 import { Eye, EyeClosed, Search } from "lucide-react";
-import * as React from "react";
 import { useState } from "react";
 
 import s from "./Input.module.scss";
@@ -21,12 +20,12 @@ const labels: Record<InputType, string> = {
 };
 
 type InputProps = {
-  type: InputType;
+  type?: InputType;
   error?: string | null;
   disabled?: boolean;
 };
 
-export const Input = ({ type, error, disabled }: InputProps) => {
+export const Input = ({ type = "default", error, disabled }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
