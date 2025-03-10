@@ -1,30 +1,30 @@
-"use client";
+'use client'
 
-import { BellRing } from "lucide-react";
+import { BellRing } from 'lucide-react'
 
-import { Button } from "@/shared/ui";
+import { Button } from '@/shared/ui'
 
-import s from "./Header.module.scss";
+import s from './Header.module.scss'
 
 export function Header() {
-  const isLoggedIn = true;
+  const isLoggedIn = true
 
   const onLogInHandler = () => {
     // Log in logic goes here
-    console.log("Logged in!");
-  };
+    console.log('Logged in!')
+  }
 
   const onSignUpHandler = () => {
     // Sign up logic goes here
-    console.log("Signed up!");
-  };
+    console.log('Signed up!')
+  }
 
   return (
     <header className={s.header}>
-      <div className={s["header-container"]}>
-        <div className={s["header-container-title"]}>Inctagram</div>
+      <div className={s['header-container']}>
+        <div className={s['header-container-title']}>Inctagram</div>
         {isLoggedIn ? (
-          <div className={s["header-container-btns"]}>
+          <div className={s['header-container-btns']}>
             <BellRing className="cursor-pointer" />
             <select name="language" id="1">
               <option value="english">English</option>
@@ -32,20 +32,20 @@ export function Header() {
             </select>
           </div>
         ) : (
-          <div className={s["header-container-btns"]}>
+          <div className={s['header-container-btns']}>
             <select name="language" id="1">
               <option value="english">English</option>
               <option value="russian">Russian</option>
             </select>
-            <Button variant={"secondary"} onClick={onLogInHandler}>
+            <Button variant={'secondary'} onClick={onLogInHandler}>
               Log in
             </Button>
-            <Button variant={"secondary"} onClick={onSignUpHandler}>
+            <Button variant={'secondary'} onClick={onSignUpHandler}>
               Sign up
             </Button>
           </div>
         )}
       </div>
     </header>
-  );
+  )
 }

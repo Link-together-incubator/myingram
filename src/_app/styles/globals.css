@@ -1,8 +1,8 @@
 @plugin "tailwindcss-animate";
-@import "tailwindcss";
-@import "./scroll.css";
-@import "./themes/dark.css";
-@import "./fonts.css";
+@import 'tailwindcss';
+@import './scroll.css';
+@import './themes/dark.css';
+@import './fonts.css';
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -54,7 +54,7 @@
   --card-foreground: var(--light-100); /* Белый текст */
 
   /* Всплывающие элементы */
-  --popover: var(--dark-500); /* Тёмный фон */
+  --popover: var(--dark-900); /* Тёмный фон */
   --popover-foreground: var(--light-100); /* Белый текст */
 
   /* Основной цвет */

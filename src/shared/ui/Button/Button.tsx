@@ -1,10 +1,10 @@
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
-import { cn } from "@/shared/lib/css";
+import { cn } from '@/shared/lib/css'
 
-import s from "./Button.module.scss";
+import s from './Button.module.scss'
 
 export const buttonVariants = cva(s.button, {
   variants: {
@@ -13,24 +13,25 @@ export const buttonVariants = cva(s.button, {
       secondary: s.secondary,
       outline: s.outline,
       link: s.link,
+      date: s.date,
     },
     disabled: {
       true: s.disabled,
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
-});
+})
 
 type ButtonProps = {
-  variant: VariantProps<typeof buttonVariants>["variant"];
-  asChild?: boolean;
-  disabled?: boolean;
-  href?: string;
-  children?: React.ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-} & React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>;
+  variant: VariantProps<typeof buttonVariants>['variant']
+  asChild?: boolean
+  disabled?: boolean
+  href?: string
+  children?: React.ReactNode
+  onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
+} & React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>
 
 export const Button = ({
   variant,
@@ -42,9 +43,9 @@ export const Button = ({
   href,
   ...props
 }: ButtonProps) => {
-  const isLink = variant === "link";
+  const isLink = variant === 'link'
 
-  const Comp = asChild ? Slot : isLink ? "a" : "button";
+  const Comp = asChild ? Slot : isLink ? 'a' : 'button'
 
   return (
     <Comp
@@ -56,5 +57,5 @@ export const Button = ({
     >
       {children}
     </Comp>
-  );
-};
+  )
+}

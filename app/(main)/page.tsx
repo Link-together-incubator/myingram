@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { useId } from "react";
+import { useId } from 'react'
 
 import {
   Checkbox,
@@ -9,12 +9,12 @@ import {
   Input,
   Pagination,
   RecaptchaForm,
-} from "@/shared/ui";
+} from '@/shared/ui'
 
 export default function Home() {
-  const checkBoxId1 = useId();
-  const checkBoxId2 = useId();
-  const checkBoxId3 = useId();
+  const checkBoxId1 = useId()
+  const checkBoxId2 = useId()
+  const checkBoxId3 = useId()
 
   return (
     <div
@@ -31,5 +31,5 @@ export default function Home() {
       <DateRangePicker />
       <DatePicker />
     </div>
-  );
+  )
 }
