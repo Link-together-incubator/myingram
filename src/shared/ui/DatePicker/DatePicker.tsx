@@ -6,8 +6,12 @@ import * as React from "react";
 
 import { cn } from "@/shared/lib/css";
 import { Button } from "@/shared/ui";
-import { Calendar } from "@/shared/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
+import { Calendar } from "@/shared/ui/Calendar/Calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shared/ui/Popover/Popover";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();
