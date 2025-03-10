@@ -6,6 +6,7 @@ import {
   Input,
   Pagination,
   RecaptchaForm,
+  Card
 } from "@/shared/ui";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
     >
       <Pagination totalItems={101} />
       <RecaptchaForm />
+      <Card/>
       <Input type="search" />
       <DateRangePicker />
       <DatePicker />
