@@ -1,31 +1,31 @@
-import * as React from "react";
+import * as React from 'react'
 
-import { cn } from "@/shared/lib/css";
+import { cn } from '@/shared/lib/css'
 
-import s from "./TextArea.module.scss";
+import s from './TextArea.module.scss'
 
-type TextareaProps = React.ComponentProps<"textarea"> & {
-  label?: string;
-  error?: string;
-  disabled?: boolean;
-};
+type TextareaProps = React.ComponentProps<'textarea'> & {
+  label?: string
+  error?: string
+  disabled?: boolean
+}
 
 export const Textarea: React.FC<TextareaProps> = ({
   className,
-  label = "Text-area",
+  label = 'Text-area',
   error,
   disabled,
   ...props
 }) => {
-  const [isActive, setIsActive] = React.useState(false);
+  const [isActive, setIsActive] = React.useState(false)
 
   const handleFocus = () => {
-    setIsActive(true);
-  };
+    setIsActive(true)
+  }
 
   const handleBlur = () => {
-    setIsActive(false);
-  };
+    setIsActive(false)
+  }
 
   return (
     <div className={cn(s.wrapper, { [s.disabled]: disabled })}>
@@ -44,5 +44,5 @@ export const Textarea: React.FC<TextareaProps> = ({
       />
       {error && <span className={s.errorText}>{error}</span>}
     </div>
-  );
-};
+  )
+}
