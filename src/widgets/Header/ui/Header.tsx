@@ -37,18 +37,10 @@ export function Header() {
               <option value="english">English</option>
               <option value="russian">Russian</option>
             </select>
-            <Button
-              size={"default"}
-              variant={"secondary"}
-              onClick={onLogInHandler}
-            >
+            <Button variant={"secondary"} onClick={onLogInHandler}>
               Log in
             </Button>
-            <Button
-              size={"default"}
-              variant={"secondary"}
-              onClick={onSignUpHandler}
-            >
+            <Button variant={"secondary"} onClick={onSignUpHandler}>
               Sign up
             </Button>
           </div>
