@@ -1,5 +1,5 @@
 'use client'
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 import * as React from 'react'
 
@@ -46,4 +46,4 @@ function TabsTrigger({
   )
 }
 
-export { Tabs, TabsList, TabsTrigger }
+export { Tabs, TabsList, TabsTrigger, TabsPrimitive }
