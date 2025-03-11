@@ -9,3 +9,5 @@ export { Pagination } from "./Pagination/ui/Pagination";
 export { Button, buttonVariants } from "./Button/Button";
 export { SwitchButton } from "./SwitchButton/SwitchButton";
 export { Input } from "./Input/Input";
+
+export { SelectBox } from "./SelectBox/SelectBox";
