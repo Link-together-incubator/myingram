@@ -8,6 +8,7 @@ import {
   DateRangePicker,
   Input,
   Pagination,
+  RadioGroup,
   RecaptchaForm,
 } from '@/shared/ui'
 
@@ -27,6 +28,12 @@ export default function Home() {
         <Checkbox id={checkBoxId3} />
       </div>
       <RecaptchaForm />
+      <RadioGroup
+        options={[
+          { label: 'RadioGroup', value: 'r1' },
+          { label: 'RadioGroup', value: 'r2' },
+        ]}
+      />
       <Input type="search" />
       <DateRangePicker />
       <DatePicker />

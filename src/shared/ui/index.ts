@@ -4,6 +4,7 @@ export { DateRangePicker } from './DateRangePicker/DateRangePicker'
 
 export { DatePicker } from './DatePicker/DatePicker'
 
+export { RadioGroup } from './RadioGroup/RadioGroup'
 export { RecaptchaForm } from './Recaptcha-Form/RecaptchaForm'
 
 export { Pagination } from './Pagination/ui/Pagination'
