@@ -1,0 +1,46 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 378px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    gap: 24px
+}
+
+.main {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 36px;
+    text-align: center;
+    color: var(--foreground-1);
+    margin-bottom: 13px;
+}
+
+.imageBlock {
+    display: flex;
+    flex-direction: row;
+}
+
+.signInBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.signInBlock span {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: var(--foreground-1);
+}
+
+.signInLink {
+    color: var(--accent-3);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+}

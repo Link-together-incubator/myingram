@@ -3,13 +3,21 @@ import { useState } from 'react'
 
 import s from './Input.module.scss'
 
-type InputType = 'default' | 'email' | 'search' | 'password'
+type InputType =
+  | 'default'
+  | 'email'
+  | 'search'
+  | 'password'
+  | 'username'
+  | 'passwordConfirmation'
 
 const placeholders: Record<InputType, string> = {
   default: '',
   email: 'Epam@epam.com',
   search: 'Input search',
   password: 'Enter your password',
+  passwordConfirmation: 'Confirm your password',
+  username: 'Enter your username',
 }
 
 const labels: Record<InputType, string> = {
@@ -17,6 +25,8 @@ const labels: Record<InputType, string> = {
   email: 'Email',
   search: '',
   password: 'Password',
+  passwordConfirmation: 'Password confirmation',
+  username: 'Username',
 }
 
 type InputProps = {
@@ -40,12 +50,12 @@ export const Input = ({ type = 'default', error, disabled }: InputProps) => {
       >
         {type === 'search' && <Search className={s.searchIcon} size={20} />}
         <input
-          className={`${s.input} ${error ? s.error : ''}`}
+          className={`${s.input} ${error ? s.error : ''} `}
           type={type === 'password' && !showPassword ? 'password' : 'text'}
           placeholder={placeholders[type]}
           disabled={disabled}
         />
-        {type === 'password' && (
+        {(type === 'password' || type === 'passwordConfirmation') && (
           <button
             onClick={togglePassword}
             className={`${s.eyeButton} ${disabled ? s.disabled : ''}`}

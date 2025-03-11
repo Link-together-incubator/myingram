@@ -45,12 +45,14 @@
 }
 
 .input {
-  border: 1px solid var(--input);
+  border: 1px solid var(--background-1);
   color: var(--primary-foreground);
   padding: 6px 12px;
   width: 100%;
-  max-width: 279px;
+
+  //max-width: 279px;
   outline: none;
+  border-radius: 2px;
 
   &.error {
     border: 1px solid var(--danger-3);
