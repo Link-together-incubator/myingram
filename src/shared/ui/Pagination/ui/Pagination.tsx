@@ -1,15 +1,15 @@
-"use client";
+'use client'
 
-import { Suspense } from "react";
+import { Suspense } from 'react'
 
-import { usePagination } from "../lib/usePagination";
+import { usePagination } from '../lib/usePagination'
 
-import { PaginationDropDown } from "./PaginationDropDown";
-import { PaginationNums } from "./PaginationNums";
+import { PaginationDropDown } from './PaginationDropDown'
+import { PaginationNums } from './PaginationNums'
 
 type PaginationProps = {
-  totalItems: number;
-};
+  totalItems: number
+}
 
 function PaginationLayout({ totalItems }: PaginationProps) {
   const {
@@ -17,9 +17,9 @@ function PaginationLayout({ totalItems }: PaginationProps) {
     itemsPerPage,
     onChangeCurrentPage,
     onChangeItemsPerPage,
-  } = usePagination();
+  } = usePagination()
 
-  const totalPages = Math.ceil(totalItems / Number(itemsPerPage));
+  const totalPages = Math.ceil(totalItems / Number(itemsPerPage))
 
   return (
     <div className="flex items-center gap-2 justify-start rounded-md p-2 bg-background text-popover-foreground">
@@ -33,7 +33,7 @@ function PaginationLayout({ totalItems }: PaginationProps) {
         onItemsPerPageChange={onChangeItemsPerPage}
       />
     </div>
-  );
+  )
 }
 
 export function Pagination({ totalItems }: PaginationProps) {
@@ -42,5 +42,5 @@ export function Pagination({ totalItems }: PaginationProps) {
     <Suspense>
       <PaginationLayout totalItems={totalItems} />
     </Suspense>
-  );
+  )
 }

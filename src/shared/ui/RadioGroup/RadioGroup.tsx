@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { CircleIcon } from "lucide-react";
+import * as React from 'react'
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
+import { CircleIcon } from 'lucide-react'
 
-import { cn } from "@/shared/lib/css";
+import { cn } from '@/shared/lib/css'
 
 function RadioGroupRoot({
   className,
@@ -13,10 +13,10 @@ function RadioGroupRoot({
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn("flex gap-16", className)}
+      className={cn('flex gap-16', className)}
       {...props}
     />
-  );
+  )
 }
 
 function RadioGroupItem({
@@ -27,7 +27,7 @@ function RadioGroupItem({
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
       className={cn(
-        "border-secondary-foreground  text-secondary-foreground focus-visible:border-secondary-foreground focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aspect-square size-6 shrink-0 rounded-full border-3 shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
+        'border-secondary-foreground  text-secondary-foreground focus-visible:border-secondary-foreground focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive aspect-square size-6 shrink-0 rounded-full border-3 shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
 
         className,
       )}
@@ -40,14 +40,14 @@ function RadioGroupItem({
         <CircleIcon className="fill-secondary-foreground absolute top-1/2 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
-  );
+  )
 }
 
 function RadioGroup({ options, ...props }: RadioGroupProps) {
   return (
     <RadioGroupRoot {...props}>
       {options.map((option) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" key={option.value}>
           <RadioGroupItem
             value={option.value}
             id={option.value}
@@ -62,16 +62,16 @@ function RadioGroup({ options, ...props }: RadioGroupProps) {
         </div>
       ))}
     </RadioGroupRoot>
-  );
+  )
 }
 
-export { RadioGroup };
+export { RadioGroup }
 
 type RadioGroupProps = {
-  options: Option[];
-};
+  options: Option[]
+}
 
 type Option = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+}

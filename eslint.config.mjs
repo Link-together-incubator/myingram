@@ -1,60 +1,60 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-import { FlatCompat } from "@eslint/eslintrc";
+import { FlatCompat } from '@eslint/eslintrc'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-});
+})
 
 const eslintConfig = [
   ...compat.extends(
-    "next/core-web-vitals",
-    "next/typescript",
-    "plugin:prettier/recommended",
+    'next/core-web-vitals',
+    'next/typescript',
+    'plugin:prettier/recommended',
   ),
   {
     rules: {
-      "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error",
-      "react/react-in-jsx-scope": "off",
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error',
+      'react/react-in-jsx-scope': 'off',
 
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
 
-      "import/order": [
-        "error",
+      'import/order': [
+        'error',
         {
           groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
           ],
-          "newlines-between": "always",
+          'newlines-between': 'always',
           alphabetize: {
-            order: "asc",
+            order: 'asc',
             caseInsensitive: true,
           },
           pathGroups: [
             {
-              pattern: "@/**",
-              group: "internal",
+              pattern: '@/**',
+              group: 'internal',
             },
           ],
-          pathGroupsExcludedImportTypes: ["builtin"],
+          pathGroupsExcludedImportTypes: ['builtin'],
         },
       ],
 
-      "import/no-unresolved": "off",
-      "import/no-duplicates": "error",
-      "import/no-extraneous-dependencies": [
-        "error",
+      'import/no-unresolved': 'off',
+      'import/no-duplicates': 'error',
+      'import/no-extraneous-dependencies': [
+        'error',
         {
           devDependencies: true,
           optionalDependencies: false,
@@ -62,14 +62,14 @@ const eslintConfig = [
         },
       ],
 
-      "prettier/prettier": [
-        "warn",
+      'prettier/prettier': [
+        'warn',
         {
-          endOfLine: "auto",
+          endOfLine: 'auto',
         },
       ],
     },
   },
-];
+]
 
-export default eslintConfig;
+export default eslintConfig

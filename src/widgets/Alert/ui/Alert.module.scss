@@ -14,6 +14,7 @@
   transition: opacity 0.5s ease-out;
   z-index: 100;
 }
+
 .btn {
   cursor: pointer;
   transition: opacity 0.3s ease;
@@ -47,6 +48,7 @@
     transform: translateX(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;

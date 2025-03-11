@@ -1,6 +1,6 @@
 :root {
   /* Основной шрифт */
-  --font-montserrat: "Montserrat", sans-serif;
+  --font-montserrat: 'Montserrat', sans-serif;
 
   --font-large: bold 24px var(--font-montserrat);
   --font-h1: bold 22px var(--font-montserrat);
