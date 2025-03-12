@@ -8,8 +8,8 @@ import {
   DateRangePicker,
   Input,
   Pagination,
-  RadioGroup,
   RecaptchaForm,
+  SelectBox,
 } from '@/shared/ui'
 
 export default function Home() {
@@ -32,6 +32,13 @@ export default function Home() {
         options={[
           { label: 'RadioGroup', value: 'r1' },
           { label: 'RadioGroup', value: 'r2' },
+        ]}
+      />
+      <SelectBox
+        placeholder={'Select-box'}
+        label={'Select-box'}
+        options={[
+          { id: 'Select-box1', value: 'Select-box1', title: 'Select-box1' },
         ]}
       />
       <Input type="search" />
