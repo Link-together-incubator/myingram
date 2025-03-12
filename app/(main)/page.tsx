@@ -19,6 +19,8 @@ export default function Home() {
   const checkBoxId2 = useId()
   const checkBoxId3 = useId()
 
+  const cardId = useId()
+
   return (
     <div
       className={`flex gap-72 flex-col pt-[80px] px-9 mx-auto w-full max-w-[1180px]`}
@@ -30,7 +32,7 @@ export default function Home() {
         <Checkbox id={checkBoxId3} />
       </div>
       <RecaptchaForm />
-      <Card />
+      <Card id={cardId} title={'Card title'} />
       <RadioGroup
         options={[
           { label: 'RadioGroup', value: 'r1' },
