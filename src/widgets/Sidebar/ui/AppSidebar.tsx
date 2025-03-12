@@ -6,7 +6,7 @@ import {
   Search,
   SquarePlus,
   TrendingUp,
-} from "lucide-react";
+} from 'lucide-react'
 
 import {
   Sidebar,
@@ -17,56 +17,56 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/widgets/Sidebar/ui/Sidebar";
+} from '@/widgets/Sidebar/ui/Sidebar'
 
 const mainItems = [
   {
-    title: "Feed",
-    url: "#",
+    title: 'Feed',
+    url: '#',
     icon: Home,
   },
   {
-    title: "Create",
-    url: "#",
+    title: 'Create',
+    url: '#',
     icon: SquarePlus,
   },
   {
-    title: "My Profile",
-    url: "#",
+    title: 'My Profile',
+    url: '#',
     icon: Home,
   },
   {
-    title: "Messenger",
-    url: "#",
+    title: 'Messenger',
+    url: '#',
     icon: MessageCircleMore,
   },
   {
-    title: "Search",
-    url: "#",
+    title: 'Search',
+    url: '#',
     icon: Search,
   },
-];
+]
 
 const secondaryItems = [
   {
-    title: "Statistics",
-    url: "#",
+    title: 'Statistics',
+    url: '#',
     icon: TrendingUp,
   },
   {
-    title: "Favorites",
-    url: "#",
+    title: 'Favorites',
+    url: '#',
     icon: Bookmark,
   },
-];
+]
 
 const sidebarFooter = [
   {
-    title: "Log Out",
-    url: "#",
+    title: 'Log Out',
+    url: '#',
     icon: LogOut,
   },
-];
+]
 
 export function AppSidebar() {
   return (
@@ -79,7 +79,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon style={{ width: "24px", height: "24px" }} />
+                      <item.icon style={{ width: '24px', height: '24px' }} />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -95,7 +95,7 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon style={{ width: "24px", height: "24px" }} />
+                      <item.icon style={{ width: '24px', height: '24px' }} />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -111,7 +111,7 @@ export function AppSidebar() {
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
                 <a href={item.url}>
-                  <item.icon style={{ width: "24px", height: "24px" }} />
+                  <item.icon style={{ width: '24px', height: '24px' }} />
                   <span>{item.title}</span>
                 </a>
               </SidebarMenuButton>
@@ -120,5 +120,5 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }

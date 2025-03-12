@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from 'lucide-react'
 
 type PaginationDropDownProps = {
-  itemsPerPage: number;
-  onItemsPerPageChange: (items: number) => void;
-};
+  itemsPerPage: number
+  onItemsPerPageChange: (items: number) => void
+}
 
 export const PaginationDropDown = ({
   itemsPerPage,
@@ -32,5 +32,5 @@ export const PaginationDropDown = ({
       </div>
       <span>on page</span>
     </div>
-  );
-};
+  )
+}

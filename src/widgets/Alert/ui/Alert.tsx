@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import clsx from "clsx";
-import { X } from "lucide-react";
+import clsx from 'clsx'
+import { X } from 'lucide-react'
 
-import cls from "./Alert.module.scss";
+import cls from './Alert.module.scss'
 
-export type AlertType = "error" | "success" | "classic";
+export type AlertType = 'error' | 'success' | 'classic'
 
 type AlertProps = {
-  type: AlertType;
-  text: string;
-  cancelCallback: () => void;
-};
+  type: AlertType
+  text: string
+  cancelCallback: () => void
+}
 
 export const Alert = ({ type, text, cancelCallback }: AlertProps) => {
   return (
@@ -20,5 +20,5 @@ export const Alert = ({ type, text, cancelCallback }: AlertProps) => {
       <span className={cls.alertMessage}>{text}</span>
       <X className={cls.btn} onClick={cancelCallback} />
     </div>
-  );
-};
+  )
+}

@@ -1,3 +1,3 @@
-export { StoreProvider } from "./StoreProvider";
+export { StoreProvider } from './StoreProvider'
 
-export { ModalProvider } from "./Modals/ModalProvider";
+export { ModalProvider } from './Modals/ModalProvider'

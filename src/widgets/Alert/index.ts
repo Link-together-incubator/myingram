@@ -1,2 +1,2 @@
-export { Alert } from "./ui/Alert";
-export type { AlertType } from "./ui/Alert";
+export { Alert } from './ui/Alert'
+export type { AlertType } from './ui/Alert'
