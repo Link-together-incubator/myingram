@@ -3,11 +3,13 @@
 import { useId } from 'react'
 
 import {
+  Card,
   Checkbox,
   DatePicker,
   DateRangePicker,
   Input,
   Pagination,
+  RadioGroup,
   RecaptchaForm,
   SelectBox,
 } from '@/shared/ui'
@@ -16,6 +18,8 @@ export default function Home() {
   const checkBoxId1 = useId()
   const checkBoxId2 = useId()
   const checkBoxId3 = useId()
+
+  const cardId = useId()
 
   return (
     <div
@@ -28,6 +32,7 @@ export default function Home() {
         <Checkbox id={checkBoxId3} />
       </div>
       <RecaptchaForm />
+      <Card id={cardId} title={'Card title'} />
       <RadioGroup
         options={[
           { label: 'RadioGroup', value: 'r1' },
