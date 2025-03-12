@@ -1,24 +1,24 @@
-"use client";
+'use client'
 
-import "@/_app/styles/globals.css";
+import '@/_app/styles/globals.css'
 
-import { Montserrat } from "next/font/google";
-import Script from "next/script";
+import { Montserrat } from 'next/font/google'
+import Script from 'next/script'
 
-import { ModalProvider, StoreProvider } from "@/_app/providers";
-import { Header } from "@/widgets/Header";
+import { ModalProvider, StoreProvider } from '@/_app/providers'
+import { Header } from '@/widgets/Header'
 
 const montserrat = Montserrat({
-  variable: "--font-montserrat", // CSS-переменная для использования в SCSS/Tailwind
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
+  variable: '--font-montserrat', // CSS-переменная для использования в SCSS/Tailwind
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+})
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -35,5 +35,5 @@ export default function RootLayout({
         />
       </body>
     </html>
-  );
+  )
 }

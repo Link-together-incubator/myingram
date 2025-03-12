@@ -1,5 +1,5 @@
-"use client";
+'use client'
 
 export default function SignUp() {
-  return <div>ЗДЕСЬ БУДЕТ AUTH</div>;
+  return <div>ЗДЕСЬ БУДЕТ AUTH</div>
 }

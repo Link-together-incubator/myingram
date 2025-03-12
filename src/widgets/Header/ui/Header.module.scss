@@ -34,13 +34,14 @@
   & select {
     background-color: var(--background);
     cursor: pointer;
+
     &:hover {
       background-color: var(--accent-300);
     }
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (width <= 700px) {
   .header-container-btns {
     gap: 15px;
   }

@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import cls from "./RecaptchaForm.module.scss";
+import cls from './RecaptchaForm.module.scss'
 
 type RecaptchaFormProps = {
-  isShowRequiredMessage?: boolean;
-};
+  isShowRequiredMessage?: boolean
+}
 
 export const RecaptchaForm = ({
   isShowRequiredMessage = false,
 }: RecaptchaFormProps) => {
   return (
     <div
-      className={`${cls.container} ${isShowRequiredMessage ? cls.requiredMessage : ""}`}
+      className={`${cls.container} ${isShowRequiredMessage ? cls.requiredMessage : ''}`}
     >
       <div
         className="g-recaptcha"
@@ -22,5 +22,5 @@ export const RecaptchaForm = ({
         <p className={cls.text}>Please verify that you are not a robot</p>
       )}
     </div>
-  );
-};
+  )
+}
