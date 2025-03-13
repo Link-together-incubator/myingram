@@ -1,3 +1,5 @@
+export { Textarea } from './TextArea/TextArea'
+
 export { Checkbox } from './Checkbox/Checkbox'
 
 export { DateRangePicker } from './DateRangePicker/DateRangePicker'
