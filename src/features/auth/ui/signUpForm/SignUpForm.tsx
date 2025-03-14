@@ -1,14 +1,20 @@
 'use client'
 
 import Link from 'next/link'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
+import { useRegisterUserMutation } from '@/entities/user/api/userApi'
 import { LoginArgs } from '@/features/auth/api/signUp/SignUpArgs.types'
+import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { setIsLoggedIn } from '@/shared/model/appSlice'
 import { Button, Checkbox, Input } from '@/shared/ui'
 
 import s from './SignUpForm.module.scss'
 
 export const SignUpForm = () => {
+  const [signUpData] = useRegisterUserMutation()
+  const dispatch = useAppDispatch()
+
   const {
     register,
     handleSubmit,
@@ -30,8 +36,14 @@ export const SignUpForm = () => {
     return value === password || 'Passwords do not match'
   }
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<LoginArgs> = (data) => {
+    signUpData({
+      login: data.username,
+      email: data.email,
+      password: data.password,
+    }).finally(() => {
+      reset()
+    })
   }
   console.log(errors)
 
@@ -76,11 +88,11 @@ export const SignUpForm = () => {
           type="password"
           {...register('password', {
             required: true,
-            pattern: {
-              value: /^[a-zA-Z0-9! "#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
-              message:
-                'Password must contain a-z, A-Z,  ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _` { | } ~',
-            },
+            // pattern: {
+            //   value: /^[a-zA-Z0-9! "#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
+            //   message:
+            //     'Password must contain a-z, A-Z,  ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _` { | } ~',
+            // },
             minLength: {
               value: 6,
               message: 'Minimum number of characters 6',
