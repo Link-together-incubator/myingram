@@ -1,5 +1,6 @@
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+import Link from 'next/link'
 import * as React from 'react'
 
 import { cn } from '@/shared/lib/css'
@@ -45,13 +46,14 @@ export const Button = ({
 }: ButtonProps) => {
   const isLink = variant === 'link'
 
-  const Comp = asChild ? Slot : isLink ? 'a' : 'button'
+  const Comp = asChild ? Slot : isLink ? Link : 'button'
 
   return (
     <Comp
       className={cn(buttonVariants({ variant, disabled }), className)}
       disabled={!isLink && disabled}
       onClick={disabled ? undefined : onClick}
+      //@ts-expect-error: Link всегда ожидает ссылку, но у нас может быть классический button
       href={isLink ? href : undefined}
       {...props}
     >
