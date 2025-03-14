@@ -63,6 +63,7 @@ function Card({
 }: CardProps) {
   return (
     <div
+      id={id}
       data-slot="card"
       className={cn(
         'bg-card size-100 text-card-foreground flex flex-col gap-6 rounded-xs border py-6 shadow-sm',
@@ -84,7 +85,7 @@ function Card({
   )
 }
 
-export { Card }
+export { Card, CardContent, CardDescription, CardFooter, CardHeader }
 
 type CardProps = {
   id: string
