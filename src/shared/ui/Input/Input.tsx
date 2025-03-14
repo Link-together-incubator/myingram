@@ -15,8 +15,8 @@ const placeholders: Record<InputType, string> = {
   default: '',
   email: 'Epam@epam.com',
   search: 'Input search',
-  password: 'Enter your password',
-  passwordConfirmation: 'Confirm your password',
+  password: '*****************',
+  passwordConfirmation: '*****************',
   username: 'Enter your username',
 }
 
@@ -51,7 +51,12 @@ export const Input = ({ type = 'default', error, disabled }: InputProps) => {
         {type === 'search' && <Search className={s.searchIcon} size={20} />}
         <input
           className={`${s.input} ${error ? s.error : ''} `}
-          type={type === 'password' && !showPassword ? 'password' : 'text'}
+          type={
+            (type === 'password' || type === 'passwordConfirmation') &&
+            !showPassword
+              ? 'password'
+              : 'text'
+          }
           placeholder={placeholders[type]}
           disabled={disabled}
         />

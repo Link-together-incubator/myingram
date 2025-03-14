@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 import { SignUpForm } from '@/features/auth/ui/signUpForm/SignUpForm'
 
 import s from './page.module.scss'
@@ -12,10 +14,20 @@ export default function SignUp() {
 
         <div className={s.imageBlock}>
           <a>
-            <img src="../../../src/_app/assets/images/google.png" />
+            <Image
+              src="/assets/images/google.png"
+              width={36}
+              height={36}
+              alt="hi"
+            />
           </a>
           <a>
-            <img src="@/_app/assets/images/gitHub.png" />
+            <Image
+              src="/assets/images/gitHub.png"
+              width={36}
+              height={36}
+              alt="hi"
+            />
           </a>
         </div>
       </div>

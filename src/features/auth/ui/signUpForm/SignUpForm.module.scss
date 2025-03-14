@@ -4,4 +4,27 @@
     gap: 24px;
 }
 
+.wrapper {
+    position: relative;
+
+}
+
+.link {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    color: var(--accent-3);
+}
+
+.errorMessage {
+    color: var(--danger-3);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    vertical-align: middle;
+
+}
+
 
