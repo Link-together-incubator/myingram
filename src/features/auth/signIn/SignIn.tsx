@@ -1,14 +1,11 @@
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { LoginArgs, useLoginUserMutation } from '@/entities/user/api/userApi'
 import { Button, Card, Input } from '@/shared/ui'
 
 import s from './ SignIn.module.scss'
 
 export const SignInForm = () => {
-  const [loginUser] = useLoginUserMutation()
-  
   const {
     register,
     handleSubmit,
