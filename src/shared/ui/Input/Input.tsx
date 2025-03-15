@@ -1,5 +1,5 @@
 import { Eye, EyeClosed, Search } from 'lucide-react'
-import { useState } from 'react'
+import { InputHTMLAttributes, useState } from 'react'
 
 import s from './Input.module.scss'
 
@@ -30,12 +30,21 @@ const labels: Record<InputType, string> = {
 }
 
 type InputProps = {
-  type?: InputType
+  variant?: InputType
   error?: string | null
   disabled?: boolean
-}
+  className?: string
+  label?: string
+} & InputHTMLAttributes<HTMLInputElement>
 
-export const Input = ({ type = 'default', error, disabled }: InputProps) => {
+export const Input = ({
+  variant = 'default',
+  error,
+  disabled,
+  className,
+  label,
+  ...props
+}: InputProps) => {
   const [showPassword, setShowPassword] = useState(false)
 
   const togglePassword = () => {
@@ -43,25 +52,22 @@ export const Input = ({ type = 'default', error, disabled }: InputProps) => {
   }
 
   return (
-    <div className={s.wrapper}>
-      <label className={s.label}>{labels[type]}</label>
+    <div className={`${s.wrapper} ${className ? className : ''}`}>
+      <label className={s.label}>{label || labels[variant]}</label>
       <div
-        className={`${s.inputWrapper} ${type === 'search' ? s.searchInputWrapper : ''}`}
+        className={`${s.inputWrapper} ${variant === 'search' ? s.searchInputWrapper : ''}`}
       >
-        {type === 'search' && <Search className={s.searchIcon} size={20} />}
+        {variant === 'search' && <Search className={s.searchIcon} size={20} />}
         <input
-          className={`${s.input} ${error ? s.error : ''} `}
-          type={
-            (type === 'password' || type === 'passwordConfirmation') &&
-            !showPassword
-              ? 'password'
-              : 'text'
-          }
-          placeholder={placeholders[type]}
+          className={`${s.input} ${error ? s.error : ''}`}
+          type={variant === 'password' && !showPassword ? 'password' : 'text'}
+          placeholder={placeholders[variant]}
           disabled={disabled}
+          {...props}
         />
-        {(type === 'password' || type === 'passwordConfirmation') && (
+        {variant === 'password' && (
           <button
+            type="button"
             onClick={togglePassword}
             className={`${s.eyeButton} ${disabled ? s.disabled : ''}`}
             disabled={disabled}
