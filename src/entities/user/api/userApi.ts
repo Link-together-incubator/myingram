@@ -1,3 +1,6 @@
+import { BaseQueryArg } from '@reduxjs/toolkit/query'
+
+import { VerificationPayload } from '@/features/auth/api/signUp/VerificationLinkArgs.types'
 import { baseApi } from '@/shared/api/baseApi'
 
 import {
@@ -35,6 +38,23 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+    verifyResend: builder.mutation<void, VerificationPayload>({
+      query: (payload) => {
+        return {
+          url: 'auth/verify-resend',
+          method: 'POST',
+          body: payload,
+        }
+      },
+    }),
+    verifyEmail: builder.query<void, string>({
+      query: (token: string) => {
+        return {
+          url: `auth/verify-email/${token}`,
+          method: 'GET',
+        }
+      },
+    }),
   }),
 })
 
@@ -42,4 +62,6 @@ export const {
   useRegisterUserMutation,
   useRecoveryPasswordMutation,
   useResetPasswordMutation,
+  useVerifyResendMutation,
+  useVerifyEmailQuery,
 } = userApi

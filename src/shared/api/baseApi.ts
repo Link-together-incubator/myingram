@@ -6,7 +6,7 @@ export const baseApi = createApi({
   reducerPath: 'ingramApi',
   baseQuery: async (args, api, extraOptions) => {
     const result = await fetchBaseQuery({
-      baseUrl: process.env.NEXT_PUBLIC_URL_API,
+      baseUrl: 'https://gateway.myin-gram.ru/api/v1/',
       prepareHeaders: () => {},
     })(args, api, extraOptions)
     let error = 'Произошла ошибка'

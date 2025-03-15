@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { SignUpForm } from '@/features/auth/ui/signUpForm/SignUpForm'
 
@@ -36,9 +37,9 @@ export default function SignUp() {
 
       <div className={s.signInBlock}>
         <span>Do you have an account?</span>
-        <a href="/sign-in" className={s.signInLink}>
+        <Link href="/sign-in" className={s.signInLink}>
           Sign In
-        </a>
+        </Link>
       </div>
     </div>
   )

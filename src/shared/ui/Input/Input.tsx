@@ -1,23 +1,15 @@
-import { Eye, EyeClosed, Search } from 'lucide-react'
+import { Eye, EyeOff, Search } from 'lucide-react'
 import { InputHTMLAttributes, useState } from 'react'
 
 import s from './Input.module.scss'
 
-type InputType =
-  | 'default'
-  | 'email'
-  | 'search'
-  | 'password'
-  | 'username'
-  | 'passwordConfirmation'
+type InputType = 'default' | 'email' | 'search' | 'password'
 
 const placeholders: Record<InputType, string> = {
   default: '',
   email: 'Epam@epam.com',
   search: 'Input search',
-  password: '*****************',
-  passwordConfirmation: '*****************',
-  username: 'Enter your username',
+  password: 'Enter your password',
 }
 
 const labels: Record<InputType, string> = {
@@ -25,8 +17,6 @@ const labels: Record<InputType, string> = {
   email: 'Email',
   search: '',
   password: 'Password',
-  passwordConfirmation: 'Password confirmation',
-  username: 'Username',
 }
 
 type InputProps = {
@@ -72,7 +62,7 @@ export const Input = ({
             className={`${s.eyeButton} ${disabled ? s.disabled : ''}`}
             disabled={disabled}
           >
-            {showPassword ? <EyeClosed size={24} /> : <Eye size={24} />}
+            {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
           </button>
         )}
       </div>

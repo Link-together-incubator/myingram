@@ -1,28 +1,34 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { useRegisterUserMutation } from '@/entities/user/api/userApi'
-import { LoginArgs } from '@/features/auth/api/signUp/SignUpArgs.types'
+import { LoginPayload } from '@/features/auth/api/signUp/SignUpArgs.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { setIsLoggedIn } from '@/shared/model/appSlice'
+import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 import { Button, Checkbox, Input } from '@/shared/ui'
 
 import s from './SignUpForm.module.scss'
 
 export const SignUpForm = () => {
+  const [isAgreed, setIsAgreed] = useState(false)
+
   const [signUpData] = useRegisterUserMutation()
   const dispatch = useAppDispatch()
+
+  const handleCheckboxChange = () => {
+    setIsAgreed(!isAgreed)
+  }
 
   const {
     register,
     handleSubmit,
     getValues,
     reset,
-    control,
     formState: { errors },
-  } = useForm<LoginArgs>({
+  } = useForm<LoginPayload>({
     defaultValues: {
       username: '',
       email: '',
@@ -38,23 +44,37 @@ export const SignUpForm = () => {
     return passwordConfirmation === password || 'Passwords do not match'
   }
 
-  const onSubmit: SubmitHandler<LoginArgs> = (data) => {
+  const checkUsername = () => {
+    const { username } = getValues()
+  }
+
+  const onSubmit: SubmitHandler<LoginPayload> = (data) => {
     signUpData({
       login: data.username,
       email: data.email,
       password: data.password,
-    }).finally(() => {
-      reset()
     })
+      .then(() => {
+        dispatch(
+          setIsShowEmailSentModal({
+            message: `We have sent a link to confirm your email to ${data.email}`,
+            title: 'Email sent',
+          }),
+        )
+      })
+      .finally(() => {
+        reset()
+      })
     console.log(data)
   }
-  // console.log(errors)
 
   return (
     <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={s.wrapper}>
-        <input
-          type="text"
+        <Input
+          type="default"
+          label={'Username'}
+          placeholder={'Epam11'}
           {...register('username', {
             required: true,
             maxLength: {
@@ -65,6 +85,7 @@ export const SignUpForm = () => {
               value: 6,
               message: 'Minimum number of characters 6',
             },
+            validation: checkUsername,
           })}
         />
         {errors.username && (
@@ -72,8 +93,10 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className={s.wrapper}>
-        <input
+        <Input
           type="email"
+          label={'Email'}
+          placeholder={'Epam@epam.com'}
           {...register('email', {
             required: 'Please enter your email',
             pattern: {
@@ -87,10 +110,12 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className={s.wrapper}>
-        <input
-          type="password"
+        <Input
+          variant={'password'}
+          label={'Password'}
+          placeholder={'****************'}
           {...register('password', {
-            required: true,
+            required: 'Minimum number of characters 6',
             pattern: {
               value: /^[a-zA-Z0-9! "#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
               message:
@@ -107,8 +132,10 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className={s.wrapper}>
-        <input
-          type="password"
+        <Input
+          variant={'password'}
+          label={'Password confirmation'}
+          placeholder={'****************'}
           {...register('passwordConfirmation', {
             required: 'The passwords must match',
             validate: validatePasswordConfirmation,
@@ -123,6 +150,7 @@ export const SignUpForm = () => {
       <div className={s.wrapper}>
         <Checkbox
           id={'agree'}
+          onCheckedChange={handleCheckboxChange}
           label={
             <>
               I agree to the{' '}
@@ -138,7 +166,7 @@ export const SignUpForm = () => {
         />
       </div>
 
-      <Button variant={'default'} type={'submit'}>
+      <Button variant={'default'} type={'submit'} disabled={!isAgreed}>
         Sign Up
       </Button>
     </form>
