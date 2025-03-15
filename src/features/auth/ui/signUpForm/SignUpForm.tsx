@@ -31,9 +31,11 @@ export const SignUpForm = () => {
     },
   })
 
-  const validatePasswordConfirmation = (value: string) => {
-    const { password } = getValues()
-    return value === password || 'Passwords do not match'
+  const validatePasswordConfirmation = () => {
+    const { password, passwordConfirmation } = getValues()
+    console.log(password, passwordConfirmation)
+
+    return passwordConfirmation === password || 'Passwords do not match'
   }
 
   const onSubmit: SubmitHandler<LoginArgs> = (data) => {
@@ -44,14 +46,15 @@ export const SignUpForm = () => {
     }).finally(() => {
       reset()
     })
+    console.log(data)
   }
-  console.log(errors)
+  // console.log(errors)
 
   return (
     <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={s.wrapper}>
-        <Input
-          type="username"
+        <input
+          type="text"
           {...register('username', {
             required: true,
             maxLength: {
@@ -69,7 +72,7 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className={s.wrapper}>
-        <Input
+        <input
           type="email"
           {...register('email', {
             required: 'Please enter your email',
@@ -84,15 +87,15 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className={s.wrapper}>
-        <Input
+        <input
           type="password"
           {...register('password', {
             required: true,
-            // pattern: {
-            //   value: /^[a-zA-Z0-9! "#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
-            //   message:
-            //     'Password must contain a-z, A-Z,  ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _` { | } ~',
-            // },
+            pattern: {
+              value: /^[a-zA-Z0-9! "#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]+$/,
+              message:
+                'Password must contain a-z, A-Z,  ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _` { | } ~',
+            },
             minLength: {
               value: 6,
               message: 'Minimum number of characters 6',
@@ -104,8 +107,8 @@ export const SignUpForm = () => {
         )}
       </div>
       <div className={s.wrapper}>
-        <Input
-          type="passwordConfirmation"
+        <input
+          type="password"
           {...register('passwordConfirmation', {
             required: 'The passwords must match',
             validate: validatePasswordConfirmation,
@@ -135,7 +138,7 @@ export const SignUpForm = () => {
         />
       </div>
 
-      <Button variant={'default'} type="submit">
+      <Button variant={'default'} type={'submit'}>
         Sign Up
       </Button>
     </form>
