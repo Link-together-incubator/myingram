@@ -2,13 +2,17 @@
 
 import { ReactNode, useEffect } from 'react'
 
+import { useAppSelector } from '@/shared/hooks/useAppSelector'
+import { selectShowEmailSentModal } from '@/shared/model/appSlice'
 import { Alert, AlertType } from '@/widgets/Alert'
+import { SuccessEmailSent } from '@/widgets/SuccessEmailSent'
 
 type ModalProviderProps = {
   children: ReactNode
 }
 
 export function ModalProvider({ children }: ModalProviderProps) {
+  const emailMessage = useAppSelector(selectShowEmailSentModal)
   const message = {
     text: 'Your settings are saved',
     type: 'success' as AlertType,
@@ -22,7 +26,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
   useEffect(() => {
     if (message.text === null) return
 
-    const timeoutId = setTimeout(closeAlertCallback, 3000)
+    const timeoutId = setTimeout(closeAlertCallback, 5000)
 
     return () => {
       // модалка размонтируется только при закрытии прилки
@@ -37,6 +41,12 @@ export function ModalProvider({ children }: ModalProviderProps) {
           cancelCallback={closeAlertCallback}
           text={message.text}
           type={message.type}
+        />
+      )}
+      {emailMessage && (
+        <SuccessEmailSent
+          message={emailMessage.message}
+          title={emailMessage.title}
         />
       )}
       {children}

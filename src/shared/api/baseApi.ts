@@ -10,8 +10,10 @@ export const baseApi = createApi({
       prepareHeaders: () => {},
     })(args, api, extraOptions)
     let error = 'Произошла ошибка'
+    console.log(result)
 
     if (result.error) {
+      // todo: проверить обработку (неправильная)
       switch (result.error.status) {
         case 'FETCH_ERROR':
         case 'PARSING_ERROR':

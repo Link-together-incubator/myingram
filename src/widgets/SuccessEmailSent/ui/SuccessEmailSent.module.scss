@@ -1,0 +1,77 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  transition: opacity 0.3s ease-out;
+}
+
+.modal {
+  width: 100%;
+  max-width: 390px;
+  border-radius: 2px;
+  background-color: var(--background-2);
+  border: 1px solid var(--background-1);
+  animation: scaleIn 0.3s ease-out; /* Новая анимация для модального окна */
+  transform-origin: center; /* Точка преобразования для анимации */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--background-1);
+  padding: 12px 24px;
+}
+
+.title {
+  font: var(--font-h2);
+  color: var(--foreground-1);
+}
+
+.closeButton {
+  cursor: pointer;
+  color: #a1a1aa;
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.content {
+  padding: 30px 24px;
+}
+
+.message {
+  font: var(--font-regular-16);
+  color: var(--foreground-1);
+}
+
+.buttonContainer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9); /* Начальный масштаб */
+    opacity: 0; /* Начальная прозрачность */
+  }
+  to {
+    transform: scale(1); /* Конечный масштаб */
+    opacity: 1; /* Конечная прозрачность */
+  }
+}
