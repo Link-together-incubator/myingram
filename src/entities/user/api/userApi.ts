@@ -1,5 +1,14 @@
 import { baseApi } from '@/shared/api/baseApi'
 
+export type LoginArgs = {
+  email: string
+  password: string
+}
+
+type LoginResponse = {
+  accessToken: string
+}
+
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<
@@ -14,7 +23,15 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+
+    loginUser: builder.mutation<LoginResponse, LoginArgs>({
+      query: (payload) => ({
+        url: 'auth/signin',
+        method: 'POST',
+        body: payload,
+      })
+    })
   }),
 })
 
-export const { useRegisterUserMutation } = userApi
+export const { useRegisterUserMutation, useLoginUserMutation } = userApi
