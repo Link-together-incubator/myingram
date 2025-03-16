@@ -4,10 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import {
-  useGetUsersQuery,
-  useRegisterUserMutation,
-} from '@/entities/user/api/userApi'
+import { useRegisterUserMutation } from '@/entities/user/api/userApi'
 import { LoginPayload } from '@/features/auth/api/signUp/SignUpArgs.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
@@ -19,7 +16,7 @@ export const SignUpForm = () => {
   const [isAgreed, setIsAgreed] = useState(false)
 
   const [signUpData] = useRegisterUserMutation()
-  const { data: users } = useGetUsersQuery(undefined)
+
   const dispatch = useAppDispatch()
 
   const handleCheckboxChange = () => {
@@ -47,14 +44,23 @@ export const SignUpForm = () => {
     return passwordConfirmation === password || 'Passwords do not match'
   }
 
-  const isUsernameValid = () => {
-    const { username } = getValues()
+  // const isUsernameValid = () => {
+  //   const { username: name } = getValues()
+  //   const { data } = useUserValidationForSignUpQuery({ name, email: '' })
+  //
+  //   return data || 'User with this username is already registered'
+  // }
 
-    return (
-      !(users && users.some((user) => user.name === username)) ||
-      'User with this username is already registered'
-    )
-  }
+  // const isEmailValid = () => {
+  //   const { email } = getValues()
+  //   const { data } = useUserValidationForSignUpQuery({ name: '', email })
+  //
+  //   return !data || 'User with this email is already registered'
+  // }
+  //
+  // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setUsername(e.currentTarget.value)
+  // }
 
   const onSubmit: SubmitHandler<LoginPayload> = (data) => {
     signUpData({
@@ -93,7 +99,7 @@ export const SignUpForm = () => {
               value: 6,
               message: 'Minimum number of characters 6',
             },
-            validate: isUsernameValid,
+            // validate: isUsernameValid,
           })}
         />
         {errors.username && (
@@ -111,6 +117,7 @@ export const SignUpForm = () => {
               value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: 'The email must match the format \nexample@example.com',
             },
+            // validate: isEmailValid,
           })}
         />
         {errors.email && (

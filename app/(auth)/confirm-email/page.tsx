@@ -2,20 +2,31 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 import { useVerifyEmailQuery } from '@/entities/user/api/userApi'
-import { useAppSelector } from '@/shared/hooks/useAppSelector'
 
 import s from './page.module.scss'
 
-export default function Congratulations() {
-  const error = useAppSelector((state) => state.app.error)
-  // const router = useRouter()
-  // const { token } = router.query // Получение значения параметра 'term'
-  //
-  const { data: tokenData } = useVerifyEmailQuery(token as string)
+export default function ConfirmEmail() {
+  const router = useRouter()
+  const queryParams = new URLSearchParams(window.location.search)
+  const tokenFromQuery = queryParams.get('code')
+
+  const {
+    data: tokenData,
+    error,
+    isLoading,
+  } = useVerifyEmailQuery(tokenFromQuery ? tokenFromQuery : '')
+
+  if (error) {
+    router.push('./link-expired')
+    return null
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
 
   return (
     <div className={s.wrapper}>

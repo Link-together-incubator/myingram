@@ -19,3 +19,5 @@ export type User = {
   passwordHash: string
   expirationDate: string | null
 }
+
+export type UserValidationPayload = { name: string; email: string }

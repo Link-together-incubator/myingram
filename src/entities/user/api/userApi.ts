@@ -8,6 +8,7 @@ import {
   PasswordResetPayload,
   SignUpPayload,
   User,
+  UserValidationPayload,
 } from '../user.types'
 
 export const userApi = baseApi.injectEndpoints({
@@ -51,15 +52,15 @@ export const userApi = baseApi.injectEndpoints({
     verifyEmail: builder.query<void, string>({
       query: (token: string) => {
         return {
-          url: `auth/verify-email/${token}`,
+          url: token ? `auth/verify-email?token=${token}` : `auth/verify-email`,
           method: 'GET',
         }
       },
     }),
-    getUsers: builder.query<User[], void>({
-      query: () => {
+    userValidationForSignUp: builder.query<boolean, UserValidationPayload>({
+      query: ({ name, email }) => {
         return {
-          url: 'users',
+          url: `users/validation?name=${name}&email=${email}`,
           method: 'GET',
         }
       },
@@ -73,5 +74,5 @@ export const {
   useResetPasswordMutation,
   useVerifyResendMutation,
   useVerifyEmailQuery,
-  useGetUsersQuery,
+  useLazyUserValidationForSignUpQuery,
 } = userApi
