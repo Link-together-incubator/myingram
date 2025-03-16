@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+import { getCropString } from '../lib/utils/getCropString'
 import { setAppError } from '../model/appSlice'
+
+type ErrorData = {
+  errorsMessages?: string[] | { field: string; message: string }[]
+}
 
 export const baseApi = createApi({
   reducerPath: 'ingramApi',
@@ -16,8 +21,7 @@ export const baseApi = createApi({
       },
     })(args, api, extraOptions)
 
-    let error = 'Произошла ошибка'
-    console.log(result)
+    let error = 'Error! Server is not available'
 
     if (result.error) {
       // todo: проверить обработку (неправильная)
@@ -28,19 +32,33 @@ export const baseApi = createApi({
           error = result.error.error
           break
 
+        case 404:
+          error = 'No content found'
+          break
+
         case 403:
-          error = '403 Ошибка доступа. Проверь API-KEY'
+          error = 'Not enough rights'
+          break
+
+        case 401:
+          error = 'An unauthorized user'
           break
 
         case 400:
-          error = (result.error.data as { message: string }).message
-          break
-
-        default:
-          error = JSON.stringify(result.error)
+          const errorData = result.error.data as ErrorData
+          if (typeof errorData?.errorsMessages?.[0] === 'string') {
+            error = errorData.errorsMessages[0]
+          } else if (typeof errorData?.errorsMessages?.[0] === 'object') {
+            error = errorData.errorsMessages[0].message
+          }
           break
       }
-      api.dispatch(setAppError({ error }))
+      api.dispatch(
+        setAppError({
+          message: getCropString(error, 30),
+          type: 'error',
+        }),
+      )
     }
     return result
   },
