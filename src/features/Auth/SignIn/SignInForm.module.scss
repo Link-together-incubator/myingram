@@ -69,11 +69,15 @@
 .inputWrapper{
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    position: relative; 
 }
 
+.inputWrapper > div:not(:last-child) {
+    margin-bottom: 24px;
+}
+
+
 .buttonWrapper{
-    margin-top: 60px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -86,3 +90,17 @@
     align-items: center;
     gap: 6px;
 }
+
+.errorContainer {
+    min-height: 30px; 
+}
+
+.error {
+    position: absolute;
+    color: var(--danger-3);
+    font-size: 14px;
+    line-height: 25px;
+    bottom: 0;
+}
+
+

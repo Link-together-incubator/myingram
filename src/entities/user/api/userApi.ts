@@ -39,7 +39,7 @@ export const userApi = baseApi.injectEndpoints({
     }),
     loginUser: builder.mutation<LoginResponse, LoginArgs>({
       query: (payload) => ({
-        url: 'auth/signin',
+        url: 'auth/login',
         method: 'POST',
         body: payload,
       })
