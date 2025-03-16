@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import { userReducer, userSlice } from '@/entities/user/model/userSlice'
 import { baseApi } from '@/shared/api/baseApi'
 
 import { appReducer, appSlice } from '../../shared/model/appSlice'
@@ -7,6 +8,7 @@ import { appReducer, appSlice } from '../../shared/model/appSlice'
 export const store = configureStore({
   reducer: {
     [appSlice.name]: appReducer,
+    [userSlice.name]: userReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
