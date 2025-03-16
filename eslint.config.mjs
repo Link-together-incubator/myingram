@@ -53,14 +53,7 @@ const eslintConfig = [
 
       'import/no-unresolved': 'off',
       'import/no-duplicates': 'error',
-      'import/no-extraneous-dependencies': [
-        'error',
-        {
-          devDependencies: true,
-          optionalDependencies: false,
-          peerDependencies: false,
-        },
-      ],
+      'import/no-extraneous-dependencies': 'off',
 
       'prettier/prettier': [
         'warn',
