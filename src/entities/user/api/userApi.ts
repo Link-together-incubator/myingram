@@ -42,8 +42,8 @@ export const userApi = baseApi.injectEndpoints({
         url: 'auth/login',
         method: 'POST',
         body: payload,
-      })
-    })
+      }),
+    }),
   }),
 })
 

@@ -39,7 +39,7 @@ export const SignInForm = () => {
   return (
     <Card className={s.card} title="Sign In" id={cardId}>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-      <div className={s.imageWrapper}>
+        <div className={s.imageWrapper}>
           <a>
             <Image
               src="/assets/images/google.svg"
@@ -65,25 +65,31 @@ export const SignInForm = () => {
             <Input variant="password" {...register('password')} />
           </div>
           <div className={s.errorContainer}>
-          {(errors.email || errors.password) && (
-            <span className={s.error}>
-              {errors.email?.message || errors.password?.message}
-            </span> 
-          )}
-        </div>
+            {(errors.email || errors.password) && (
+              <span className={s.error}>
+                {errors.email?.message || errors.password?.message}
+              </span>
+            )}
+          </div>
         </div>
         <div className={s.buttonWrapper}>
           <div className={s.forgotPassword}>
-            <Button variant={'link'} href="/password-recovery">Forgot Password</Button>
+            <Button variant={'link'} href="/password-recovery">
+              Forgot Password
+            </Button>
           </div>
-          <Button variant="default" type="submit" disabled={isLoading || !!errors.email || !!errors.password}>
+          <Button
+            variant="default"
+            type="submit"
+            disabled={isLoading || !!errors.email || !!errors.password}
+          >
             Sign In
           </Button>
           <div className={s.signUpWrapper}>
             <span>Don’t have an account?</span>
             <Button href="/sign-up" variant={'link'}>
-            Sign Up
-          </Button>
+              Sign Up
+            </Button>
           </div>
         </div>
       </form>
