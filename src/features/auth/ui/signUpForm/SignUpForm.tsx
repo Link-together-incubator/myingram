@@ -4,7 +4,10 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useRegisterUserMutation } from '@/entities/user/api/userApi'
+import {
+  useGetUsersQuery,
+  useRegisterUserMutation,
+} from '@/entities/user/api/userApi'
 import { LoginPayload } from '@/features/auth/api/signUp/SignUpArgs.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
@@ -16,6 +19,7 @@ export const SignUpForm = () => {
   const [isAgreed, setIsAgreed] = useState(false)
 
   const [signUpData] = useRegisterUserMutation()
+  const { data: users } = useGetUsersQuery(undefined)
   const dispatch = useAppDispatch()
 
   const handleCheckboxChange = () => {
@@ -39,13 +43,17 @@ export const SignUpForm = () => {
 
   const validatePasswordConfirmation = () => {
     const { password, passwordConfirmation } = getValues()
-    console.log(password, passwordConfirmation)
 
     return passwordConfirmation === password || 'Passwords do not match'
   }
 
-  const checkUsername = () => {
+  const isUsernameValid = () => {
     const { username } = getValues()
+
+    return (
+      !(users && users.some((user) => user.name === username)) ||
+      'User with this username is already registered'
+    )
   }
 
   const onSubmit: SubmitHandler<LoginPayload> = (data) => {
@@ -76,7 +84,7 @@ export const SignUpForm = () => {
           label={'Username'}
           placeholder={'Epam11'}
           {...register('username', {
-            required: true,
+            required: 'Please enter your name',
             maxLength: {
               value: 30,
               message: 'Maximum number of characters 30',
@@ -85,7 +93,7 @@ export const SignUpForm = () => {
               value: 6,
               message: 'Minimum number of characters 6',
             },
-            validation: checkUsername,
+            validate: isUsernameValid,
           })}
         />
         {errors.username && (
@@ -106,7 +114,15 @@ export const SignUpForm = () => {
           })}
         />
         {errors.email && (
-          <span className={s.errorMessage}>{errors.email.message}</span>
+          <div
+            className={`${errors.email.message === 'The email must match the format \nexample@example.com' ? s.errorWrapper : ''}`}
+          >
+            <span
+              className={`${s.errorMessage} ${errors.email.message === 'The email must match the format \nexample@example.com' ? s.additionalErrorStyle : ''}`}
+            >
+              {errors.email.message}
+            </span>
+          </div>
         )}
       </div>
       <div className={s.wrapper}>

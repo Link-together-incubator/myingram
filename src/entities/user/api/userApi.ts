@@ -7,6 +7,7 @@ import {
   PasswordRecoveryPayload,
   PasswordResetPayload,
   SignUpPayload,
+  User,
 } from '../user.types'
 
 export const userApi = baseApi.injectEndpoints({
@@ -55,6 +56,14 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+    getUsers: builder.query<User[], void>({
+      query: () => {
+        return {
+          url: 'users',
+          method: 'GET',
+        }
+      },
+    }),
   }),
 })
 
@@ -64,4 +73,5 @@ export const {
   useResetPasswordMutation,
   useVerifyResendMutation,
   useVerifyEmailQuery,
+  useGetUsersQuery,
 } = userApi

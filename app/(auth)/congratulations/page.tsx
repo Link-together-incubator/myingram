@@ -6,14 +6,16 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 import { useVerifyEmailQuery } from '@/entities/user/api/userApi'
+import { useAppSelector } from '@/shared/hooks/useAppSelector'
 
 import s from './page.module.scss'
 
 export default function Congratulations() {
+  const error = useAppSelector((state) => state.app.error)
   // const router = useRouter()
   // const { token } = router.query // Получение значения параметра 'term'
   //
-  // const { data: tokenData } = useVerifyEmailQuery(token as string)
+  const { data: tokenData } = useVerifyEmailQuery(token as string)
 
   return (
     <div className={s.wrapper}>
