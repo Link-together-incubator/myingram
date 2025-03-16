@@ -19,6 +19,7 @@ export function PasswordRecoveryForm() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>()
 
   const [isShowRequiredMessage, setIsShowRequiredMessage] =
@@ -44,13 +45,18 @@ export function PasswordRecoveryForm() {
     recoveryPassword({
       email: data.email,
       recaptchaToken: recaptchaResponse,
-    }).then(() => {
-      dispatch(
-        setIsShowEmailSentModal({
-          message: 'We have sent a link to reset your password',
-          title: 'Email sent',
-        }),
-      )
+    }).then((result) => {
+      grecaptcha.reset()
+
+      if ('data' in result) {
+        dispatch(
+          setIsShowEmailSentModal({
+            message: 'We have sent a link to reset your password',
+            title: 'Email sent',
+          }),
+        )
+        reset()
+      }
     })
   }
 
