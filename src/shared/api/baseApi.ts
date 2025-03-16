@@ -12,8 +12,15 @@ export const baseApi = createApi({
   baseQuery: async (args, api, extraOptions) => {
     const result = await fetchBaseQuery({
       baseUrl: process.env.NEXT_PUBLIC_URL_API,
-      prepareHeaders: () => {},
+      prepareHeaders: (headers) => {
+        const token = sessionStorage.getItem('access-token')
+        if (token) {
+          headers.set('Authorization', `Bearer ${token}`)
+        }
+        return headers
+      },
     })(args, api, extraOptions)
+
     let error = 'Error! Server is not available'
 
     if (result.error) {

@@ -1,5 +1,7 @@
 'use client'
 
-export default function SignUp() {
-  return <div>ЗДЕСЬ БУДЕТ AUTH</div>
+import { SignInForm } from '@/features/Auth/SignIn/SignInForm'
+
+export default function SignIn() {
+  return <SignInForm />
 }
