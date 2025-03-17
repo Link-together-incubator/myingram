@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { SignUpForm } from '@/features/auth/ui/signUpForm/SignUpForm'
+import { SignUpForm } from '@/features/Auth/SignUp'
 
 import s from './page.module.scss'
 
