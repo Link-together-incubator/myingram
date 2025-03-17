@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useId } from 'react'
-import { useForm } from 'react-hook-form'
+import { useId, useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useLoginUserMutation } from '@/entities/user/api/userApi'
+import { useLoginUserMutation, useResetPasswordMutation } from '@/entities/user/api/userApi'
 import { LoginArgs } from '@/entities/user/user.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
 import { setIsLoggedIn } from '@/shared/model/appSlice'
@@ -11,23 +11,27 @@ import { Button, Card, Input } from '@/shared/ui'
 
 import s from './SignInForm.module.scss'
 
+
+
 export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isValid },
   } = useForm<LoginArgs>({
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: '', password: '' }, mode: 'onBlur', reValidateMode: 'onBlur'
   })
   const dispatch = useAppDispatch()
   const router = useRouter()
   const [loginUser, { isLoading }] = useLoginUserMutation()
 
-  const onSubmit = async (data: LoginArgs) => {
+  const onSubmit: SubmitHandler<LoginArgs> = async (data) => {
     try {
       const response = await loginUser(data).unwrap()
       sessionStorage.setItem('access-token', response.accessToken)
       dispatch(setIsLoggedIn({ isLoggedIn: true }))
+      reset()
       router.push('/')
     } catch (err) {
       console.error('Login failed:', err)
@@ -59,10 +63,38 @@ export const SignInForm = () => {
         </div>
         <div className={s.inputWrapper}>
           <div>
-            <Input variant="email" {...register('email')} />
+            <Input variant="email"
+                   {...register('email', {
+                     required: 'Email is required',
+                     pattern: {
+                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                       message: 'Invalid email address',
+                     },
+                   })}
+                   error={!!errors.email}
+                   helperText={errors.email?.message}
+            />
           </div>
           <div>
-            <Input variant="password" {...register('password')} />
+            <Input variant="password"
+                   {...register('password', {
+                     required: 'Password is required',
+                     minLength: {
+                       value: 6,
+                       message: 'Password must be at least 6 characters',
+                     },
+                     maxLength: {
+                       value: 20,
+                       message: 'Password must be at most 20 characters',
+                     },
+                     pattern: {
+                       value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])/,
+                       message: 'Password should contain letters, numbers and special characters',
+                     },
+                   })}
+                   error={!!errors.password}
+                   helperText={errors.password?.message}
+            />
           </div>
           <div className={s.errorContainer}>
             {(errors.email || errors.password) && (
@@ -81,7 +113,7 @@ export const SignInForm = () => {
           <Button
             variant="default"
             type="submit"
-            disabled={isLoading || !!errors.email || !!errors.password}
+            disabled={!isValid || isLoading}
           >
             Sign In
           </Button>
