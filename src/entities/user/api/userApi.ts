@@ -1,14 +1,11 @@
-import { BaseQueryArg } from '@reduxjs/toolkit/query'
-
-import { VerificationPayload } from '@/features/auth/api/signUp/VerificationLinkArgs.types'
 import { baseApi } from '@/shared/api/baseApi'
 
 import {
   PasswordRecoveryPayload,
   PasswordResetPayload,
   SignUpPayload,
-  User,
   UserValidationPayload,
+  VerificationPayload,
 } from '../user.types'
 
 export const userApi = baseApi.injectEndpoints({

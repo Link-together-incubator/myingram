@@ -21,3 +21,13 @@ export type User = {
 }
 
 export type UserValidationPayload = { name: string; email: string }
+export type LoginPayload = {
+  username: string
+  email: string
+  password: string
+  passwordConfirmation: string
+}
+
+export type VerificationPayload = {
+  email: string
+}

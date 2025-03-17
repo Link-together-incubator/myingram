@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { useRegisterUserMutation } from '@/entities/user/api/userApi'
-import { LoginPayload } from '@/features/Auth/api/signUp/SignUpArgs.types'
+import { LoginPayload } from '@/entities/user/user.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 
@@ -16,7 +16,7 @@ export const useSignUpForm = () => {
     handleSubmit,
     getValues,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<LoginPayload>({
     defaultValues: {
       username: '',
@@ -60,5 +60,6 @@ export const useSignUpForm = () => {
     errors,
     onSubmit,
     validatePasswordConfirmation,
+    isValid,
   }
 }

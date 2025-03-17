@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 
+import { EMAIL_REGEX } from '@/shared/lib/validators'
 import { Button, Checkbox, Input } from '@/shared/ui'
 
 import { useSignUpForm } from '../lib/useSignUpForm'
@@ -17,6 +18,7 @@ export const SignUpForm = () => {
     errors,
     onSubmit,
     validatePasswordConfirmation,
+    isValid,
   } = useSignUpForm()
 
   return (
@@ -45,7 +47,7 @@ export const SignUpForm = () => {
           {...register('email', {
             required: 'Please enter your email',
             pattern: {
-              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              value: EMAIL_REGEX,
               message: 'Email must match format example@example.com',
             },
           })}
@@ -111,7 +113,7 @@ export const SignUpForm = () => {
         />
       </div>
 
-      <Button type="submit" variant="default" disabled={!isAgreed}>
+      <Button type="submit" variant="default" disabled={!isAgreed || !isValid}>
         Sign Up
       </Button>
     </form>

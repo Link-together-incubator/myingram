@@ -1,11 +1,11 @@
 'use client'
 
-import s from '../terms-of-service/page.module.scss'
+import s from './TermsOfService.module.scss'
 
-export default function PrivacyPolicy() {
+export function TermsOfService() {
   return (
     <div className={s.wrapper}>
-      <h1 className={s.main}>Privacy Policy</h1>
+      <h1 className={s.main}>Terms of Service</h1>
       <p className={s.text}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Fames ac turpis

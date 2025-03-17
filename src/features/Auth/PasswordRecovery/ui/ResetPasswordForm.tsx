@@ -10,7 +10,7 @@ import { Button, Input } from '@/shared/ui'
 
 import cls from './ResetPasswordForm.module.scss'
 
-interface PasswordFormInputs {
+type PasswordFormInputs = {
   newPassword: string
   confirmPassword: string
 }
