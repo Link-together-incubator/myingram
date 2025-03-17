@@ -8,7 +8,7 @@ import { useLoginUserMutation } from '@/entities/user/api/userApi'
 import { setIsLoggedIn } from '@/entities/user/model/userSlice'
 import { LoginArgs } from '@/entities/user/user.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { EMAIL_REGEX } from '@/shared/lib/validators'
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/shared/lib/validators'
 import { Button, Card, Input } from '@/shared/ui'
 
 import s from './SignInForm.module.scss'
@@ -20,7 +20,9 @@ export const SignInForm = () => {
     reset,
     formState: { errors, isValid },
   } = useForm<LoginArgs>({
-    defaultValues: { email: '', password: '' }, mode: 'onBlur', reValidateMode: 'onBlur'
+    defaultValues: { email: '', password: '' },
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   })
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -30,7 +32,7 @@ export const SignInForm = () => {
     try {
       const response = await loginUser(data).unwrap()
       sessionStorage.setItem('access-token', response.accessToken)
-      dispatch(setIsLoggedIn(true))
+      dispatch(setIsLoggedIn(true)) // todo: изменить на "вызываем authMe"
       reset()
       router.push('/')
     } catch (err) {
@@ -90,8 +92,9 @@ export const SignInForm = () => {
                 message: 'Password must be at most 20 characters',
               },
               pattern: {
-                value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])/,
-                message: 'Password should contain letters, numbers and special characters',
+                value: PASSWORD_REGEX,
+                message:
+                  'Password should contain letters, numbers and special characters',
               },
             })}
           />
