@@ -1,17 +1,17 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useId, useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useId } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { useLoginUserMutation, useResetPasswordMutation } from '@/entities/user/api/userApi'
+import { useLoginUserMutation } from '@/entities/user/api/userApi'
+import { setIsLoggedIn } from '@/entities/user/model/userSlice'
 import { LoginArgs } from '@/entities/user/user.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { setIsLoggedIn } from '@/shared/model/appSlice'
+import { EMAIL_REGEX } from '@/shared/lib/validators'
 import { Button, Card, Input } from '@/shared/ui'
 
 import s from './SignInForm.module.scss'
-
-
 
 export const SignInForm = () => {
   const {
@@ -26,15 +26,15 @@ export const SignInForm = () => {
   const router = useRouter()
   const [loginUser, { isLoading }] = useLoginUserMutation()
 
-  const onSubmit: SubmitHandler<LoginArgs> = async (data) => {
+  const onSubmit = async (data: LoginArgs) => {
     try {
       const response = await loginUser(data).unwrap()
       sessionStorage.setItem('access-token', response.accessToken)
-      dispatch(setIsLoggedIn({ isLoggedIn: true }))
+      dispatch(setIsLoggedIn(true))
       reset()
       router.push('/')
     } catch (err) {
-      console.error('Login failed:', err)
+      console.log('Login failed:', err)
     }
   }
 
@@ -44,65 +44,57 @@ export const SignInForm = () => {
     <Card className={s.card} title="Sign In" id={cardId}>
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={s.imageWrapper}>
-          <a>
+          <Link href={'#google'}>
             <Image
               src="/assets/images/google.svg"
               width={36}
               height={36}
               alt="Google Icon"
             />
-          </a>
-          <a>
+          </Link>
+          <Link href={'#github'}>
             <Image
               src="/assets/images/github.svg"
               width={36}
               height={36}
               alt="Github Icon"
             />
-          </a>
+          </Link>
         </div>
         <div className={s.inputWrapper}>
-          <div>
-            <Input variant="email"
-                   {...register('email', {
-                     required: 'Email is required',
-                     pattern: {
-                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                       message: 'Invalid email address',
-                     },
-                   })}
-                   error={!!errors.email}
-                   helperText={errors.email?.message}
-            />
-          </div>
-          <div>
-            <Input variant="password"
-                   {...register('password', {
-                     required: 'Password is required',
-                     minLength: {
-                       value: 6,
-                       message: 'Password must be at least 6 characters',
-                     },
-                     maxLength: {
-                       value: 20,
-                       message: 'Password must be at most 20 characters',
-                     },
-                     pattern: {
-                       value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])/,
-                       message: 'Password should contain letters, numbers and special characters',
-                     },
-                   })}
-                   error={!!errors.password}
-                   helperText={errors.password?.message}
-            />
-          </div>
-          <div className={s.errorContainer}>
-            {(errors.email || errors.password) && (
-              <span className={s.error}>
-                {errors.email?.message || errors.password?.message}
-              </span>
-            )}
-          </div>
+          <Input
+            type="email"
+            autoComplete="email"
+            error={errors.email ? errors.email.message : null}
+            variant="email"
+            {...register('email', {
+              required: 'Email is required', // Обязательное поле
+              pattern: {
+                value: EMAIL_REGEX,
+                message: 'Invalid email address', // Валидация email
+              },
+            })}
+          />
+          <Input
+            error={errors.password ? errors.password.message : null}
+            variant="password"
+            autoComplete="current-password"
+            {...register('password', {
+              required: 'Password is required', // Обязательное поле
+              minLength: {
+                value: 6,
+                message: 'Password must be at least 6 characters',
+              },
+              maxLength: {
+                value: 20,
+                message: 'Password must be at most 20 characters',
+              },
+              pattern: {
+                value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])/,
+                message: 'Password should contain letters, numbers and special characters',
+              },
+            })}
+          />
         </div>
         <div className={s.buttonWrapper}>
           <div className={s.forgotPassword}>

@@ -1,3 +1,5 @@
+export { ProgressBar } from './Progress-Bar/ProgressBar'
+
 export { RecaptchaForm } from './Recaptcha-Form/RecaptchaForm'
 
 export { Card } from './Card/Card'
