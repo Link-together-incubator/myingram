@@ -8,7 +8,7 @@ import { useLoginUserMutation } from '@/entities/user/api/userApi'
 import { setIsLoggedIn } from '@/entities/user/model/userSlice'
 import { LoginArgs } from '@/entities/user/user.types'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { EMAIL_REGEX } from '@/shared/lib/validators'
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/shared/lib/validators'
 import { Button, Card, Input } from '@/shared/ui'
 
 import s from './SignInForm.module.scss'
@@ -17,9 +17,12 @@ export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isValid },
   } = useForm<LoginArgs>({
     defaultValues: { email: '', password: '' },
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   })
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -29,7 +32,8 @@ export const SignInForm = () => {
     try {
       const response = await loginUser(data).unwrap()
       sessionStorage.setItem('access-token', response.accessToken)
-      dispatch(setIsLoggedIn(true))
+      dispatch(setIsLoggedIn(true)) // todo: изменить на "вызываем authMe"
+      reset()
       router.push('/')
     } catch (err) {
       console.log('Login failed:', err)
@@ -79,6 +83,19 @@ export const SignInForm = () => {
             autoComplete="current-password"
             {...register('password', {
               required: 'Password is required', // Обязательное поле
+              minLength: {
+                value: 6,
+                message: 'Password must be at least 6 characters',
+              },
+              maxLength: {
+                value: 20,
+                message: 'Password must be at most 20 characters',
+              },
+              pattern: {
+                value: PASSWORD_REGEX,
+                message:
+                  'Password should contain letters, numbers and special characters',
+              },
             })}
           />
         </div>
@@ -91,7 +108,7 @@ export const SignInForm = () => {
           <Button
             variant="default"
             type="submit"
-            disabled={isLoading || !!errors.email || !!errors.password}
+            disabled={!isValid || isLoading}
           >
             Sign In
           </Button>
