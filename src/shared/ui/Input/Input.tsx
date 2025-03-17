@@ -1,3 +1,5 @@
+'use client'
+
 import { Eye, EyeOff, Search } from 'lucide-react'
 import { InputHTMLAttributes, useState } from 'react'
 
@@ -31,7 +33,7 @@ type InputProps = {
 export const Input = ({
   variant = 'default',
   error,
-  helperText,
+
   disabled,
   className,
   label,

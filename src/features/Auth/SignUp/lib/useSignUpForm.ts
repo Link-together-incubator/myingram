@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { useRegisterUserMutation } from '@/entities/user/api/userApi'
 import { LoginPayload } from '@/entities/user/user.types'
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 
 export const useSignUpForm = () => {
@@ -48,7 +48,7 @@ export const useSignUpForm = () => {
 
       reset()
     } catch (error) {
-      console.error('Registration failed:', error)
+      console.log('Registration failed:', error)
     }
   }
 

@@ -2,28 +2,30 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 import { useVerifyEmailQuery } from '@/entities/user/api/userApi'
+import { ROUTES } from '@/shared/constants/routes'
+import { withToken, WithTokenProps } from '@/shared/lib/hocs/withToken'
 
 import s from './ConfirmEmail.module.scss'
 
-export function ConfirmEmail() {
+type ConfirmEmailProps = WithTokenProps
+
+const ConfirmEmail = ({ token = '' }: ConfirmEmailProps) => {
+  const { error, isLoading } = useVerifyEmailQuery(token)
   const router = useRouter()
-  const params = useSearchParams()
-  const tokenFromQuery = params.get('code')
 
-  const { error, isLoading } = useVerifyEmailQuery(
-    tokenFromQuery ? tokenFromQuery : '',
-  )
-
-  if (error) {
-    router.push('./link-expired')
-    return null
-  }
+  useEffect(() => {
+    if (error) {
+      router.push(ROUTES.LINK_EXPIRED)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error])
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <p>Loading...</p> // todo: сделать адекватный лоадер
   }
 
   return (
@@ -33,7 +35,14 @@ export function ConfirmEmail() {
       <Link href="/sign-in" className={s.signInLink}>
         Sign In
       </Link>
-      <Image src="/assets/images/bro.png" width={432} height={300} alt="hi" />
+      <Image
+        src="/assets/images/congratulations.png"
+        width={432}
+        height={300}
+        alt="hi"
+      />
     </div>
   )
 }
+
+export default withToken(ConfirmEmail)

@@ -27,16 +27,29 @@ export const RecaptchaForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const captchaContainer = document.getElementById('captcha_container')
+
+    // Проверяем, существует ли grecaptcha и не была ли уже отрендерена капча
+    if (
+      window.grecaptcha &&
+      captchaContainer &&
+      !captchaContainer.querySelector('iframe')
+    ) {
+      window.grecaptcha.render('captcha_container', {
+        sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+        theme: 'dark',
+        callback: handleRecaptchaSuccess,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div
       className={`${cls.container} ${isShowRequiredMessage ? cls.requiredMessage : ''}`}
+      id="captcha_container"
     >
-      <div
-        className="g-recaptcha"
-        data-theme="dark"
-        data-sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-        data-callback="handleRecaptchaSuccess"
-      ></div>
       {isShowRequiredMessage && (
         <p className={cls.text}>Please verify that you are not a robot</p>
       )}

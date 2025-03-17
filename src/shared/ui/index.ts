@@ -1,3 +1,5 @@
+export { Loader } from './Loaders/Loaders'
+
 export { ProgressBar } from './Progress-Bar/ProgressBar'
 
 export { RecaptchaForm } from './Recaptcha-Form/RecaptchaForm'

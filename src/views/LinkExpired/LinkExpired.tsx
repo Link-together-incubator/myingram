@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 
 import { useVerifyResendMutation } from '@/entities/user/api/userApi'
 import { VerificationPayload } from '@/entities/user/user.types'
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { EMAIL_REGEX } from '@/shared/lib/validators'
+import { EMAIL_REGEX } from '@/shared/constants/validators'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 import { Button, Input } from '@/shared/ui'
 
@@ -29,6 +29,7 @@ export function LinkExpired() {
 
   const onSubmit = (data: VerificationPayload) => {
     verifyResend(data)
+      .unwrap()
       .then(() => {
         dispatch(
           setIsShowEmailSentModal({
@@ -37,9 +38,10 @@ export function LinkExpired() {
             title: 'Email sent',
           }),
         )
-      })
-      .finally(() => {
         reset()
+      })
+      .catch((err) => {
+        console.log('Resend failed:', err)
       })
   }
 
@@ -53,17 +55,15 @@ export function LinkExpired() {
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
           variant={'email'}
+          error={errors.email?.message}
           {...register('email', {
             required: 'Please enter your email',
             pattern: {
               value: EMAIL_REGEX,
-              message: 'The email must match the format \nexample@example.com',
+              message: 'The email must match the format\nexample@example.com',
             },
           })}
         />
-        {errors.email && (
-          <span className={s.error}>{errors.email.message}</span>
-        )}
         <Button disabled={isLoading} variant={'default'} type={'submit'}>
           Resend verification link
         </Button>

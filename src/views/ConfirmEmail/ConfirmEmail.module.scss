@@ -24,7 +24,6 @@
   text-align: center;
   color: var(--foreground-1);
   margin-bottom: 54px;
-
 }
 
 .signInLink {
@@ -37,6 +36,9 @@
   border-radius: 2px;
   padding: 6px 24px;
   margin-bottom: 72px;
+  transition: opacity 0.3s ease;
 
-
+  &:hover {
+    opacity: 0.9;
+  }
 }

@@ -30,6 +30,7 @@ type ButtonProps = {
   asChild?: boolean
   disabled?: boolean
   href?: string
+  isA?: boolean
   children?: React.ReactNode
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>
 } & React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>
@@ -41,10 +42,11 @@ export const Button = ({
   disabled,
   onClick,
   className,
+  isA,
   href,
   ...props
 }: ButtonProps) => {
-  const isLink = variant === 'link'
+  const isLink = variant === 'link' || isA
 
   const Comp = asChild ? Slot : isLink ? Link : 'button'
 

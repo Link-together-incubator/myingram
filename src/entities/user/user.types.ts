@@ -13,22 +13,6 @@ export type LoginResponse = {
   accessToken: string
 }
 
-export type User = {
-  id: string
-  createdAt: string
-  updatedAt: string
-  deletedAt: string | null
-  email: string
-  name: string
-  confirmationCode: string
-  codeExpiration: string
-  isConfirmed: boolean
-  recoveryCode: string | null
-  passwordHash: string
-  expirationDate: string | null
-}
-
-export type UserValidationPayload = { name: string; email: string }
 export type LoginPayload = {
   username: string
   email: string
@@ -38,4 +22,11 @@ export type LoginPayload = {
 
 export type VerificationPayload = {
   email: string
+}
+
+export type AuthMeResponse = {
+  id: string
+  name: string
+  email: string
+  isConfirmed: string
 }

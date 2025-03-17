@@ -16,7 +16,7 @@ export function SignUp() {
         <div className={s.imageBlock}>
           <Link href={'#google'}>
             <Image
-              src="/assets/images/google.png"
+              src="/assets/svg/google.svg"
               width={36}
               height={36}
               alt="hi"
@@ -24,7 +24,7 @@ export function SignUp() {
           </Link>
           <Link href={'#github'}>
             <Image
-              src="/assets/images/gitHub.png"
+              src="/assets/svg/github.svg"
               width={36}
               height={36}
               alt="hi"

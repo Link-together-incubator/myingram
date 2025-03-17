@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  max-width: 386px;
 }
 
 .wrapper {
   position: relative;
-
 }
 
 .link {
@@ -24,7 +24,6 @@
   font-size: 14px;
   line-height: 24px;
   vertical-align: middle;
-
 }
 
 .additionalErrorStyle {
@@ -34,6 +33,3 @@
 .errorWrapper {
   height: 24px;
 }
-
-
-

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { X } from 'lucide-react'
 import { useEffect } from 'react'
 
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setAppError } from '@/shared/model/appSlice'
 
 import cls from './Alert.module.scss'

@@ -1,4 +1,4 @@
-export { ConfirmEmail } from './ConfirmEmail/ConfirmEmail'
+export { default as ConfirmEmail } from './ConfirmEmail/ConfirmEmail'
 
 export { LinkExpired } from './LinkExpired/LinkExpired'
 

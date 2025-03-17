@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useRecoveryPasswordMutation } from '@/entities/user/api/userApi'
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { EMAIL_REGEX } from '@/shared/lib/validators'
+import { EMAIL_REGEX } from '@/shared/constants/validators'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 import { Button, Input, RecaptchaForm } from '@/shared/ui'
 
@@ -67,7 +67,7 @@ export function PasswordRecoveryForm() {
         <Input
           autoComplete="email"
           type="email"
-          error={errors.email ? errors.email.message : null}
+          error={errors.email?.message}
           className={cls.input}
           variant="email"
           {...register('email', {

@@ -29,6 +29,10 @@ export const appSlice = createSlice({
         }
       }
     }),
+
+    setStatus: create.reducer<RequestStatus>((state, action) => {
+      state.status = action.payload
+    }),
   }),
   extraReducers: (builder) => {
     builder
@@ -49,7 +53,8 @@ export const appSlice = createSlice({
   },
 })
 
-export const { setAppError, setIsShowEmailSentModal } = appSlice.actions
+export const { setAppError, setIsShowEmailSentModal, setStatus } =
+  appSlice.actions
 export const { selectShowEmailSentModal, selectStatusRequest, selectError } =
   appSlice.selectors
 export const appReducer = appSlice.reducer

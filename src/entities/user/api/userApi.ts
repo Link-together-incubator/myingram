@@ -1,12 +1,12 @@
 import { baseApi } from '@/shared/api/baseApi'
 
 import {
+  AuthMeResponse,
   LoginArgs,
   LoginResponse,
   PasswordRecoveryPayload,
   PasswordResetPayload,
   SignUpPayload,
-  UserValidationPayload,
   VerificationPayload,
 } from '../user.types'
 
@@ -58,15 +58,15 @@ export const userApi = baseApi.injectEndpoints({
     verifyEmail: builder.query<void, string>({
       query: (token: string) => {
         return {
-          url: token ? `auth/verify-email?token=${token}` : `auth/verify-email`,
+          url: `auth/verify-email?token=${token}`,
           method: 'GET',
         }
       },
     }),
-    userValidationForSignUp: builder.query<boolean, UserValidationPayload>({
-      query: ({ name, email }) => {
+    authMe: builder.query<AuthMeResponse, void>({
+      query: () => {
         return {
-          url: `users/validation?name=${name}&email=${email}`,
+          url: `auth/me`,
           method: 'GET',
         }
       },
@@ -81,5 +81,6 @@ export const {
   useLoginUserMutation,
   useVerifyResendMutation,
   useVerifyEmailQuery,
-  useLazyUserValidationForSignUpQuery,
+  useAuthMeQuery,
+  useLazyAuthMeQuery,
 } = userApi
