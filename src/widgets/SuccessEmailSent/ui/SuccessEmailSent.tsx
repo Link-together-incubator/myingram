@@ -1,6 +1,6 @@
 import { X } from 'lucide-react'
 
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 

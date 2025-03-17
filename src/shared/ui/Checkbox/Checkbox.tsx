@@ -8,7 +8,7 @@ import { cn } from '@/shared/lib/css'
 
 type Props = {
   id: string
-  label?: string
+  label?: string | React.ReactNode
   className?: string
 } & React.ComponentProps<typeof CheckboxPrimitive.Root>
 
@@ -16,9 +16,7 @@ function Checkbox({ className, id, label, ...props }: Props) {
   return (
     <label
       htmlFor={id}
-      className={cn(
-        'items-top flex space-x-2 gap-2 text-sm text-secondary-foreground',
-      )}
+      className={cn('items-top flex gap-2 text-sm text-secondary-foreground ')}
     >
       <CheckboxPrimitive.Root
         id={id}

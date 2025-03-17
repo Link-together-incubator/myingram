@@ -2,28 +2,20 @@
 
 import { BellRing } from 'lucide-react'
 
+import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { ROUTES } from '@/shared/constants/routes'
 import { Button } from '@/shared/ui'
 
 import s from './Header.module.scss'
 
 export function Header() {
-  const isLoggedIn = true
-
-  const onLogInHandler = () => {
-    // Log in logic goes here
-    console.log('Logged in!')
-  }
-
-  const onSignUpHandler = () => {
-    // Sign up logic goes here
-    console.log('Signed up!')
-  }
+  const { data } = useAuthMeQuery(undefined, { skip: true })
 
   return (
     <header className={s.header}>
       <div className={s['header-container']}>
         <div className={s['header-container-title']}>Inctagram</div>
-        {isLoggedIn ? (
+        {data ? (
           <div className={s['header-container-btns']}>
             <BellRing className="cursor-pointer" />
             <select name="language" id="1">
@@ -37,10 +29,10 @@ export function Header() {
               <option value="english">English</option>
               <option value="russian">Russian</option>
             </select>
-            <Button variant={'secondary'} onClick={onLogInHandler}>
-              Log in
+            <Button href={ROUTES.SIGN_IN} variant={'link'}>
+              Sign in
             </Button>
-            <Button variant={'secondary'} onClick={onSignUpHandler}>
+            <Button isA href={ROUTES.SIGN_UP} variant={'default'}>
               Sign up
             </Button>
           </div>

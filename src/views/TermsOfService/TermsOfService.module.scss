@@ -1,0 +1,28 @@
+.wrapper {
+  max-width: 958px;
+  margin-top: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--foreground-1);
+  gap: 20px;
+  padding-bottom: 227px;
+}
+
+
+.text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+
+}
+
+.main {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 36px;
+
+}

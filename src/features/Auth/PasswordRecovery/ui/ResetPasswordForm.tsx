@@ -1,21 +1,22 @@
 'use client'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { useResetPasswordMutation } from '@/entities/user/api/userApi'
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { withToken, WithTokenProps } from '@/shared/lib/hocs/withToken'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 import { Button, Input } from '@/shared/ui'
 
 import cls from './ResetPasswordForm.module.scss'
 
-interface PasswordFormInputs {
+type PasswordFormInputs = {
   newPassword: string
   confirmPassword: string
 }
 
-export function ResetPasswordForm() {
+type ResetPasswordFormProps = WithTokenProps
+
+function ResetPasswordForm({ token = '' }: ResetPasswordFormProps) {
   const {
     register,
     handleSubmit,
@@ -25,17 +26,7 @@ export function ResetPasswordForm() {
 
   const [resetPassword, { isLoading }] = useResetPasswordMutation()
 
-  const params = useSearchParams()
-  const token = params.get('code') ?? ''
-  const router = useRouter()
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (token === '') {
-      router.push('/')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const onSubmit: SubmitHandler<PasswordFormInputs> = (data) => {
     resetPassword({ password: data.newPassword, recoveryCode: token }).then(
@@ -60,7 +51,7 @@ export function ResetPasswordForm() {
         label="New password"
         autoComplete="new-password"
         className={cls.inputs}
-        error={errors.newPassword ? errors.newPassword.message : null}
+        error={errors.newPassword?.message}
         {...register('newPassword', {
           required: 'Password is required',
           minLength: {
@@ -78,7 +69,7 @@ export function ResetPasswordForm() {
         label="Password confirmation"
         autoComplete="new-password"
         className={cls.inputs}
-        error={errors.confirmPassword ? errors.confirmPassword.message : null}
+        error={errors.confirmPassword?.message}
         {...register('confirmPassword', {
           required: 'Password confirmation is required',
           validate: (value) =>
@@ -100,3 +91,5 @@ export function ResetPasswordForm() {
     </form>
   )
 }
+
+export default withToken(ResetPasswordForm)

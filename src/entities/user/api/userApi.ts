@@ -1,11 +1,13 @@
 import { baseApi } from '@/shared/api/baseApi'
 
 import {
+  AuthMeResponse,
   LoginArgs,
   LoginResponse,
   PasswordRecoveryPayload,
   PasswordResetPayload,
   SignUpPayload,
+  VerificationPayload,
 } from '../user.types'
 
 export const userApi = baseApi.injectEndpoints({
@@ -44,6 +46,31 @@ export const userApi = baseApi.injectEndpoints({
         body: payload,
       }),
     }),
+    verifyResend: builder.mutation<void, VerificationPayload>({
+      query: (payload) => {
+        return {
+          url: 'auth/verify-resend',
+          method: 'POST',
+          body: payload,
+        }
+      },
+    }),
+    verifyEmail: builder.query<void, string>({
+      query: (token: string) => {
+        return {
+          url: `auth/verify-email?token=${token}`,
+          method: 'GET',
+        }
+      },
+    }),
+    authMe: builder.query<AuthMeResponse, void>({
+      query: () => {
+        return {
+          url: `auth/me`,
+          method: 'GET',
+        }
+      },
+    }),
   }),
 })
 
@@ -52,4 +79,8 @@ export const {
   useRecoveryPasswordMutation,
   useResetPasswordMutation,
   useLoginUserMutation,
+  useVerifyResendMutation,
+  useVerifyEmailQuery,
+  useAuthMeQuery,
+  useLazyAuthMeQuery,
 } = userApi

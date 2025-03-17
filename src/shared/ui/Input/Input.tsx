@@ -1,4 +1,6 @@
-import { Eye, EyeClosed, Search } from 'lucide-react'
+'use client'
+
+import { Eye, EyeOff, Search } from 'lucide-react'
 import { InputHTMLAttributes, useState } from 'react'
 
 import s from './Input.module.scss'
@@ -31,7 +33,7 @@ type InputProps = {
 export const Input = ({
   variant = 'default',
   error,
-  helperText,
+
   disabled,
   className,
   label,
@@ -64,7 +66,7 @@ export const Input = ({
             className={`${s.eyeButton} ${disabled ? s.disabled : ''}`}
             disabled={disabled}
           >
-            {showPassword ? <EyeClosed size={24} /> : <Eye size={24} />}
+            {showPassword ? <EyeOff size={24} /> : <Eye size={24} />}
           </button>
         )}
       </div>

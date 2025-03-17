@@ -1,14 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useLoginUserMutation } from '@/entities/user/api/userApi'
-import { setIsLoggedIn } from '@/entities/user/model/userSlice'
+import {
+  useLazyAuthMeQuery,
+  useLoginUserMutation,
+} from '@/entities/user/api/userApi'
 import { LoginArgs } from '@/entities/user/user.types'
-import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/shared/lib/validators'
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/shared/constants/validators'
 import { Button, Card, Input } from '@/shared/ui'
 
 import s from './SignInForm.module.scss'
@@ -18,23 +18,21 @@ export const SignInForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<LoginArgs>({
     defaultValues: { email: '', password: '' },
     mode: 'onBlur',
     reValidateMode: 'onBlur',
   })
-  const dispatch = useAppDispatch()
-  const router = useRouter()
+  const [authMe, { isLoading: isLoadingAuthMe }] = useLazyAuthMeQuery()
   const [loginUser, { isLoading }] = useLoginUserMutation()
 
   const onSubmit = async (data: LoginArgs) => {
     try {
       const response = await loginUser(data).unwrap()
       sessionStorage.setItem('access-token', response.accessToken)
-      dispatch(setIsLoggedIn(true)) // todo: изменить на "вызываем authMe"
+      authMe()
       reset()
-      router.push('/')
     } catch (err) {
       console.log('Login failed:', err)
     }
@@ -48,7 +46,7 @@ export const SignInForm = () => {
         <div className={s.imageWrapper}>
           <Link href={'#google'}>
             <Image
-              src="/assets/images/google.svg"
+              src="/assets/svg/google.svg"
               width={36}
               height={36}
               alt="Google Icon"
@@ -56,7 +54,7 @@ export const SignInForm = () => {
           </Link>
           <Link href={'#github'}>
             <Image
-              src="/assets/images/github.svg"
+              src="/assets/svg/github.svg"
               width={36}
               height={36}
               alt="Github Icon"
@@ -108,7 +106,7 @@ export const SignInForm = () => {
           <Button
             variant="default"
             type="submit"
-            disabled={!isValid || isLoading}
+            disabled={isLoading || isLoadingAuthMe}
           >
             Sign In
           </Button>

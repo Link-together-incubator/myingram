@@ -1,0 +1,44 @@
+.wrapper {
+  //margin-top: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  //gap:
+}
+
+.congratulations {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 36px;
+  text-align: center;
+  color: var(--foreground-1);
+  margin-bottom: 19px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: var(--foreground-1);
+  margin-bottom: 54px;
+}
+
+.signInLink {
+  background-color: var(--accent-3);
+  color: var(--foreground-1);
+  width: 182px;
+  height: 36px;
+  text-align: center;
+  border: 1px;
+  border-radius: 2px;
+  padding: 6px 24px;
+  margin-bottom: 72px;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

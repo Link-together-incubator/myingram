@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react'
 
-import { useAppSelector } from '@/shared/hooks/useAppSelector'
+import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
 import { selectError, selectShowEmailSentModal } from '@/shared/model/appSlice'
 import { Alert } from '@/widgets/Alert'
 import { SuccessEmailSent } from '@/widgets/SuccessEmailSent'

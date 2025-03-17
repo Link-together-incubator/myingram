@@ -1,6 +1,8 @@
 'use client'
 
-export default function Layout({
+import { withMainRedirect } from '@/shared/lib/hocs/withMainRedirect'
+
+function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -11,3 +13,5 @@ export default function Layout({
     </div>
   )
 }
+
+export default withMainRedirect(Layout)

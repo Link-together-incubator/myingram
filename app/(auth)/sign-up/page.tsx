@@ -1,5 +1,7 @@
 'use client'
 
-export default function SignIn() {
-  return <div>ЗДЕСЬ БУДЕТ AUTH</div>
+import { SignUp } from '@/views'
+
+export default function SignUpPage() {
+  return <SignUp />
 }

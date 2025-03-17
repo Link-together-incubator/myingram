@@ -3,8 +3,8 @@
 import * as ProgressPrimitive from '@radix-ui/react-progress'
 import * as React from 'react'
 
-import { useAppSelector } from '@/shared/hooks/useAppSelector'
 import { cn } from '@/shared/lib/css'
+import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
 import { selectStatusRequest } from '@/shared/model/appSlice'
 
 const Progress = React.forwardRef<
