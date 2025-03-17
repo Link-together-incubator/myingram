@@ -6,6 +6,7 @@ import { Montserrat } from 'next/font/google'
 import Script from 'next/script'
 
 import { ModalProvider, StoreProvider } from '@/_app/providers'
+import { ProgressBar } from '@/shared/ui'
 import { Header } from '@/widgets/Header'
 
 const montserrat = Montserrat({
@@ -26,6 +27,7 @@ export default function RootLayout({
         <StoreProvider>
           <ModalProvider>
             <Header />
+            <ProgressBar />
             <main>{children}</main>
           </ModalProvider>
         </StoreProvider>

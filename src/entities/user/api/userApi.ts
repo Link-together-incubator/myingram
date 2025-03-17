@@ -1,6 +1,8 @@
 import { baseApi } from '@/shared/api/baseApi'
 
 import {
+  LoginArgs,
+  LoginResponse,
   PasswordRecoveryPayload,
   PasswordResetPayload,
   SignUpPayload,
@@ -37,6 +39,13 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+    loginUser: builder.mutation<LoginResponse, LoginArgs>({
+      query: (payload) => ({
+        url: 'auth/login',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
     verifyResend: builder.mutation<void, VerificationPayload>({
       query: (payload) => {
         return {
@@ -69,6 +78,7 @@ export const {
   useRegisterUserMutation,
   useRecoveryPasswordMutation,
   useResetPasswordMutation,
+  useLoginUserMutation,
   useVerifyResendMutation,
   useVerifyEmailQuery,
   useLazyUserValidationForSignUpQuery,

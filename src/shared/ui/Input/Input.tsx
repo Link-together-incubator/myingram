@@ -22,6 +22,7 @@ const labels: Record<InputType, string> = {
 type InputProps = {
   variant?: InputType
   error?: string | null
+  helperText?: string
   disabled?: boolean
   className?: string
   label?: string
@@ -30,6 +31,7 @@ type InputProps = {
 export const Input = ({
   variant = 'default',
   error,
+  helperText,
   disabled,
   className,
   label,

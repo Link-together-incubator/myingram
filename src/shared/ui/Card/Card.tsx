@@ -56,7 +56,7 @@ function Card({
   title,
   id,
   description,
-  content,
+  children,
   footer,
   className,
   ...props
@@ -75,9 +75,7 @@ function Card({
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <p>{content}</p>
-      </CardContent>
+      <CardContent>{children}</CardContent>
       <CardFooter>
         <p>{footer}</p>
       </CardFooter>
