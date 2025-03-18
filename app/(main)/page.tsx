@@ -1,15 +1,15 @@
 'use client'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { useAuthMeData } from '@/shared/lib/hooks/useAuthMeData'
 
 export default function Home() {
-  const { data } = useAuthMeQuery(undefined, { skip: true })
+  const user = useAuthMeData()
 
   return (
     <div
-      className={`flex gap-72 flex-col pt-[80px] px-9 mx-auto w-full max-w-[1180px]`}
+      className={`flex gap-72 flex-col pt-[80px] px-9 mx-auto w-full max-w-[1180px] text-3xl text-amber-100`}
     >
-      Привет! Твой логин - {data?.name} и ты {!data?.isConfirmed && 'не '}
+      Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
       подтвердил почту
     </div>
   )

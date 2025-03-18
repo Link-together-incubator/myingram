@@ -18,7 +18,7 @@ export const withToken = <P extends object>(Component: ComponentType<P>) => {
 
     useEffect(() => {
       if (!token) {
-        router.replace(ROUTES.SIGN_IN)
+        router.replace(ROUTES.LINK_EXPIRED)
       }
     }, [token, router])
 

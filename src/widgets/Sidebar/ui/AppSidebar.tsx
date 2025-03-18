@@ -7,7 +7,9 @@ import {
   SquarePlus,
   TrendingUp,
 } from 'lucide-react'
+import Link from 'next/link'
 
+import { useLogoutMutation } from '@/entities/user/api/userApi'
 import {
   Sidebar,
   SidebarContent,
@@ -69,6 +71,16 @@ const sidebarFooter = [
 ]
 
 export function AppSidebar() {
+  const [logout, { isLoading }] = useLogoutMutation()
+
+  const handleLogOut = async () => {
+    try {
+      await logout().unwrap()
+    } catch (err) {
+      console.log('Logout failed', err)
+    }
+  }
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -78,10 +90,10 @@ export function AppSidebar() {
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon style={{ width: '24px', height: '24px' }} />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -94,10 +106,10 @@ export function AppSidebar() {
               {secondaryItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon style={{ width: '24px', height: '24px' }} />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -110,10 +122,14 @@ export function AppSidebar() {
           {sidebarFooter.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <a href={item.url}>
+                <button
+                  className="cursor-pointer"
+                  disabled={isLoading}
+                  onClick={handleLogOut}
+                >
                   <item.icon style={{ width: '24px', height: '24px' }} />
                   <span>{item.title}</span>
-                </a>
+                </button>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

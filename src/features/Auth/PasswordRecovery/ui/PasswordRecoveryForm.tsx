@@ -29,7 +29,7 @@ export function PasswordRecoveryForm() {
 
   const [recoveryPassword, { isLoading }] = useRecoveryPasswordMutation()
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     let recaptchaResponse = null
     if (typeof window.grecaptcha !== 'undefined') {
       // Получаем токен reCAPTCHA
@@ -42,22 +42,22 @@ export function PasswordRecoveryForm() {
     }
 
     // запрос
-    recoveryPassword({
-      email: data.email,
-      recaptchaToken: recaptchaResponse,
-    }).then((result) => {
-      grecaptcha.reset()
+    try {
+      await recoveryPassword({
+        email: data.email,
+        recaptchaToken: recaptchaResponse,
+      }).unwrap()
 
-      if ('data' in result) {
-        dispatch(
-          setIsShowEmailSentModal({
-            message: 'We have sent a link to reset your password',
-            title: 'Email sent',
-          }),
-        )
-        reset()
-      }
-    })
+      dispatch(
+        setIsShowEmailSentModal({
+          message: 'We have sent a link to reset your password',
+          title: 'Email sent',
+        }),
+      )
+      reset()
+    } catch (err) {
+      console.log('Send email to reset password failed', err)
+    }
   }
 
   return (

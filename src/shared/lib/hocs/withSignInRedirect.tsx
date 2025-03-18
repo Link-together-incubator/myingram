@@ -3,23 +3,24 @@
 import { useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
 import { ROUTES } from '@/shared/constants/routes'
+
+import { useAuthMeData } from '../hooks/useAuthMeData'
 
 export const withSignInRedirect = <P extends object>(
   Component: ComponentType<P>,
 ) => {
   const WrappedComponent = (props: P) => {
     const router = useRouter()
-    const { data } = useAuthMeQuery(undefined, { skip: true })
+    const user = useAuthMeData()
 
     useEffect(() => {
-      if (!data?.email) {
+      if (!user?.email) {
         router.replace(ROUTES.SIGN_IN)
       }
-    }, [data?.email])
+    }, [user?.email])
 
-    if (!data?.email) return null
+    if (!user?.email) return null
 
     return <Component {...props} />
   }

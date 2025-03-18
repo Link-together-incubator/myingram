@@ -1,8 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 
+import { Services } from '@/features/Auth/Services'
 import { SignUpForm } from '@/features/Auth/SignUp'
 
 import s from './SignUp.module.scss'
@@ -13,24 +13,7 @@ export function SignUp() {
       <div>
         <h1 className={s.main}>Sign Up</h1>
 
-        <div className={s.imageBlock}>
-          <Link href={'#google'}>
-            <Image
-              src="/assets/svg/google.svg"
-              width={36}
-              height={36}
-              alt="hi"
-            />
-          </Link>
-          <Link href={'#github'}>
-            <Image
-              src="/assets/svg/github.svg"
-              width={36}
-              height={36}
-              alt="hi"
-            />
-          </Link>
-        </div>
+        <Services />
       </div>
 
       <SignUpForm />
