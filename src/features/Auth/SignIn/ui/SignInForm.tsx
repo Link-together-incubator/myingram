@@ -1,15 +1,14 @@
-import Image from 'next/image'
-import Link from 'next/link'
+'use client'
+
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 
-import {
-  useLazyAuthMeQuery,
-  useLoginUserMutation,
-} from '@/entities/user/api/userApi'
+import { useLoginUserMutation } from '@/entities/user/api/userApi'
 import { LoginArgs } from '@/entities/user/user.types'
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/shared/constants/validators'
 import { Button, Card, Input } from '@/shared/ui'
+
+import { Services } from '../../Services/ui/Services'
 
 import s from './SignInForm.module.scss'
 
@@ -17,50 +16,20 @@ export const SignInForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<LoginArgs>({
     defaultValues: { email: '', password: '' },
     mode: 'onBlur',
     reValidateMode: 'onBlur',
   })
-  const [authMe, { isLoading: isLoadingAuthMe }] = useLazyAuthMeQuery()
   const [loginUser, { isLoading }] = useLoginUserMutation()
-
-  const onSubmit = async (data: LoginArgs) => {
-    try {
-      const response = await loginUser(data).unwrap()
-      sessionStorage.setItem('access-token', response.accessToken)
-      authMe()
-      reset()
-    } catch (err) {
-      console.log('Login failed:', err)
-    }
-  }
 
   const cardId = useId()
 
   return (
     <Card className={s.card} title="Sign In" id={cardId}>
-      <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={s.imageWrapper}>
-          <Link href={'#google'}>
-            <Image
-              src="/assets/svg/google.svg"
-              width={36}
-              height={36}
-              alt="Google Icon"
-            />
-          </Link>
-          <Link href={'#github'}>
-            <Image
-              src="/assets/svg/github.svg"
-              width={36}
-              height={36}
-              alt="Github Icon"
-            />
-          </Link>
-        </div>
+      <Services />
+      <form className={s.form} onSubmit={handleSubmit(loginUser)}>
         <div className={s.inputWrapper}>
           <Input
             type="email"
@@ -103,11 +72,7 @@ export const SignInForm = () => {
               Forgot Password
             </Button>
           </div>
-          <Button
-            variant="default"
-            type="submit"
-            disabled={isLoading || isLoadingAuthMe}
-          >
+          <Button variant="default" type="submit" disabled={isLoading}>
             Sign In
           </Button>
           <div className={s.signUpWrapper}>

@@ -1,3 +1,5 @@
+export { Info } from './Info/Info'
+
 export { Loader } from './Loaders/Loaders'
 
 export { ProgressBar } from './Progress-Bar/ProgressBar'

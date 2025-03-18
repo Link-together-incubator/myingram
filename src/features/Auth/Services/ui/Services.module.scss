@@ -1,0 +1,10 @@
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 24px;
+
+  & button {
+    cursor: pointer;
+  }
+}

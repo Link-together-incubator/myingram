@@ -1,30 +1,35 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
 import { ROUTES } from '@/shared/constants/routes'
+
+import { useAuthMeData } from '../hooks/useAuthMeData'
 
 export const withMainRedirect = <P extends object>(
   Component: ComponentType<P>,
 ) => {
   const WrappedComponent = (props: P) => {
     const router = useRouter()
-    const { data } = useAuthMeQuery(undefined, { skip: true })
+    const user = useAuthMeData()
+    const path = usePathname()
 
     useEffect(() => {
-      if (data?.email) {
-        router.replace(ROUTES.HOME)
+      // Если пользователь авторизован и находится на странице регистрации или входа
+      if (user?.email && (path === ROUTES.SIGN_IN || path === ROUTES.SIGN_UP)) {
+        router.replace(ROUTES.HOME) // Редирект на главную страницу
       }
-    }, [data?.email])
+    }, [user?.email, path, router])
 
-    if (data?.email) return null
+    if (user?.email && (path === ROUTES.SIGN_IN || path === ROUTES.SIGN_UP)) {
+      return null
+    }
 
     return <Component {...props} />
   }
 
-  WrappedComponent.displayName = `withToken(${Component.displayName || Component.name || 'Component'})`
+  WrappedComponent.displayName = `withMainRedirect(${Component.displayName || Component.name || 'Component'})`
 
   return WrappedComponent
 }

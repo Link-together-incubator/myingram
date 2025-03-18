@@ -2,13 +2,13 @@
 
 import { ReactNode } from 'react'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { useAppStart } from '@/shared/lib/hooks/useAppStart'
 import { Loader } from '@/shared/ui'
 
 export const InitProvider = ({ children }: { children: ReactNode }) => {
-  const { data, isLoading } = useAuthMeQuery()
+  const isInitialLoad = useAppStart()
 
-  if (!data && isLoading) {
+  if (isInitialLoad) {
     return (
       <div className="min-h-screen w-full flex justify-center items-center">
         <Loader />

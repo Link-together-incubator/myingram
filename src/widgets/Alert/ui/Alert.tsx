@@ -28,7 +28,6 @@ export const Alert = ({ data: { message, type } }: AlertProps) => {
     return () => {
       clearInterval(timeoutId)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message])
 
   return (

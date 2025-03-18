@@ -1,21 +1,27 @@
 'use client'
 
 import { BellRing } from 'lucide-react'
+import Link from 'next/link'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
 import { ROUTES } from '@/shared/constants/routes'
+import { useAuthMeData } from '@/shared/lib/hooks/useAuthMeData'
 import { Button } from '@/shared/ui'
 
 import s from './Header.module.scss'
 
 export function Header() {
-  const { data } = useAuthMeQuery(undefined, { skip: true })
+  const user = useAuthMeData()
 
   return (
     <header className={s.header}>
       <div className={s['header-container']}>
-        <div className={s['header-container-title']}>Inctagram</div>
-        {data ? (
+        <Link
+          href={user ? ROUTES.HOME : ROUTES.SIGN_IN}
+          className={s['header-container-title']}
+        >
+          Inctagram
+        </Link>
+        {user ? (
           <div className={s['header-container-btns']}>
             <BellRing className="cursor-pointer" />
             <select name="language" id="1">

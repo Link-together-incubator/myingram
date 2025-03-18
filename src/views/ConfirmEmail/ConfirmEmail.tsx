@@ -21,7 +21,6 @@ const ConfirmEmail = ({ token = '' }: ConfirmEmailProps) => {
     if (error) {
       router.push(ROUTES.LINK_EXPIRED)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   if (isLoading) {

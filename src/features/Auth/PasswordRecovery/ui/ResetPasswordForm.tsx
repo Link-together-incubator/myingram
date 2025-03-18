@@ -21,6 +21,7 @@ function ResetPasswordForm({ token = '' }: ResetPasswordFormProps) {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<PasswordFormInputs>()
 
@@ -28,17 +29,23 @@ function ResetPasswordForm({ token = '' }: ResetPasswordFormProps) {
 
   const dispatch = useAppDispatch()
 
-  const onSubmit: SubmitHandler<PasswordFormInputs> = (data) => {
-    resetPassword({ password: data.newPassword, recoveryCode: token }).then(
-      () => {
-        dispatch(
-          setIsShowEmailSentModal({
-            message: 'Your password has been successfully changed',
-            title: 'Password was changed',
-          }),
-        )
-      },
-    )
+  const onSubmit: SubmitHandler<PasswordFormInputs> = async (data) => {
+    try {
+      await resetPassword({
+        password: data.newPassword,
+        recoveryCode: token,
+      }).unwrap()
+
+      dispatch(
+        setIsShowEmailSentModal({
+          message: 'Your password has been successfully changed',
+          title: 'Password was changed',
+        }),
+      )
+      reset()
+    } catch (err) {
+      console.log('Reset password failed', err)
+    }
   }
 
   const newPassword = watch('newPassword')
