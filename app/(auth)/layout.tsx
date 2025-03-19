@@ -8,7 +8,9 @@ function Layout({
   children: React.ReactNode
 }>) {
   return (
-    <div className={`flex justify-center items-center min-h-screen`}>
+    <div
+      className={`flex justify-center items-center min-h-screen pt-24 pb-16`}
+    >
       {children}
     </div>
   )
