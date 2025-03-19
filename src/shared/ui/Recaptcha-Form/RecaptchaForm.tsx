@@ -24,7 +24,6 @@ export const RecaptchaForm = ({
     return () => {
       delete window.handleRecaptchaSuccess
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export const RecaptchaForm = ({
         callback: handleRecaptchaSuccess,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

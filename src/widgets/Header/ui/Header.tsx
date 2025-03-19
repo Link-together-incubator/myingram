@@ -3,8 +3,8 @@
 import { BellRing } from 'lucide-react'
 import Link from 'next/link'
 
+import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
 import { ROUTES } from '@/shared/constants/routes'
-import { useAuthMeData } from '@/shared/lib/hooks/useAuthMeData'
 import { Button } from '@/shared/ui'
 
 import s from './Header.module.scss'

@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuthMeData } from '@/shared/lib/hooks/useAuthMeData'
+import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
 
 export default function Home() {
   const user = useAuthMeData()

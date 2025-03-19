@@ -5,7 +5,7 @@ import { ComponentType, useEffect } from 'react'
 
 import { ROUTES } from '@/shared/constants/routes'
 
-import { useAuthMeData } from '../hooks/useAuthMeData'
+import { useAuthMeData } from '../../../entities/user/lib/useAuthMeData'
 
 export const withMainRedirect = <P extends object>(
   Component: ComponentType<P>,

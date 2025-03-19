@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react'
 
-import { useAppStart } from '@/shared/lib/hooks/useAppStart'
+import { useAppStart } from '@/_app/lib/useAppStart'
 import { Loader } from '@/shared/ui'
 
 export const InitProvider = ({ children }: { children: ReactNode }) => {

@@ -12,7 +12,7 @@ import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
 
 import { cn } from '@/shared/lib/css'
-import { useIsMobile } from '@/shared/lib/hooks/use-mobile'
+import { useIsMobile } from '@/shared/lib/hooks/useMobile'
 import { Button } from '@/shared/ui/Button/Button'
 import { Separator } from '@/shared/ui/Separator/Separator'
 import {
