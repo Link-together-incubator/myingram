@@ -1,0 +1,78 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  transition: opacity 0.3s ease-out;
+}
+
+.modal {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 2px;
+  background-color: var(--background-2);
+  border: 1px solid var(--background-1);
+  animation: scaleIn 0.3s ease-out; /* Новая анимация для модального окна */
+  transform-origin: center; /* Точка преобразования для анимации */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--background-1);
+  padding: 12px 24px;
+}
+
+.title {
+  font: var(--font-h2);
+  color: var(--foreground-1);
+}
+
+.closeButton {
+  cursor: pointer;
+  color: #a1a1aa;
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.content {
+  padding: 50px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageContainer {
+  background-color: var(--background-3);
+  width: 100%;
+  max-width: 255px;
+  height: 228px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer {
+  margin-top: 20px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column; /* Расположение по вертикали */
+  gap: 10px; /* Отступ между кнопками */
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  max-width: 255px;
+  border-radius: 2px;
+}
+

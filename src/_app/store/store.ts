@@ -1,11 +1,16 @@
 import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit'
 
+import {
+  postReducer,
+  postSlice,
+} from '@/features/post/createPost/model/postSlice'
 import { baseApi } from '@/shared/api/baseApi'
 
 import { appReducer, appSlice } from '../../shared/model/appSlice'
 
 const rootReducer = combineReducers({
   [appSlice.name]: appReducer,
+  [postSlice.name]: postReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 })
 

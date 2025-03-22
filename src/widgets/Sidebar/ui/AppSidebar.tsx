@@ -10,6 +10,8 @@ import {
 import Link from 'next/link'
 
 import { useLogoutMutation } from '@/entities/user/api/userApi'
+import { setIsShowCreatePostModal } from '@/features/post/createPost/model/postSlice'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import {
   Sidebar,
   SidebarContent,
@@ -72,6 +74,7 @@ const sidebarFooter = [
 
 export function AppSidebar() {
   const [logout, { isLoading }] = useLogoutMutation()
+  const dispatch = useAppDispatch()
 
   const handleLogOut = async () => {
     try {
@@ -89,7 +92,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    asChild
+                    onClick={
+                      item.title === 'Create'
+                        ? () => dispatch(setIsShowCreatePostModal('addPhoto'))
+                        : undefined
+                    }
+                  >
                     <Link href={item.url}>
                       <item.icon style={{ width: '24px', height: '24px' }} />
                       <span>{item.title}</span>
