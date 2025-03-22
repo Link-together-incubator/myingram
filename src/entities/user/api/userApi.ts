@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN } from '@/shared/constants/const'
 import { resetState } from '@/shared/lib/utils/resetStoreAction'
 
 import {
@@ -50,7 +51,7 @@ export const userApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const response = await queryFulfilled.catch(console.log)
         if (response) {
-          localStorage.setItem('access-token', response!.data.accessToken)
+          localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
           await dispatch(userApi.endpoints.authMe.initiate())
         }
       },
@@ -95,7 +96,7 @@ export const userApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         await queryFulfilled.catch(console.log)
-        localStorage.removeItem('access-token')
+        localStorage.removeItem(ACCESS_TOKEN)
 
         dispatch(baseApi.util.resetApiState())
         dispatch(resetState())
