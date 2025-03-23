@@ -39,7 +39,7 @@ export const CreatePostForm = () => {
 
   const CurrentStepComponent = steps[currentStep]
   const props = stepsState[currentStep]
-  console.log(stepsState)
+  console.log(props)
 
   return (
     <div>
@@ -59,7 +59,9 @@ export const CreatePostForm = () => {
             Next
           </Button>
         ) : (
-          <Button variant={'outline'}>Create Post</Button>
+          <Button disabled={!isValid} variant={'outline'}>
+            Create Post
+          </Button>
         )}
       </div>
       <CurrentStepComponent

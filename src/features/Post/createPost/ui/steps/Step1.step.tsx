@@ -5,9 +5,11 @@ import { Input } from '@/shared/ui'
 
 import { BasicStepProps } from './steps.types'
 
-type Step1Props = BasicStepProps & {
+type StepProps = {
   text: string
 }
+
+type Step1Props = BasicStepProps<StepProps> & StepProps
 
 export const Step1 = ({
   setIsValid,
