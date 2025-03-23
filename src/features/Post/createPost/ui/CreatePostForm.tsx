@@ -1,75 +1,99 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
+import { selectUserChoice, setPrompt } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 
-import { Step1 } from './steps/Step1.step'
+import { useStepsProcess } from '../lib/useStepsProcess'
+
+import styles from './CreatePostForm.module.scss'
+import { AddPhoto } from './steps/AddPhoto/AddPhoto.step'
 import { Step2 } from './steps/Step2.step'
 import { Step3 } from './steps/Step3.step'
+import { StepsType } from './steps/steps.types'
 
-const steps = [Step1, Step2, Step3]
+const steps: StepsType[] = [AddPhoto, Step2, Step3]
+const titles: string[] = ['Add photo', 'Step1', 'Step2']
 
 export const CreatePostForm = () => {
-  const [currentStep, setCurrentStep] = useState(0)
-  const [isValid, setIsValid] = useState(false)
-  const [stepsState, setStepsState] = useState(Array(steps.length).fill(null))
+  const {
+    CurrentStepComponent,
+    props,
+    handleBack,
+    handleChangeStepsState,
+    handleNext,
+    isValid,
+    setIsValid,
+    currentStep,
+    currentTitle,
+  } = useStepsProcess(steps, titles)
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1)
+  const dispatch = useAppDispatch()
+
+  const handleOnClose = () => {
+    dispatch(
+      setPrompt({
+        state: {
+          cancelText: 'Discard',
+          confirmText: 'Save draft',
+          message:
+            'Do you really want to close the creation of a publication? If you close everything will be deleted',
+          title: 'Close',
+        },
+        userChoice: null,
+      }),
+    )
+  }
+
+  const userChoice = useAppSelector(selectUserChoice)
+
+  useEffect(() => {
+    if (userChoice === null) return
+
+    if (userChoice) {
+      console.log('Пользователь подтвердил')
+    } else {
+      console.log('Пользователь отменил')
     }
-  }
 
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1)
-    }
-  }
-
-  const handleChangeStepsState = (inx: number, state: object) => {
-    setStepsState((prevState) => {
-      return prevState.map((obj, i) => {
-        if (i === inx) {
-          return state
-        } else {
-          return obj
-        }
-      })
-    })
-  }
-
-  const CurrentStepComponent = steps[currentStep]
-  const props = stepsState[currentStep]
-  console.log(props)
+    dispatch(setPrompt({ state: null, userChoice: null }))
+  }, [userChoice])
 
   return (
-    <div>
-      <div className="flex max-w-[500px] justify-between">
-        {currentStep <= 0 ? (
-          <Button variant={'outline'}>Cancel</Button>
-        ) : (
-          <Button variant={'outline'} onClick={handleBack}>
-            Back
-          </Button>
-        )}
-        <p>
-          {currentStep + 1} / {steps.length}
-        </p>
-        {currentStep < steps.length - 1 ? (
-          <Button disabled={!isValid} variant={'outline'} onClick={handleNext}>
-            Next
-          </Button>
-        ) : (
-          <Button disabled={!isValid} variant={'outline'}>
-            Create Post
-          </Button>
-        )}
+    <div className={styles.overlay}>
+      <div className={styles.modal}>
+        <div className={styles.header}>
+          {currentStep <= 0 ? (
+            <Button onClick={handleOnClose} variant={'outline'}>
+              Cancel
+            </Button>
+          ) : (
+            <Button variant={'outline'} onClick={handleBack}>
+              Back
+            </Button>
+          )}
+          <h2 className={styles.title}>{currentTitle}</h2>
+          {currentStep < steps.length - 1 ? (
+            <Button
+              disabled={!isValid}
+              variant={'outline'}
+              onClick={handleNext}
+            >
+              Next
+            </Button>
+          ) : (
+            <Button disabled={!isValid} variant={'outline'}>
+              Create Post
+            </Button>
+          )}
+        </div>
+        <CurrentStepComponent
+          setIsValid={setIsValid}
+          setStepsState={handleChangeStepsState}
+          {...props}
+        />
       </div>
-      <CurrentStepComponent
-        setIsValid={setIsValid}
-        setStepsState={handleChangeStepsState}
-        stepIndex={currentStep}
-        {...props}
-      />
     </div>
   )
 }

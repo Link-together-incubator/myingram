@@ -14,7 +14,7 @@ type Step1Props = BasicStepProps<StepProps> & StepProps
 export const Step1 = ({
   setIsValid,
   setStepsState,
-  stepIndex,
+
   text,
 }: Step1Props) => {
   const {
@@ -24,16 +24,15 @@ export const Step1 = ({
   } = useForm({ defaultValues: { text } })
 
   useEffect(() => {
-    console.log('STEPS', isValid)
     setIsValid(isValid)
   }, [isValid])
 
   useEffect(() => {
     return () => {
       const inputValue = watch('text')
-      console.log(inputValue)
+
       // в объект кидаешь что хочешь
-      setStepsState(stepIndex, { text: inputValue })
+      setStepsState({ text: inputValue })
     }
   }, [])
 

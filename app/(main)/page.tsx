@@ -1,7 +1,6 @@
 'use client'
 
 import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
-import { CreatePostForm } from '@/features/Post/createPost'
 
 export default function Home() {
   const user = useAuthMeData()
@@ -12,7 +11,7 @@ export default function Home() {
     >
       Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
       подтвердил почту
-      <CreatePostForm />
+      <div className="h-[1000px]"></div>
     </div>
   )
 }
