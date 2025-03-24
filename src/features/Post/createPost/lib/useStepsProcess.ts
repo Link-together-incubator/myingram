@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { setAppAlert } from '@/shared/model/appSlice'
+
 import { StepsType } from '../ui/steps/steps.types'
 
 export const useStepsProcess = <T extends StepsType>(
@@ -9,6 +12,17 @@ export const useStepsProcess = <T extends StepsType>(
   const [currentStep, setCurrentStep] = useState(0)
   const [isValid, setIsValid] = useState(false)
   const [stepsState, setStepsState] = useState(Array(steps.length).fill(null))
+
+  const dispatch = useAppDispatch()
+
+  const handleOnOpenDraft = () => {
+    const str = sessionStorage.getItem('draft')
+    if (str) {
+      setStepsState(JSON.parse(str))
+    } else {
+      dispatch(setAppAlert({ type: 'error', message: 'Your draft is empty' }))
+    }
+  }
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -24,7 +38,7 @@ export const useStepsProcess = <T extends StepsType>(
 
   const handleChangeStepsState = function (inx: number, state: object) {
     setStepsState((prevState) => {
-      return prevState.map((obj, i) => (i === inx ? state : obj))
+      return prevState.map((obj, i) => (i === inx ? { ...obj, ...state } : obj))
     })
   }.bind(null, currentStep)
 
@@ -42,5 +56,7 @@ export const useStepsProcess = <T extends StepsType>(
     props,
     currentStep,
     currentTitle,
+    stepsState,
+    handleOnOpenDraft,
   }
 }

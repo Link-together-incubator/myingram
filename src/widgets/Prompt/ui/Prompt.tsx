@@ -13,6 +13,7 @@ export type PromptProps = {
   message: string
   confirmText: string
   cancelText: string
+  promptId: string
 }
 
 export const Prompt = ({
@@ -20,6 +21,7 @@ export const Prompt = ({
   title,
   confirmText,
   cancelText,
+  promptId,
 }: PromptProps) => {
   const dispatch = useAppDispatch()
 
@@ -28,11 +30,15 @@ export const Prompt = ({
   }
 
   const handleOnCancel = () => {
-    dispatch(setPrompt({ state: null, userChoice: false }))
+    dispatch(
+      setPrompt({ state: null, userChoice: { isConfirmed: false, promptId } }),
+    )
   }
 
   const handleOnConfirm = () => {
-    dispatch(setPrompt({ state: null, userChoice: true }))
+    dispatch(
+      setPrompt({ state: null, userChoice: { isConfirmed: true, promptId } }),
+    )
   }
 
   return (

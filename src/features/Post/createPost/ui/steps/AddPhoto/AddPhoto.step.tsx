@@ -1,19 +1,20 @@
 'use client'
 import Image from 'next/image'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef } from 'react'
 
 import { Button, Input } from '@/shared/ui'
 
+import { getValuesWithoutUndefined } from '../../../lib/getValuesWithoutUndefined'
 import { AppPhoto } from '../steps.types'
 
 import styles from './AddPhoto.module.scss'
 
 export const AddPhoto = ({
-  url = null,
+  url,
   setIsValid,
   setStepsState,
+  handleOnOpenDraft,
 }: AppPhoto) => {
-  const [selectedImage, setSelectedImage] = useState<null | string>(url)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const openFileDialog = () => {
@@ -26,26 +27,20 @@ export const AddPhoto = ({
       const file = event.target.files[0]
       if (file) {
         const imageUrl = URL.createObjectURL(file)
-        setSelectedImage(imageUrl)
+        setStepsState(getValuesWithoutUndefined({ url: imageUrl }))
       }
     }
   }
 
   useEffect(() => {
-    return () => {
-      setStepsState({ url: selectedImage })
-    }
-  }, [selectedImage])
-
-  useEffect(() => {
-    setIsValid(!!selectedImage)
-  }, [selectedImage])
+    setIsValid(!!url)
+  }, [url])
 
   return (
     <>
       <div>
-        {selectedImage ? (
-          <Image src={selectedImage} alt="Selected" width={100} height={100} />
+        {url ? (
+          <Image src={url} alt="Selected" width={100} height={100} />
         ) : (
           <div className={styles.content}>
             <div className={styles.imageContainer}>
@@ -76,7 +71,11 @@ export const AddPhoto = ({
         >
           Select from computer
         </Button>
-        <Button variant={'secondary'} className={styles.button}>
+        <Button
+          onClick={handleOnOpenDraft}
+          variant={'secondary'}
+          className={styles.button}
+        >
           Open Draft
         </Button>
       </div>

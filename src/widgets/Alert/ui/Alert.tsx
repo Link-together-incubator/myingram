@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import { useEffect } from 'react'
 
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
-import { setAppError } from '@/shared/model/appSlice'
+import { setAppAlert } from '@/shared/model/appSlice'
 
 import cls from './Alert.module.scss'
 
@@ -19,7 +19,7 @@ export const Alert = ({ data: { message, type } }: AlertProps) => {
   const dispatch = useAppDispatch()
 
   const closeAlertCallback = () => {
-    dispatch(setAppError(null))
+    dispatch(setAppAlert(null))
   }
 
   useEffect(() => {

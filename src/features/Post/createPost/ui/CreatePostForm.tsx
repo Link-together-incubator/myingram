@@ -2,7 +2,12 @@ import { useEffect } from 'react'
 
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
-import { selectUserChoice, setPrompt } from '@/shared/model/appSlice'
+import {
+  selectUserChoice,
+  setAppAlert,
+  setCreatePostModal,
+  setPrompt,
+} from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 
 import { useStepsProcess } from '../lib/useStepsProcess'
@@ -15,6 +20,7 @@ import { StepsType } from './steps/steps.types'
 
 const steps: StepsType[] = [AddPhoto, Step2, Step3]
 const titles: string[] = ['Add photo', 'Step1', 'Step2']
+const PROMPT_ID = 'createPost'
 
 export const CreatePostForm = () => {
   const {
@@ -27,6 +33,8 @@ export const CreatePostForm = () => {
     setIsValid,
     currentStep,
     currentTitle,
+    stepsState,
+    handleOnOpenDraft,
   } = useStepsProcess(steps, titles)
 
   const dispatch = useAppDispatch()
@@ -40,6 +48,7 @@ export const CreatePostForm = () => {
           message:
             'Do you really want to close the creation of a publication? If you close everything will be deleted',
           title: 'Close',
+          promptId: PROMPT_ID,
         },
         userChoice: null,
       }),
@@ -49,20 +58,35 @@ export const CreatePostForm = () => {
   const userChoice = useAppSelector(selectUserChoice)
 
   useEffect(() => {
-    if (userChoice === null) return
+    if (userChoice === null || userChoice?.promptId !== PROMPT_ID) return
 
-    if (userChoice) {
-      console.log('Пользователь подтвердил')
-    } else {
-      console.log('Пользователь отменил')
+    if (userChoice.isConfirmed) {
+      if (!stepsState.every((el) => el === null)) {
+        sessionStorage.setItem('draft', JSON.stringify(stepsState))
+        dispatch(
+          setAppAlert({
+            message: 'The draft has been saved!',
+            type: 'success',
+          }),
+        )
+      } else {
+        dispatch(
+          setAppAlert({
+            message: 'Your form is empty',
+            type: 'classic',
+          }),
+        )
+      }
     }
+    dispatch(setCreatePostModal(false))
 
     dispatch(setPrompt({ state: null, userChoice: null }))
   }, [userChoice])
+  console.log(stepsState)
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div onClick={handleOnClose} className={styles.overlay}>
+      <div onClick={(e) => e.stopPropagation()} className={styles.modal}>
         <div className={styles.header}>
           {currentStep <= 0 ? (
             <Button onClick={handleOnClose} variant={'outline'}>
@@ -91,6 +115,7 @@ export const CreatePostForm = () => {
         <CurrentStepComponent
           setIsValid={setIsValid}
           setStepsState={handleChangeStepsState}
+          handleOnOpenDraft={handleOnOpenDraft}
           {...props}
         />
       </div>

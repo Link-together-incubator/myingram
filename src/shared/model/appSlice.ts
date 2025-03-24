@@ -28,7 +28,7 @@ export const appSlice = createSlice({
     },
   },
   reducers: (create) => ({
-    setAppError: create.reducer<Alert>((state, action) => {
+    setAppAlert: create.reducer<Alert>((state, action) => {
       state.modals.alert = action.payload
     }),
 
@@ -73,7 +73,7 @@ export const appSlice = createSlice({
 })
 
 export const {
-  setAppError,
+  setAppAlert,
   setIsShowEmailSentModal,
   setStatus,
   setCreatePostModal,

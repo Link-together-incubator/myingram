@@ -2,11 +2,12 @@ import { ComponentType } from 'react'
 
 export type BasicStepProps<T = object> = {
   setIsValid: (isValid: boolean) => void
-  setStepsState: (state: T) => void
+  setStepsState: (state: Partial<T> | null) => void
+  handleOnOpenDraft: () => void
 }
 
 type AddPhotoProps = {
-  url: string | null
+  url: string
 }
 
 export type AppPhoto = BasicStepProps<AddPhotoProps> & AddPhotoProps

@@ -12,7 +12,7 @@ import { SuccessEmailSent } from '@/widgets/SuccessEmailSent'
 type ModalProviderProps = {
   children: ReactNode
 }
-
+// TODO: при открытии любой модалки = перерендер всех модалок. МБ вынести в отдельные провайдеры?
 export function ModalProvider({ children }: ModalProviderProps) {
   const {
     alert,
@@ -37,7 +37,6 @@ export function ModalProvider({ children }: ModalProviderProps) {
 
   return (
     <>
-      {alert && <Alert data={alert} />}
       {emailSentMessage && (
         <SuccessEmailSent
           message={emailSentMessage.message}
@@ -46,7 +45,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
       )}
       {createPostModal && <CreatePostForm />}
       {promptModalState && <Prompt {...promptModalState} />}
-
+      {alert && <Alert data={alert} />}
       {children}
     </>
   )
