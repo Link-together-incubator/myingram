@@ -1,0 +1,108 @@
+.profileBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+  padding: 36px 64px 0 24px;
+  margin-top: 69px;
+
+}
+
+.profileHeader {
+  display: flex;
+  flex-direction: row;
+  gap: 38px;
+
+}
+
+.profileHeader img {
+  width: 234px;
+  height: 228px;
+}
+
+.infoBlock {
+
+}
+
+.profileAndButtonGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.profileNameAndPaidGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.userName {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 36px;
+  vertical-align: middle;
+  color: var(--primary-foreground);
+
+
+}
+
+.profileNameAndPaidGroup img {
+  width: 24px;
+  height: 24px;
+
+}
+
+.buttonGroup {
+
+}
+
+.followersBlock {
+display: flex;
+  flex-direction: row;
+  color: var(--primary-foreground);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  gap: 100px;
+  margin: 20px 0 23px;
+}
+
+.followersBlock div {
+  display: flex;
+  flex-direction: column;
+}
+
+//.followersBlock > div:first-child {
+//  gap: 100px; /* Отступ между первым и вторым элементом */
+//}
+//
+//.followersBlock > div:nth-child(2) {
+//  gap: 88px; /* Отступ между вторым и третьим элементом */
+//}
+
+.textBlock {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--primary-foreground);
+}
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.imageContainer {
+  flex: 1 1 calc(25% - 12px);
+  box-sizing: border-box;
+}
+
+.imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

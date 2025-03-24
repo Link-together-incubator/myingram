@@ -10,6 +10,7 @@ import {
 import Link from 'next/link'
 
 import { useLogoutMutation } from '@/entities/user/api/userApi'
+import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
 import {
   Sidebar,
   SidebarContent,
@@ -21,57 +22,9 @@ import {
   SidebarMenuItem,
 } from '@/widgets/Sidebar/ui/Sidebar'
 
-const mainItems = [
-  {
-    title: 'Feed',
-    url: '#',
-    icon: Home,
-  },
-  {
-    title: 'Create',
-    url: '#',
-    icon: SquarePlus,
-  },
-  {
-    title: 'My Profile',
-    url: '#',
-    icon: Home,
-  },
-  {
-    title: 'Messenger',
-    url: '#',
-    icon: MessageCircleMore,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-]
-
-const secondaryItems = [
-  {
-    title: 'Statistics',
-    url: '#',
-    icon: TrendingUp,
-  },
-  {
-    title: 'Favorites',
-    url: '#',
-    icon: Bookmark,
-  },
-]
-
-const sidebarFooter = [
-  {
-    title: 'Log Out',
-    url: '#',
-    icon: LogOut,
-  },
-]
-
 export function AppSidebar() {
   const [logout, { isLoading }] = useLogoutMutation()
+  const user = useAuthMeData()
 
   const handleLogOut = async () => {
     try {
@@ -80,6 +33,55 @@ export function AppSidebar() {
       console.log('Logout failed', err)
     }
   }
+
+  const mainItems = [
+    {
+      title: 'Feed',
+      url: '#',
+      icon: Home,
+    },
+    {
+      title: 'Create',
+      url: '#',
+      icon: SquarePlus,
+    },
+    {
+      title: 'My Profile',
+      url: `/profile/${user?.id}`,
+      icon: Home,
+    },
+    {
+      title: 'Messenger',
+      url: '#',
+      icon: MessageCircleMore,
+    },
+    {
+      title: 'Search',
+      url: '#',
+      icon: Search,
+    },
+  ]
+
+  const secondaryItems = [
+    {
+      title: 'Statistics',
+      url: '#',
+      icon: TrendingUp,
+    },
+    {
+      title: 'Favorites',
+      url: '#',
+      icon: Bookmark,
+    },
+  ]
+
+  const sidebarFooter = [
+    {
+      title: 'Log Out',
+      url: '#',
+      icon: LogOut,
+    },
+  ]
 
   return (
     <Sidebar>
