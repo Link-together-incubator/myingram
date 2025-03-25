@@ -21,7 +21,7 @@ export function Services() {
     // const redirectUri = 'https://myin-gram.ru/api/v1/auth/google/callback' ??
     const responseType = 'code'
     const scope = 'openid email profile'
-    const redirectUrl = 'https://localhost:3000'
+    const redirectUrl = 'https://myin-gram.ru/'
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&response_type=${responseType}&redirect_uri=${redirectUrl}&scope=${encodeURIComponent(scope)}`
     router.push(googleAuthUrl)
     // да я хрен знает что здесь делать
