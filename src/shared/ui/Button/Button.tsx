@@ -46,7 +46,7 @@ export const Button = ({
   href,
   ...props
 }: ButtonProps) => {
-  const isLink = variant === 'link' || isA
+  const isLink = (variant === 'link' || isA) && !!href
 
   const Comp = asChild ? Slot : isLink ? Link : 'button'
 

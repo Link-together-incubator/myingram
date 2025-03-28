@@ -1,0 +1,66 @@
+.commentItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+  }
+  
+  .commentMeta {
+    display: flex;
+    column-gap: 12px;
+    color: var(--light-100);
+  
+    img {
+      height: 36px;
+      width: 36px;
+    }
+  }
+  
+  .commentBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .commentText {
+    color: var(--light-100);
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    max-width: 345px;
+  }
+  
+  .usernameBold {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--light-100);
+    line-height: 24px;
+  }
+  
+  .commentFooter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--light-900);
+    line-height: 16px;
+  }
+  
+  .time {
+    font-size: 12px;
+    color: var(--light-900);
+    line-height: 16px;
+  }
+  
+  .likes {
+    font-weight: 500;
+  }
+  
+  .answer {
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .heartIcon {
+    cursor: pointer;
+  }
+  
