@@ -3,6 +3,7 @@ import { resetState } from '@/shared/lib/utils/resetStoreAction'
 
 import {
   AuthMeResponse,
+  GooglePayload,
   LoginArgs,
   LoginResponse,
   PasswordRecoveryPayload,
@@ -45,6 +46,20 @@ export const userApi = baseApi.injectEndpoints({
     loginUser: builder.mutation<LoginResponse, LoginArgs>({
       query: (payload) => ({
         url: 'auth/login',
+        method: 'POST',
+        body: payload,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const response = await queryFulfilled.catch(console.log)
+        if (response) {
+          localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
+          await dispatch(userApi.endpoints.authMe.initiate())
+        }
+      },
+    }),
+    loginGoogle: builder.mutation<LoginResponse, GooglePayload>({
+      query: (payload) => ({
+        url: 'auth/google',
         method: 'POST',
         body: payload,
       }),
@@ -115,4 +130,5 @@ export const {
   useAuthMeQuery,
   useLazyAuthMeQuery,
   useLogoutMutation,
+  useLoginGoogleMutation,
 } = userApi

@@ -1,41 +1,9 @@
 'use client'
 
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import s from './Services.module.scss'
-
-function GoogleAuthButton() {
-  const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      const jwtToken = tokenResponse.access_token
-      console.log('jwtToken', jwtToken)
-      await fetch(`${process.env.NEXT_PUBLIC_URL_API}auth/google`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token: jwtToken }),
-      })
-    },
-    onError: () => {
-      console.error('Google login failed')
-    },
-    flow: 'implicit',
-  })
-
-  return (
-    <button type="button" onClick={() => login()}>
-      <Image
-        src="/assets/svg/google.svg"
-        width={36}
-        height={36}
-        alt="Google Icon"
-      />
-    </button>
-  )
-}
 
 export function Services() {
   const router = useRouter()
@@ -46,12 +14,34 @@ export function Services() {
     const githubLogin = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=user:email`
     router.push(githubLogin)
   }
+  function loginWithGoogle() {
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
+    const redirectUri = encodeURIComponent(
+      process.env.NEXT_PUBLIC_GOOGLE_REDIRECT!,
+    )
+    const scope = encodeURIComponent('openid profile email')
+
+    const authUrl =
+      `https://accounts.google.com/o/oauth2/v2/auth?` +
+      `client_id=${clientId}&` +
+      `redirect_uri=${redirectUri}&` +
+      `response_type=id_token&` +
+      `scope=${scope}&` +
+      `nonce=${Math.random().toString(36).substring(2)}`
+
+    router.push(authUrl)
+  }
 
   return (
     <div className={s.imageWrapper}>
-      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
-        <GoogleAuthButton />
-      </GoogleOAuthProvider>
+      <button type="button" onClick={loginWithGoogle}>
+        <Image
+          src="/assets/svg/google.svg"
+          width={36}
+          height={36}
+          alt="Google Icon"
+        />
+      </button>
 
       <button type="button" onClick={handleGitHubLogin}>
         <Image
