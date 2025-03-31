@@ -15,7 +15,6 @@ export function Services() {
 
     router.push(githubLogin)
   }
-
   const handleGoogleLogin = () => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
     // const redirectUri = 'https://myin-gram.ru/api/v1/auth/google/callback' ??
