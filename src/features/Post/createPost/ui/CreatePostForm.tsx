@@ -14,12 +14,12 @@ import { useStepsProcess } from '../lib/useStepsProcess'
 
 import styles from './CreatePostForm.module.scss'
 import { AddPhoto } from './steps/AddPhoto/AddPhoto.step'
-import { Step2 } from './steps/Step2.step'
-import { Step3 } from './steps/Step3.step'
+import { CroppingPhotoStep } from './steps/CroppingPhoto/CroppingPhoto.step'
+import { PublishPhotoStep } from './steps/PublishPhoto/PublishPhoto.step'
 import { StepsType } from './steps/steps.types'
 
-const steps: StepsType[] = [AddPhoto, Step2, Step3]
-const titles: string[] = ['Add photo', 'Step1', 'Step2']
+const steps: StepsType[] = [AddPhoto, CroppingPhotoStep, PublishPhotoStep]
+const titles: string[] = ['Add photo', 'Cropping Photo', 'Publish Photo']
 const PROMPT_ID = 'createPost'
 
 export const CreatePostForm = () => {
@@ -35,6 +35,7 @@ export const CreatePostForm = () => {
     currentTitle,
     stepsState,
     handleOnOpenDraft,
+    handleDeleteImage,
   } = useStepsProcess(steps, titles)
 
   const dispatch = useAppDispatch()
@@ -86,7 +87,13 @@ export const CreatePostForm = () => {
 
   return (
     <div onClick={handleOnClose} className={styles.overlay}>
-      <div onClick={(e) => e.stopPropagation()} className={styles.modal}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={styles.modal}
+        style={
+          currentStep === 2 ? { maxWidth: '1000px' } : { maxWidth: '520px' }
+        }
+      >
         <div className={styles.header}>
           {currentStep <= 0 ? (
             <Button onClick={handleOnClose} variant={'outline'}>
@@ -116,6 +123,8 @@ export const CreatePostForm = () => {
           setIsValid={setIsValid}
           setStepsState={handleChangeStepsState}
           handleOnOpenDraft={handleOnOpenDraft}
+          handleDeleteImage={handleDeleteImage}
+          handleBack={handleBack}
           {...props}
         />
       </div>
