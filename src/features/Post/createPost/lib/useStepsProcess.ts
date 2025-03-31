@@ -19,6 +19,7 @@ export const useStepsProcess = <T extends StepsType>(
     const str = sessionStorage.getItem('draft')
     if (str) {
       setStepsState(JSON.parse(str))
+      setIsValid(true)
     } else {
       dispatch(setAppAlert({ type: 'error', message: 'Your draft is empty' }))
     }
@@ -36,11 +37,21 @@ export const useStepsProcess = <T extends StepsType>(
     }
   }
 
+  const handleDeleteImage = (inx: number, url: string) => {
+    setStepsState((prevState) => {
+      return prevState.map((obj, i) =>
+        i === inx
+          ? { urls: prevState[inx].urls.filter((el: string) => el !== url) }
+          : obj,
+      )
+    })
+  }
+
   const handleChangeStepsState = function (inx: number, state: object) {
     setStepsState((prevState) => {
       return prevState.map((obj, i) => (i === inx ? { ...obj, ...state } : obj))
     })
-  }.bind(null, currentStep)
+  }
 
   const CurrentStepComponent = steps[currentStep]
   const props = stepsState[currentStep]
@@ -58,5 +69,6 @@ export const useStepsProcess = <T extends StepsType>(
     currentTitle,
     stepsState,
     handleOnOpenDraft,
+    handleDeleteImage,
   }
 }
