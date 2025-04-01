@@ -4,8 +4,8 @@ import { Bookmark, Heart, Send, X } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import { ModalWrapper } from '@/features/Post/ModalWrapper/ModalWrapper'
 import { Button } from '@/shared/ui'
+import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 
 import { CommentItem } from '../../CommentItem/ui/CommentItem'
 import { DropdownMenu } from '../../DropdownMenu/ui/DropdownMenu'
