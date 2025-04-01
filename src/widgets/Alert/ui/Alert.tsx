@@ -15,6 +15,8 @@ type AlertProps = {
   data: { message: string; type: AlertType }
 }
 
+const TIMEOUT_AUTOCLOSE_ALERT = 3000
+
 export const Alert = ({ data: { message, type } }: AlertProps) => {
   const dispatch = useAppDispatch()
 
@@ -23,7 +25,7 @@ export const Alert = ({ data: { message, type } }: AlertProps) => {
   }
 
   useEffect(() => {
-    const timeoutId = setTimeout(closeAlertCallback, 5000)
+    const timeoutId = setTimeout(closeAlertCallback, TIMEOUT_AUTOCLOSE_ALERT)
 
     return () => {
       clearInterval(timeoutId)

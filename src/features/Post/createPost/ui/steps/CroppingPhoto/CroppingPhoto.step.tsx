@@ -2,8 +2,10 @@
 
 import { BookImage, CirclePlus, CircleX } from 'lucide-react'
 import Image from 'next/image'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
 
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { setAppAlert } from '@/shared/model/appSlice'
 import { Carousel, Input } from '@/shared/ui'
 import {
   CarouselContent,
@@ -12,7 +14,6 @@ import {
   CarouselPrevious,
 } from '@/shared/ui/Carousel/Carousel'
 
-import { getValuesWithoutUndefined } from '../../../lib/getValuesWithoutUndefined'
 import { CroppingPhoto } from '../steps.types'
 
 import styles from './CroppingPhoto.module.scss'
@@ -32,11 +33,13 @@ export const CroppingPhotoStep = ({
     }
   }
 
+  const dispatch = useAppDispatch()
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const files = Array.from(event.target.files)
-      const imageUrls: string[] = []
-      let validFiles = true
+      const imageUrls: File[] = []
+
       const maxFileSize = 20 * 1024 * 1024 // 20 МБ
 
       for (const file of files) {
@@ -46,33 +49,26 @@ export const CroppingPhotoStep = ({
         const isValidSize = file.size <= maxFileSize
 
         if (!isValidType) {
-          alert('Файлы могут быть только в формате PNG, JPG или JPEG')
-          validFiles = false
-          break // Прекращаем проверку на первой ошибке
+          dispatch(setAppAlert({ message: 'Wrong type file', type: 'error' }))
+
+          break
         }
 
         if (!isValidSize) {
-          alert('Размер файла должен быть не более 20 МБ')
-          validFiles = false
-          break // Прекращаем проверку на первой ошибке
+          dispatch(setAppAlert({ message: 'Wrong size file', type: 'error' }))
+
+          break
         }
 
-        if (validFiles) {
-          imageUrls.push(URL.createObjectURL(file))
-        }
+        imageUrls.push(file)
       }
+
       // Проверяем, не превышает ли количество загружаемых изображений 10
       if (urls.length + imageUrls.length <= 10) {
-        setStepsState(
-          1,
-          getValuesWithoutUndefined({ urls: [...urls, ...imageUrls] }),
-        )
-        setStepsState(
-          2,
-          getValuesWithoutUndefined({ urls: [...urls, ...imageUrls] }),
-        )
+        setStepsState(1, { urls: [...urls, ...imageUrls] })
+        setStepsState(2, { urls: [...urls, ...imageUrls] })
       } else {
-        alert('Вы можете загрузить до 10 изображений!')
+        dispatch(setAppAlert({ message: 'Max upload is 10', type: 'error' }))
       }
     }
   }
@@ -83,13 +79,24 @@ export const CroppingPhotoStep = ({
     }
   }, [urls.length])
 
+  const blobs = useMemo(() => {
+    return urls.map((url) => URL.createObjectURL(url))
+  }, [urls])
+
+  useEffect(
+    () => () => {
+      blobs.forEach((url) => URL.revokeObjectURL(url))
+    },
+    [blobs],
+  )
+
   return (
     <>
       <div className={styles.CarouselContainer}>
         {urls.length > 1 ? (
           <Carousel>
             <CarouselContent>
-              {urls.map((url, index) => (
+              {blobs.map((url, index) => (
                 <CarouselItem key={url} className={styles.CarouseItem}>
                   <Image
                     src={url}
@@ -111,7 +118,7 @@ export const CroppingPhotoStep = ({
               }
             >
               <div className={styles.imagePreview}>
-                {urls.map((url, index) => {
+                {blobs.map((url, index) => {
                   return (
                     <div key={url} style={{ position: 'relative' }}>
                       <Image
@@ -124,8 +131,7 @@ export const CroppingPhotoStep = ({
                       <div
                         className={styles.deleteImage}
                         onClick={() => {
-                          handleDeleteImage(1, url)
-                          handleDeleteImage(2, url)
+                          handleDeleteImage(index)
                         }}
                       >
                         <CircleX
@@ -156,10 +162,10 @@ export const CroppingPhotoStep = ({
             </div>
           </Carousel>
         ) : (
-          urls.length === 1 && (
+          blobs.length === 1 && (
             <div className={styles.CarouselContainerSinglePhoto}>
               <Image
-                src={urls[0]}
+                src={blobs[0]}
                 alt="Uploaded"
                 width={500}
                 height={500}
@@ -175,7 +181,7 @@ export const CroppingPhotoStep = ({
                 <div className={styles.imagePreview}>
                   <div style={{ position: 'relative' }}>
                     <Image
-                      src={urls[0]}
+                      src={blobs[0]}
                       width={70}
                       height={70}
                       className={styles.minImg}
@@ -184,7 +190,7 @@ export const CroppingPhotoStep = ({
                     <div
                       className={styles.deleteImage}
                       onClick={() => {
-                        handleDeleteImage(1, urls[0])
+                        handleDeleteImage(0)
                       }}
                     >
                       <CircleX

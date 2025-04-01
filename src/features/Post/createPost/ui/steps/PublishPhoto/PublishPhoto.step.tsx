@@ -1,8 +1,7 @@
 'use client'
 import Image from 'next/image'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useEffect, useMemo } from 'react'
 
-import { getValuesWithoutUndefined } from '@/features/Post/createPost/lib/getValuesWithoutUndefined'
 import { Carousel, Textarea } from '@/shared/ui'
 import {
   CarouselContent,
@@ -29,15 +28,27 @@ export const PublishPhotoStep = ({
   const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value
     if (inputValue.length <= maxLength) {
-      setStepsState(2, getValuesWithoutUndefined({ postText: inputValue }))
+      setStepsState(2, { postText: inputValue })
     }
   }
+
+  const blobs = useMemo(() => {
+    return urls.map((url) => URL.createObjectURL(url))
+  }, [urls])
+
+  useEffect(
+    () => () => {
+      blobs.forEach((url) => URL.revokeObjectURL(url))
+    },
+    [blobs],
+  )
+
   return (
     <div style={{ display: 'flex' }}>
       <div className={styles.CarouselContainer}>
         <Carousel>
           <CarouselContent>
-            {urls?.map((url, index) => (
+            {blobs?.map((url, index) => (
               <CarouselItem key={url} className={styles.CarouseItem}>
                 <Image
                   src={url}

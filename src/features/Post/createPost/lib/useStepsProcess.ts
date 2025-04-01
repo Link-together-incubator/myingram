@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setAppAlert } from '@/shared/model/appSlice'
 
+import { loadDraft } from '../lib/indexedDBDraft'
 import { StepsType } from '../ui/steps/steps.types'
 
 export const useStepsProcess = <T extends StepsType>(
@@ -15,10 +16,11 @@ export const useStepsProcess = <T extends StepsType>(
 
   const dispatch = useAppDispatch()
 
-  const handleOnOpenDraft = () => {
-    const str = sessionStorage.getItem('draft')
-    if (str) {
-      setStepsState(JSON.parse(str))
+  const handleOnOpenDraft = async () => {
+    const draft = await loadDraft()
+    if (draft && Array.isArray(draft)) {
+      setStepsState(draft)
+      setCurrentStep(1)
       dispatch(
         setAppAlert({ type: 'success', message: 'Your draft is upload' }),
       )
@@ -39,11 +41,15 @@ export const useStepsProcess = <T extends StepsType>(
     }
   }
 
-  const handleDeleteImage = (inx: number, url: string) => {
+  const handleDeleteImage = (inx: number) => {
     setStepsState((prevState) => {
-      return prevState.map((obj, i) =>
-        i === inx
-          ? { urls: prevState[inx].urls.filter((el: string) => el !== url) }
+      return prevState.map((obj, index) =>
+        obj !== null
+          ? {
+              urls: prevState[index].urls.filter(
+                (el: File, i: number) => i !== inx,
+              ),
+            }
           : obj,
       )
     })

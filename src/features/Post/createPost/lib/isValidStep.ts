@@ -8,12 +8,11 @@ export const isValidStep = (
   state: AddPhotoProps | CroppingPhotoProps | PublishPhotoProps,
   stepIndex: number,
 ): boolean => {
-  console.log('VALIDATOR', state, stepIndex)
   if (state === null) return false
   if (!Array.isArray(state.urls) || state.urls.length === 0) {
     return false
   }
-  const areAllUrlsStrings = state.urls.every((url) => typeof url === 'string')
+  const areAllUrlsStrings = state.urls.every((url) => typeof url === 'object')
   if (!areAllUrlsStrings) {
     return false
   }
@@ -24,7 +23,7 @@ export const isValidStep = (
     case 1:
       return true
     case 2:
-      return 'postText' in state && typeof state.postText === 'string'
+      return 'postText' in state && state.postText.length > 0
 
     default:
       throw new Error('Несуществующий шаг')

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { saveDraft } from '@/features/Post/createPost/lib/indexedDBDraft'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
 import {
@@ -58,31 +59,42 @@ export const CreatePostForm = () => {
   const userChoice = useAppSelector(selectUserChoice)
 
   useEffect(() => {
-    if (userChoice === null || userChoice?.promptId !== PROMPT_ID) return
+    if (userChoice === null || userChoice.promptId !== PROMPT_ID) return
 
-    if (userChoice.isConfirmed) {
-      if (!stepsState.every((el) => el === null)) {
-        sessionStorage.setItem('draft', JSON.stringify(stepsState))
-        dispatch(
-          setAppAlert({
-            message: 'The draft has been saved!',
-            type: 'success',
-          }),
-        )
-      } else {
-        dispatch(
-          setAppAlert({
-            message: 'Your form is empty',
-            type: 'classic',
-          }),
-        )
+    const handleSave = async () => {
+      if (userChoice.isConfirmed) {
+        if (!stepsState.every((el) => el === null || el.urls.length === 0)) {
+          try {
+            await saveDraft(stepsState)
+            dispatch(
+              setAppAlert({
+                message: 'The draft has been saved!',
+                type: 'success',
+              }),
+            )
+          } catch (err) {
+            dispatch(
+              setAppAlert({
+                message: typeof err === 'string' ? err : 'Failed to save draft',
+                type: 'error',
+              }),
+            )
+          }
+        } else {
+          dispatch(
+            setAppAlert({
+              message: 'Your form is empty',
+              type: 'classic',
+            }),
+          )
+        }
       }
+      dispatch(setCreatePostModal(false))
+      dispatch(setPrompt({ state: null, userChoice: null }))
     }
-    dispatch(setCreatePostModal(false))
 
-    dispatch(setPrompt({ state: null, userChoice: null }))
+    handleSave()
   }, [userChoice])
-  console.log(stepsState)
 
   return (
     <div onClick={handleOnClose} className={styles.overlay}>

@@ -7,17 +7,16 @@ export type BasicStepProps<T = object> = {
 }
 
 export type AddPhotoProps = {
-  urls: string[]
   handleOnOpenDraft: () => void
-  handleDeleteImage: (inx: number, url: string) => void
+  urls: File[]
 }
 export type CroppingPhotoProps = {
-  urls: string[]
-  handleDeleteImage: (inx: number, url: string) => void
+  handleDeleteImage: (inx: number) => void
+  urls: File[]
 }
 export type PublishPhotoProps = {
-  urls: string[]
   postText: string
+  urls: File[]
 }
 export type AppPhoto = BasicStepProps<AddPhotoProps> & AddPhotoProps
 export type CroppingPhoto = BasicStepProps<CroppingPhotoProps> &
@@ -27,3 +26,8 @@ export type StepsType =
   | ComponentType<AppPhoto>
   | ComponentType<PublishPhoto>
   | ComponentType<CroppingPhoto>
+
+export type DraftType = Array<{
+  description: string
+  files: ArrayBuffer[]
+}>
