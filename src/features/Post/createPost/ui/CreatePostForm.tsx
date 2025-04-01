@@ -10,6 +10,7 @@ import {
 } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 
+import { isValidStep } from '../lib/isValidStep'
 import { useStepsProcess } from '../lib/useStepsProcess'
 
 import styles from './CreatePostForm.module.scss'
@@ -29,8 +30,6 @@ export const CreatePostForm = () => {
     handleBack,
     handleChangeStepsState,
     handleNext,
-    isValid,
-    setIsValid,
     currentStep,
     currentTitle,
     stepsState,
@@ -107,24 +106,27 @@ export const CreatePostForm = () => {
           <h2 className={styles.title}>{currentTitle}</h2>
           {currentStep < steps.length - 1 ? (
             <Button
-              disabled={!isValid}
+              disabled={!isValidStep(props, currentStep)}
               variant={'outline'}
               onClick={handleNext}
             >
               Next
             </Button>
           ) : (
-            <Button disabled={!isValid} variant={'outline'}>
+            <Button
+              disabled={!isValidStep(props, currentStep)}
+              variant={'outline'}
+            >
               Create Post
             </Button>
           )}
         </div>
         <CurrentStepComponent
-          setIsValid={setIsValid}
           setStepsState={handleChangeStepsState}
           handleOnOpenDraft={handleOnOpenDraft}
           handleDeleteImage={handleDeleteImage}
           handleBack={handleBack}
+          handleNext={handleNext}
           {...props}
         />
       </div>

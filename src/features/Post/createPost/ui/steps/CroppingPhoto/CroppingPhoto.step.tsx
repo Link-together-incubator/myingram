@@ -22,7 +22,6 @@ export const CroppingPhotoStep = ({
   urls,
   handleDeleteImage,
   handleBack,
-  setIsValid,
 }: CroppingPhoto) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState<boolean>(false)
@@ -72,7 +71,6 @@ export const CroppingPhotoStep = ({
           2,
           getValuesWithoutUndefined({ urls: [...urls, ...imageUrls] }),
         )
-        setIsValid(true)
       } else {
         alert('Вы можете загрузить до 10 изображений!')
       }
@@ -82,7 +80,6 @@ export const CroppingPhotoStep = ({
   useEffect(() => {
     if (urls.length === 0) {
       handleBack()
-      setIsValid(false)
     }
   }, [urls.length])
 
@@ -113,7 +110,7 @@ export const CroppingPhotoStep = ({
                   : styles.ImagePreviewHideContainer
               }
             >
-              <div className={styles.imagePrevie}>
+              <div className={styles.imagePreview}>
                 {urls.map((url, index) => {
                   return (
                     <div key={url} style={{ position: 'relative' }}>
@@ -175,7 +172,7 @@ export const CroppingPhotoStep = ({
                     : styles.ImagePreviewHideContainer
                 }
               >
-                <div className={styles.imagePrevie}>
+                <div className={styles.imagePreview}>
                   <div style={{ position: 'relative' }}>
                     <Image
                       src={urls[0]}

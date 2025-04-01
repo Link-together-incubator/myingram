@@ -10,7 +10,7 @@ export const useStepsProcess = <T extends StepsType>(
   titles: string[],
 ) => {
   const [currentStep, setCurrentStep] = useState(0)
-  const [isValid, setIsValid] = useState(false)
+
   const [stepsState, setStepsState] = useState(Array(steps.length).fill(null))
 
   const dispatch = useAppDispatch()
@@ -19,7 +19,9 @@ export const useStepsProcess = <T extends StepsType>(
     const str = sessionStorage.getItem('draft')
     if (str) {
       setStepsState(JSON.parse(str))
-      setIsValid(true)
+      dispatch(
+        setAppAlert({ type: 'success', message: 'Your draft is upload' }),
+      )
     } else {
       dispatch(setAppAlert({ type: 'error', message: 'Your draft is empty' }))
     }
@@ -47,7 +49,7 @@ export const useStepsProcess = <T extends StepsType>(
     })
   }
 
-  const handleChangeStepsState = function (inx: number, state: object) {
+  const handleChangeStepsState = (inx: number, state: object) => {
     setStepsState((prevState) => {
       return prevState.map((obj, i) => (i === inx ? { ...obj, ...state } : obj))
     })
@@ -58,8 +60,6 @@ export const useStepsProcess = <T extends StepsType>(
   const currentTitle = titles[currentStep]
 
   return {
-    isValid,
-    setIsValid,
     handleNext,
     handleBack,
     handleChangeStepsState,

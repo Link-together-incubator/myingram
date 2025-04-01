@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import { ChangeEvent, useRef } from 'react'
 
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { setAppAlert } from '@/shared/model/appSlice'
 import { Button, Input } from '@/shared/ui'
 
 import { getValuesWithoutUndefined } from '../../../lib/getValuesWithoutUndefined'
@@ -12,9 +14,10 @@ import styles from './AddPhoto.module.scss'
 
 export const AddPhoto = ({
   urls = [],
-  setIsValid,
   setStepsState,
   handleOnOpenDraft,
+
+  handleNext,
 }: AppPhoto) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -23,6 +26,8 @@ export const AddPhoto = ({
       fileInputRef.current.click()
     }
   }
+  const dispatch = useAppDispatch()
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
       const file = event.target.files[0]
@@ -36,14 +41,18 @@ export const AddPhoto = ({
         const isValidSize = file.size <= maxFileSize
 
         if (!isValidType) {
-          alert('Файлы могут быть только в формате PNG, JPG или JPEG')
+          dispatch(setAppAlert({ type: 'error', message: 'Wrong type file' }))
           validFiles = false
         }
         if (!isValidSize) {
-          alert('Размер файла должен быть не более 20 МБ')
+          dispatch(setAppAlert({ type: 'error', message: 'Wrong size file' }))
           validFiles = false
         }
         if (validFiles) {
+          setStepsState(
+            0,
+            getValuesWithoutUndefined({ urls: [...urls, imageUrl] }),
+          )
           setStepsState(
             1,
             getValuesWithoutUndefined({ urls: [...urls, imageUrl] }),
@@ -52,7 +61,7 @@ export const AddPhoto = ({
             2,
             getValuesWithoutUndefined({ urls: [...urls, imageUrl] }),
           )
-          setIsValid(true)
+          handleNext()
         }
       }
     }
