@@ -1,25 +1,22 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
 import { Post, PostModal } from '@/features/Post/Post/PostModal/ui/PostModal'
 import { Button } from '@/shared/ui'
 
-const mockPost: Post = {
-  id: '123',
-  username: 'your_username',
-  description: 'My awesome post 🧡',
-  images: [
-    '/assets/images/post.png',
-    '/assets/images/del1.png',
-    '/assets/images/del2.png',
-    '/assets/images/del3.png',
-  ],
-}
-
 export default function Home() {
   const user = useAuthMeData()
   const [showModal, setShowModal] = useState(false)
+  const [post, setPost] = useState<Post | null>(null)
+
+  useEffect(() => {
+    // Временный json-server работает на http://localhost:3001
+    fetch('http://localhost:3001/posts/1')
+      .then((res) => res.json())
+      .then((data) => setPost(data))
+  }, [])
+
   return (
     <div
       className={`flex gap-72 flex-col pt-[80px] px-9 mx-auto w-full max-w-[1180px] text-3xl text-amber-100`}
@@ -29,8 +26,8 @@ export default function Home() {
       <Button variant="outline" onClick={() => setShowModal(true)}>
         Modal Post
       </Button>
-      {showModal && (
-        <PostModal post={mockPost} onClose={() => setShowModal(false)} />
+      {showModal && post && (
+        <PostModal post={post} onClose={() => setShowModal(false)} />
       )}
     </div>
   )

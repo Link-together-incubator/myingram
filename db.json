@@ -1,0 +1,47 @@
+{
+    "posts": [
+      {
+        "id": "1",
+        "userId": "user-1",
+        "description": "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "photoUrls": [
+          "/assets/images/post.png",
+          "/assets/images/del2.png",
+          "/assets/images/del3.png"
+        ],
+        "createdAt": "2025-04-01T12:00:00Z",
+        "updatedAt": "2025-04-01T12:00:00Z"
+      },
+      {
+        "id": "2",
+        "userId": "user-1",
+        "description": "lorem",
+        "photoUrls": ["/assets/images/post3.png"],
+        "createdAt": "2025-04-01T13:00:00Z",
+        "updatedAt": "2025-04-01T13:00:00Z"
+      }
+    ],
+    "comments": [
+    {
+      "id": "c1",
+      "postId": "1",
+      "username": "anna.k",
+      "avatarUrl": "/assets/images/ava.png",
+      "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "timeAgo": "2 hours ago",
+      "liked": false,
+      "likesCount": 0
+    },
+    {
+      "id": "c2",
+      "postId": "1",
+      "username": "max.87",
+      "avatarUrl": "/assets/images/ava.png",
+      "text": "lorem ipsum",
+      "timeAgo": "1 hour ago",
+      "liked": true,
+      "likesCount": 3
+    }
+  ]
+  }
+  
