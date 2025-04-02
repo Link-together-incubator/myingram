@@ -93,6 +93,8 @@ export const userApi = baseApi.injectEndpoints({
         return {
           url: `auth/me`,
           method: 'GET',
+          keepUnusedDataFor: 0,
+          cacheTime: 0,
         }
       },
     }),
