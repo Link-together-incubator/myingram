@@ -7,18 +7,29 @@ import s from './ModalWrapper.module.scss'
 type ModalWrapperProps = {
   onClose: () => void
   children: ReactNode
+  className?: string
+  onOverlayClick?: () => void
 }
 
-export function ModalWrapper({ onClose, children }: ModalWrapperProps) {
+export function ModalWrapper({
+  onClose,
+  children,
+  className,
+  onOverlayClick,
+}: ModalWrapperProps) {
   const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      onClose()
+      if (onOverlayClick) {
+        onOverlayClick()
+      } else {
+        onClose()
+      }
     }
   }
 
   return (
     <div className={s.overlay} onClick={handleOverlayClick}>
-      <div className={s.modal}>{children}</div>
+      <div className={`${s.modal} ${className ?? ''}`}>{children}</div>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { Bookmark, Heart, Send, X } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
+import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { Button } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 
@@ -52,6 +53,7 @@ const likedUsers: LikedUser[] = [
 export function PostModal({ post, onClose }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
   const [comments, setComments] = useState<Comment[]>([])
+  const [showEditModal, setShowEditModal] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:3001/comments?postId=${post.id}`)
@@ -76,7 +78,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
   }
 
   const handleEdit = () => {
-    alert('Edit clicked')
+    setShowEditModal(true)
     setShowMenu(false)
   }
 
@@ -87,6 +89,18 @@ export function PostModal({ post, onClose }: PostModalProps) {
 
   const handlePublish = () => {
     alert('Publish clicked')
+  }
+
+  if (showEditModal) {
+    return (
+      <EditPostModal
+        postId={post.id}
+        initialDescription={post.description}
+        photoUrls={post.photoUrls}
+        onClose={() => setShowEditModal(false)}
+        userId={post.userId}
+      />
+    )
   }
 
   return (
@@ -116,7 +130,6 @@ export function PostModal({ post, onClose }: PostModalProps) {
         >
           <DropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
         </PostHeader>
-
         <div className={s.scrollableArea}>
           <div className={s.postDescription}>
             <Image
