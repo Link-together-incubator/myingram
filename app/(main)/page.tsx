@@ -1,9 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
 
+import { Post, PostModal } from '@/entities/post/ui/PostModal/ui/PostModal'
 import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
-import { Post, PostModal } from '@/features/Post/Post/PostModal/ui/PostModal'
 import { Button } from '@/shared/ui'
+
 
 export default function Home() {
   const user = useAuthMeData()
