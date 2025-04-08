@@ -1,114 +1,59 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import { useParams } from 'next/navigation'
 import { RefObject, useEffect, useRef, useState } from 'react'
 
-import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
+import { useUserProfileQuery } from '@/entities/user/api/userApi'
+import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 import useScroll from '@/shared/lib/hooks/useScroll'
 import { Button } from '@/shared/ui'
 
 import s from './profile.module.scss'
 
-export default function Profile() {
-  const myPosts = [
-    {
-      id: 1,
-      title: 'Post 1',
-      url: '/assets/images/post1.png',
-    },
-    {
-      id: 2,
-      title: 'Post 2',
-      url: '/assets/images/post2.png',
-    },
-    {
-      id: 3,
-      title: 'Post 3',
-      url: '/assets/images/post3.png',
-    },
-    {
-      id: 4,
-      title: 'Post 4',
-      url: '/assets/images/post4.png',
-    },
-    {
-      id: 5,
-      title: 'Post 5',
-      url: '/assets/images/post5.png',
-    },
-    {
-      id: 6,
-      title: 'Post 6',
-      url: '/assets/images/post6.png',
-    },
-    {
-      id: 7,
-      title: 'Post 7',
-      url: '/assets/images/post7.png',
-    },
-    {
-      id: 8,
-      title: 'Post 8',
-      url: '/assets/images/post8.png',
-    },
-    {
-      id: 1,
-      title: 'Post 1',
-      url: '/assets/images/post1.png',
-    },
-    {
-      id: 2,
-      title: 'Post 2',
-      url: '/assets/images/post2.png',
-    },
-    {
-      id: 3,
-      title: 'Post 3',
-      url: '/assets/images/post3.png',
-    },
-    {
-      id: 4,
-      title: 'Post 4',
-      url: '/assets/images/post4.png',
-    },
-    {
-      id: 5,
-      title: 'Post 5',
-      url: '/assets/images/post5.png',
-    },
-    {
-      id: 6,
-      title: 'Post 6',
-      url: '/assets/images/post6.png',
-    },
-    {
-      id: 7,
-      title: 'Post 7',
-      url: '/assets/images/post7.png',
-    },
-    {
-      id: 8,
-      title: 'Post 8',
-      url: '/assets/images/post8.png',
-    },
-  ]
+type Posts = {
+  items: Post[]
+  totalCount: number
+  pagesCount: number
+  page: number
+  pageSize: number
+}
 
-  const [posts, setPosts] = useState([])
+type Post = {
+  id: string
+  userId: string
+  description: string
+  photoUrls: string[]
+  createdAt: string
+  updatedAt: string
+  photoUploadStatus: string
+}
+
+export default function Profile() {
+  const user = useAuthMeData()
+  const { id } = useParams<{ id: string }>()
+  const { data } = useUserProfileQuery(id)
+
+  const isCurrentUser = user?.id === id
+
+  const [posts, setPosts] = useState<Posts[]>([])
   const [page, setPage] = useState(1)
   const limit = 8
-  const childRef = useRef<HTMLElement | null>(null)
-  const parentRef = useRef<HTMLElement | null>(null)
+  const childRef = useRef<HTMLDivElement | null>(null)
+  const parentRef = useRef<HTMLDivElement | null>(null)
   const intersected = useScroll(parentRef, childRef, () =>
     fetchPosts(page, limit),
   )
 
   function fetchPosts(page: number, limit: number) {
     fetch(
-      `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`,
+      `https://gateway.myin-gram.ru/api/v1/posts?page=${page}&pageSize=${limit}&userId=${id}`,
     )
       .then((response) => response.json())
-      .then((json) => setPosts(json))
+      .then((json) => {
+        setPosts((prev) => [...prev, ...json])
+        setPage((prev) => prev + 1)
+      })
   }
 
   useEffect(() => {
@@ -117,69 +62,88 @@ export default function Profile() {
   //TODO: нужен запрос на получение данных о пользователе по id
   // const user = useAuthMeData()
   //
-  // const router = useRouter()
-  // const { id } = router.query
 
   // const isCurrentUser = user?.id === id
   // const isFriend = user?.friends?.includes(id)
 
+  // if (!userData) {
+  //   return <div>User not found</div>
+  // }
+
   return (
     <div className={s.profileBlock}>
       <div className={s.profileHeader}>
-        <Image
-          src={'/assets/images/Mask group.png'}
-          alt={''}
-          width={234}
-          height={228}
-        />
+        {data?.photoUrl ? (
+          <Image src={data.photoUrl} alt={''} width={234} height={228} />
+        ) : (
+          <Image
+            src={'/assets/images/avatarPhoto.webp'}
+            alt={''}
+            width={204}
+            height={204}
+          />
+        )}
         <div className={s.infoBlock}>
           <div className={s.profileAndButtonGroup}>
             <div className={s.profileNameAndPaidGroup}>
-              <h1 className={s.userName}>URLProfile</h1>
-              <Image
-                src={'/assets/svg/Paid.png'}
-                alt={''}
-                width={24}
-                height={24}
-              />
+              <h1 className={s.userName}>{data?.userName}</h1>
+              {data?.paymentAccont ? (
+                <Image
+                  src={'/assets/svg/Paid.png'}
+                  alt={''}
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <></>
+              )}
             </div>
             <div className={s.buttonGroup}>
-              <Button variant={'default'}>Profile Settings</Button>
+              {isCurrentUser ? (
+                <Button variant={'default'}>Profile Settings</Button>
+              ) : user?.email ? (
+                <>
+                  {data?.followed ? (
+                    <>
+                      <Button variant={'default'}>Unfollow</Button>
+                      <Button variant={'secondary'}>Send Message</Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant={'default'}>Follow</Button>
+                      <Button variant={'secondary'}>Send Message</Button>
+                    </>
+                  )}
+                </>
+              ) : null}
             </div>
           </div>
           <div className={s.followersBlock}>
             <div>
-              <span>2222</span>
+              <span>{data?.subscriptions}</span>
               <span>Following</span>
             </div>
             <div>
-              <span>232323</span>
+              <span>{data?.subscribers}</span>
               <span>Followers</span>
             </div>
             <div>
-              <span>12345</span>
+              <span>{posts.totalCount}</span>
               <span>Publications</span>
             </div>
           </div>
-          <p className={s.textBlock}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
+          <p className={s.textBlock}>{data?.aboutMe}</p>
         </div>
       </div>
 
       <div className={s.posts}>
         {/* TODO: сделать посты */}
-        {myPosts.map((post) => (
-          <div key={post.id} ref={parentRef}>
-            <div className={s.imageContainer}>
-              <Image src={post.url} alt={''} width={234} height={228} />
-            </div>
-            <div ref={childRef}></div>
+        {posts.map((post) => (
+          <div className={s.imageContainer} key={post.id} ref={parentRef}>
+            <Image src={post.photoUrls[0]} alt={''} width={234} height={228} />
           </div>
         ))}
+        <div ref={childRef} style={{ overflow: 'hidden' }}></div>
       </div>
     </div>
   )

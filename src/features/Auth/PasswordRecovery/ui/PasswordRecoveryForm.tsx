@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useRecoveryPasswordMutation } from '@/entities/user/api/userApi'
+import { useRecoveryPasswordMutation } from '@/features/auth/api/authApi'
 import { EMAIL_REGEX } from '@/shared/constants/validators'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'

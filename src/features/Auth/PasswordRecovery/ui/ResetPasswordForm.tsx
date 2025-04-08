@@ -1,7 +1,7 @@
 'use client'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { useResetPasswordMutation } from '@/entities/user/api/userApi'
+import { useResetPasswordMutation } from '@/features/auth/api/authApi'
 import { withToken, WithTokenProps } from '@/shared/lib/hocs/withToken'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'

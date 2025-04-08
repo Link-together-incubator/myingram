@@ -21,7 +21,7 @@
 }
 
 .infoBlock {
-
+  width: 100%;
 }
 
 .profileAndButtonGroup {
@@ -54,11 +54,13 @@
 }
 
 .buttonGroup {
-
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 .followersBlock {
-display: flex;
+  display: flex;
   flex-direction: row;
   color: var(--primary-foreground);
   font-weight: 700;

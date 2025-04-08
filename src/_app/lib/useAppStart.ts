@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 
 export const useAppStart = () => {
   const { data, error } = useAuthMeQuery()

@@ -9,8 +9,8 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-import { useLogoutMutation } from '@/entities/user/api/userApi'
-import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
+import { useLogoutMutation } from '@/features/auth/api/authApi'
+import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 import {
   Sidebar,
   SidebarContent,

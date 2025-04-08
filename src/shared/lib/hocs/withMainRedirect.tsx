@@ -3,9 +3,8 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
+import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 import { ROUTES } from '@/shared/constants/routes'
-
-import { useAuthMeData } from '../../../entities/user/lib/useAuthMeData'
 
 export const withMainRedirect = <P extends object>(
   Component: ComponentType<P>,
