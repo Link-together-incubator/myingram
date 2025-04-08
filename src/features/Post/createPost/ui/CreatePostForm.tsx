@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { saveDraft } from '@/features/Post/createPost/lib/indexedDBDraft'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
 import {
@@ -10,6 +11,7 @@ import {
 } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 
+import { isValidStep } from '../lib/isValidStep'
 import { useStepsProcess } from '../lib/useStepsProcess'
 
 import styles from './CreatePostForm.module.scss'
@@ -29,8 +31,6 @@ export const CreatePostForm = () => {
     handleBack,
     handleChangeStepsState,
     handleNext,
-    isValid,
-    setIsValid,
     currentStep,
     currentTitle,
     stepsState,
@@ -59,31 +59,42 @@ export const CreatePostForm = () => {
   const userChoice = useAppSelector(selectUserChoice)
 
   useEffect(() => {
-    if (userChoice === null || userChoice?.promptId !== PROMPT_ID) return
+    if (userChoice === null || userChoice.promptId !== PROMPT_ID) return
 
-    if (userChoice.isConfirmed) {
-      if (!stepsState.every((el) => el === null)) {
-        sessionStorage.setItem('draft', JSON.stringify(stepsState))
-        dispatch(
-          setAppAlert({
-            message: 'The draft has been saved!',
-            type: 'success',
-          }),
-        )
-      } else {
-        dispatch(
-          setAppAlert({
-            message: 'Your form is empty',
-            type: 'classic',
-          }),
-        )
+    const handleSave = async () => {
+      if (userChoice.isConfirmed) {
+        if (!stepsState.every((el) => el === null || el.urls.length === 0)) {
+          try {
+            await saveDraft(stepsState)
+            dispatch(
+              setAppAlert({
+                message: 'The draft has been saved!',
+                type: 'success',
+              }),
+            )
+          } catch (err) {
+            dispatch(
+              setAppAlert({
+                message: typeof err === 'string' ? err : 'Failed to save draft',
+                type: 'error',
+              }),
+            )
+          }
+        } else {
+          dispatch(
+            setAppAlert({
+              message: 'Your form is empty',
+              type: 'classic',
+            }),
+          )
+        }
       }
+      dispatch(setCreatePostModal(false))
+      dispatch(setPrompt({ state: null, userChoice: null }))
     }
-    dispatch(setCreatePostModal(false))
 
-    dispatch(setPrompt({ state: null, userChoice: null }))
+    handleSave()
   }, [userChoice])
-  console.log(stepsState)
 
   return (
     <div onClick={handleOnClose} className={styles.overlay}>
@@ -107,24 +118,27 @@ export const CreatePostForm = () => {
           <h2 className={styles.title}>{currentTitle}</h2>
           {currentStep < steps.length - 1 ? (
             <Button
-              disabled={!isValid}
+              disabled={!isValidStep(props, currentStep)}
               variant={'outline'}
               onClick={handleNext}
             >
               Next
             </Button>
           ) : (
-            <Button disabled={!isValid} variant={'outline'}>
+            <Button
+              disabled={!isValidStep(props, currentStep)}
+              variant={'outline'}
+            >
               Create Post
             </Button>
           )}
         </div>
         <CurrentStepComponent
-          setIsValid={setIsValid}
           setStepsState={handleChangeStepsState}
           handleOnOpenDraft={handleOnOpenDraft}
           handleDeleteImage={handleDeleteImage}
           handleBack={handleBack}
+          handleNext={handleNext}
           {...props}
         />
       </div>

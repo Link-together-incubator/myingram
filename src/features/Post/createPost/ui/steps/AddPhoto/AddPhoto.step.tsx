@@ -3,18 +3,20 @@
 import Image from 'next/image'
 import { ChangeEvent, useRef } from 'react'
 
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { setAppAlert } from '@/shared/model/appSlice'
 import { Button, Input } from '@/shared/ui'
 
-import { getValuesWithoutUndefined } from '../../../lib/getValuesWithoutUndefined'
 import { AppPhoto } from '../steps.types'
 
 import styles from './AddPhoto.module.scss'
 
 export const AddPhoto = ({
   urls = [],
-  setIsValid,
   setStepsState,
   handleOnOpenDraft,
+
+  handleNext,
 }: AppPhoto) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -23,36 +25,32 @@ export const AddPhoto = ({
       fileInputRef.current.click()
     }
   }
+  const dispatch = useAppDispatch()
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files !== null) {
       const file = event.target.files[0]
       let validFiles = true
       const maxFileSize = 20 * 1024 * 1024 // 20 МБ
       if (file) {
-        const imageUrl = URL.createObjectURL(file)
         const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(
           file.type,
         )
         const isValidSize = file.size <= maxFileSize
 
         if (!isValidType) {
-          alert('Файлы могут быть только в формате PNG, JPG или JPEG')
+          dispatch(setAppAlert({ type: 'error', message: 'Wrong type file' }))
           validFiles = false
         }
         if (!isValidSize) {
-          alert('Размер файла должен быть не более 20 МБ')
+          dispatch(setAppAlert({ type: 'error', message: 'Wrong size file' }))
           validFiles = false
         }
         if (validFiles) {
-          setStepsState(
-            1,
-            getValuesWithoutUndefined({ urls: [...urls, imageUrl] }),
-          )
-          setStepsState(
-            2,
-            getValuesWithoutUndefined({ urls: [...urls, imageUrl] }),
-          )
-          setIsValid(true)
+          setStepsState(0, { urls: [...urls, file] })
+          setStepsState(1, { urls: [...urls, file] })
+          setStepsState(2, { urls: [...urls, file] })
+          handleNext()
         }
       }
     }

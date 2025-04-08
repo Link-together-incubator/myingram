@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setAppAlert } from '@/shared/model/appSlice'
 
+import { loadDraft } from '../lib/indexedDBDraft'
 import { StepsType } from '../ui/steps/steps.types'
 
 export const useStepsProcess = <T extends StepsType>(
@@ -10,16 +11,19 @@ export const useStepsProcess = <T extends StepsType>(
   titles: string[],
 ) => {
   const [currentStep, setCurrentStep] = useState(0)
-  const [isValid, setIsValid] = useState(false)
+
   const [stepsState, setStepsState] = useState(Array(steps.length).fill(null))
 
   const dispatch = useAppDispatch()
 
-  const handleOnOpenDraft = () => {
-    const str = sessionStorage.getItem('draft')
-    if (str) {
-      setStepsState(JSON.parse(str))
-      setIsValid(true)
+  const handleOnOpenDraft = async () => {
+    const draft = await loadDraft()
+    if (draft && Array.isArray(draft)) {
+      setStepsState(draft)
+      setCurrentStep(1)
+      dispatch(
+        setAppAlert({ type: 'success', message: 'Your draft is upload' }),
+      )
     } else {
       dispatch(setAppAlert({ type: 'error', message: 'Your draft is empty' }))
     }
@@ -37,17 +41,21 @@ export const useStepsProcess = <T extends StepsType>(
     }
   }
 
-  const handleDeleteImage = (inx: number, url: string) => {
+  const handleDeleteImage = (inx: number) => {
     setStepsState((prevState) => {
-      return prevState.map((obj, i) =>
-        i === inx
-          ? { urls: prevState[inx].urls.filter((el: string) => el !== url) }
+      return prevState.map((obj, index) =>
+        obj !== null
+          ? {
+              urls: prevState[index].urls.filter(
+                (el: File, i: number) => i !== inx,
+              ),
+            }
           : obj,
       )
     })
   }
 
-  const handleChangeStepsState = function (inx: number, state: object) {
+  const handleChangeStepsState = (inx: number, state: object) => {
     setStepsState((prevState) => {
       return prevState.map((obj, i) => (i === inx ? { ...obj, ...state } : obj))
     })
@@ -58,8 +66,6 @@ export const useStepsProcess = <T extends StepsType>(
   const currentTitle = titles[currentStep]
 
   return {
-    isValid,
-    setIsValid,
     handleNext,
     handleBack,
     handleChangeStepsState,

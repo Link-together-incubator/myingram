@@ -1,7 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { ChangeEvent } from 'react'
-import { useForm } from 'react-hook-form'
+import { ChangeEvent, useEffect, useMemo } from 'react'
 
 import { Carousel, Textarea } from '@/shared/ui'
 import {
@@ -19,23 +18,38 @@ import styles from './PublishPhoto.module.scss'
 type Textarea = {
   description: string
 }
-export const PublishPhotoStep = ({ urls }: PublishPhoto) => {
-  const { register, handleSubmit, setValue, watch } = useForm<Textarea>()
-  const maxLength = 500
-  const description = watch('description', '')
 
+const maxLength = 500
+
+export const PublishPhotoStep = ({
+  urls,
+  postText,
+  setStepsState,
+}: PublishPhoto) => {
   const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value
     if (inputValue.length <= maxLength) {
-      setValue('description', inputValue)
+      setStepsState(2, { postText: inputValue })
     }
   }
+
+  const blobs = useMemo(() => {
+    return urls.map((url) => URL.createObjectURL(url))
+  }, [urls])
+
+  useEffect(
+    () => () => {
+      blobs.forEach((url) => URL.revokeObjectURL(url))
+    },
+    [blobs],
+  )
+
   return (
     <div style={{ display: 'flex' }}>
       <div className={styles.CarouselContainer}>
         <Carousel>
           <CarouselContent>
-            {urls?.map((url, index) => (
+            {blobs?.map((url, index) => (
               <CarouselItem key={url} className={styles.CarouseItem}>
                 <Image
                   src={url}
@@ -77,7 +91,7 @@ export const PublishPhotoStep = ({ urls }: PublishPhoto) => {
             label="Add publication descriptions"
             placeholder="Text-area"
             style={{ width: '450px' }}
-            value={description}
+            value={postText}
             onChange={handleDescriptionChange}
           />
         </div>
@@ -89,7 +103,7 @@ export const PublishPhotoStep = ({ urls }: PublishPhoto) => {
           }}
         >
           <p style={{ color: 'white' }}>
-            {description.length}/{maxLength}
+            {postText?.length || 0}/{maxLength}
           </p>
         </div>
         <Separator className={styles.Separator} />

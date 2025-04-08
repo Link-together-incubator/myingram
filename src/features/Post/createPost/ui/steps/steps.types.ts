@@ -1,26 +1,33 @@
 import { ComponentType } from 'react'
 
 export type BasicStepProps<T = object> = {
-  setIsValid: (isValid: boolean) => void
   setStepsState: (index: number, state: Partial<T> | null) => void
+  handleBack: () => void
+  handleNext: () => void
 }
 
-type AddPhotoProps = {
-  urls: string[]
+export type AddPhotoProps = {
   handleOnOpenDraft: () => void
-  handleBack: () => void
-  handleDeleteImage: (inx: number, url: string) => void
+  urls: File[]
 }
-type CroppingPhotoProps = {
-  urls: string[]
-  handleBack: () => void
-  handleDeleteImage: (inx: number, url: string) => void
+export type CroppingPhotoProps = {
+  handleDeleteImage: (inx: number) => void
+  urls: File[]
 }
-type PublishPhotoProps = {
-  urls: string[]
+export type PublishPhotoProps = {
+  postText: string
+  urls: File[]
 }
 export type AppPhoto = BasicStepProps<AddPhotoProps> & AddPhotoProps
 export type CroppingPhoto = BasicStepProps<CroppingPhotoProps> &
   CroppingPhotoProps
 export type PublishPhoto = BasicStepProps<PublishPhotoProps> & PublishPhotoProps
-export type StepsType = ComponentType<AppPhoto>
+export type StepsType =
+  | ComponentType<AppPhoto>
+  | ComponentType<PublishPhoto>
+  | ComponentType<CroppingPhoto>
+
+export type DraftType = Array<{
+  description: string
+  files: ArrayBuffer[]
+}>
