@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+import { ACCESS_TOKEN } from '../constants/const'
 import { getCropString } from '../lib/utils/getCropString'
 import { setAppError } from '../model/appSlice'
 
@@ -14,7 +15,7 @@ export const baseApi = createApi({
       baseUrl: process.env.NEXT_PUBLIC_URL_API,
       credentials: 'include',
       prepareHeaders: (headers) => {
-        const token = localStorage.getItem('access-token')
+        const token = localStorage.getItem(ACCESS_TOKEN)
         if (token) {
           headers.set('Authorization', `Bearer ${token}`)
         }
