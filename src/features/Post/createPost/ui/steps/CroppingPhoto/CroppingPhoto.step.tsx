@@ -1,6 +1,6 @@
 'use client'
 
-import { BookImage, CirclePlus, CircleX } from 'lucide-react'
+import { BookImage, CirclePlus, CircleX, ZoomIn } from 'lucide-react'
 import Image from 'next/image'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
@@ -11,6 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/shared/ui/Carousel/Carousel'
+import { Slider } from '@/shared/ui/Slider/slider'
 
 import { getValuesWithoutUndefined } from '../../../lib/getValuesWithoutUndefined'
 import { CroppingPhoto } from '../steps.types'
@@ -26,6 +27,26 @@ export const CroppingPhotoStep = ({
 }: CroppingPhoto) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState<boolean>(false)
+  const [scales, setScales] = useState<number[]>(Array(urls.length).fill(1))
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0)
+  const [isZooming, setIsZooming] = useState(false)
+  const [currentScale, setCurrentScale] = useState<number>(1)
+
+  const handleScaleChanged = (newScale: number) => {
+    setScales((prevScales) => {
+      const newScales = [...prevScales]
+      newScales[currentImageIndex] = newScale
+      return newScales
+    })
+  }
+
+  const handleNext = () => {
+    setCurrentImageIndex((prevIndex) => prevIndex + 1)
+  }
+
+  const handlePrev = () => {
+    setCurrentImageIndex((prevIndex) => prevIndex - 1)
+  }
 
   const openFileDialog = () => {
     if (fileInputRef.current) {
@@ -86,6 +107,11 @@ export const CroppingPhotoStep = ({
     }
   }, [urls.length])
 
+  useEffect(() => {
+    setCurrentScale(scales[currentImageIndex])
+  }, [currentImageIndex, scales])
+
+  console.log(currentImageIndex)
   return (
     <>
       <div className={styles.CarouselContainer}>
@@ -100,12 +126,19 @@ export const CroppingPhotoStep = ({
                     width={500}
                     height={500}
                     className={styles.CarouselContainerImage}
+                    style={{ transform: `scale(${scales[currentImageIndex]})` }}
                   />
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className={styles.CarouselPrevBtn} />
-            <CarouselNext className={styles.CarouselNextBtn} />
+            <CarouselPrevious
+              className={styles.CarouselPrevBtn}
+              onClick={handlePrev}
+            />
+            <CarouselNext
+              className={styles.CarouselNextBtn}
+              onClick={handleNext}
+            />
             <div
               className={
                 open
@@ -157,6 +190,38 @@ export const CroppingPhotoStep = ({
             >
               <BookImage width={30} height={30} color={'white'} />
             </div>
+            <div
+              className={styles.IconZoomContainer}
+              onClick={() => setIsZooming(!isZooming)}
+            >
+              <ZoomIn width={30} height={30} color={'white'} />
+            </div>
+            {isZooming && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '70px',
+                  width: '180px',
+                  left: '100px',
+                  zIndex: '10',
+                  backgroundColor: 'rgba(23, 23, 23, 0.5)',
+                  padding: '15px',
+                  boxSizing: 'border-box',
+                  alignItems: 'center',
+                }}
+              >
+                <Slider
+                  min={1}
+                  max={4}
+                  step={0.1}
+                  value={[currentScale]}
+                  onValueChange={(value: number[]) =>
+                    handleScaleChanged(value[0])
+                  }
+                  className={styles.Slider}
+                />
+              </div>
+            )}
           </Carousel>
         ) : (
           urls.length === 1 && (
@@ -167,6 +232,7 @@ export const CroppingPhotoStep = ({
                 width={500}
                 height={500}
                 className={styles.CarouselContainerImage}
+                style={{ transform: `scale(${scales[0]})` }}
               />
               <div
                 className={
@@ -214,6 +280,41 @@ export const CroppingPhotoStep = ({
               >
                 <BookImage width={30} height={30} color={'white'} />
               </div>
+              <div
+                className={styles.IconZoomContainer}
+                onClick={() => {
+                  setIsZooming(!isZooming)
+                  setCurrentImageIndex(0)
+                }}
+              >
+                <ZoomIn width={30} height={30} color={'white'} />
+              </div>
+              {isZooming && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '70px',
+                    width: '180px',
+                    left: '100px',
+                    zIndex: '10',
+                    backgroundColor: 'rgba(23, 23, 23, 0.5)',
+                    padding: '15px',
+                    boxSizing: 'border-box',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Slider
+                    min={1}
+                    max={4}
+                    step={0.1}
+                    value={[currentScale]}
+                    onValueChange={(value: number[]) =>
+                      handleScaleChanged(value[currentImageIndex])
+                    }
+                    className={styles.Slider}
+                  />
+                </div>
+              )}
             </div>
           )
         )}

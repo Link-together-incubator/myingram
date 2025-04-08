@@ -181,6 +181,7 @@ export function CarouselPrevious({
   className,
   variant = 'outline',
   size = 'icon',
+  onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
@@ -198,7 +199,12 @@ export function CarouselPrevious({
         className,
       )}
       disabled={!canScrollPrev}
-      onClick={scrollPrev}
+      onClick={(e) => {
+        if (onClick) {
+          onClick(e)
+        }
+        scrollPrev()
+      }}
       {...props}
     >
       <ArrowLeft />
@@ -211,6 +217,7 @@ export function CarouselNext({
   className,
   variant = 'outline',
   size = 'icon',
+  onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
@@ -228,7 +235,12 @@ export function CarouselNext({
         className,
       )}
       disabled={!canScrollNext}
-      onClick={scrollNext}
+      onClick={(e) => {
+        if (onClick) {
+          onClick(e)
+        }
+        scrollNext()
+      }}
       {...props}
     >
       <ArrowRight />

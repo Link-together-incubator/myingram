@@ -10,6 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/shared/ui/Carousel/Carousel'
+import { Separator } from '@/shared/ui/Separator/Separator'
 
 import { PublishPhoto } from '../steps.types'
 
@@ -50,8 +51,27 @@ export const PublishPhotoStep = ({ urls }: PublishPhoto) => {
           <CarouselNext className={styles.CarouselNextBtn} />
         </Carousel>
       </div>
-      <div>
-        <div>
+      <div style={{ width: '100%' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '15px',
+            padding: '15px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div
+            style={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: `var(--dark-500)`,
+              borderRadius: '50%',
+            }}
+          ></div>
+          <span style={{ color: 'white' }}>User name</span>
+        </div>
+        <div style={{ padding: '15px', boxSizing: 'border-box' }}>
           <Textarea
             className={styles.PhotoDataTextArea}
             label="Add publication descriptions"
@@ -61,11 +81,18 @@ export const PublishPhotoStep = ({ urls }: PublishPhoto) => {
             onChange={handleDescriptionChange}
           />
         </div>
-        <div style={{ marginTop: '25px' }}>
+        <div
+          style={{
+            marginTop: '5px',
+            padding: '15px',
+            boxSizing: 'border-box',
+          }}
+        >
           <p style={{ color: 'white' }}>
             {description.length}/{maxLength}
           </p>
         </div>
+        <Separator className={styles.Separator} />
       </div>
     </div>
   )
