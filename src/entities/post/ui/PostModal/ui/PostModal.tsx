@@ -4,9 +4,13 @@ import { Bookmark, Heart, Send, X } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
+import { PostPayload } from '@/entities/post/post.types'
+import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
+import { useAuthMeQuery } from '@/entities/user/api/userApi'
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { Button } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
+import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
 
 import { CommentItem } from '../../CommentItem/ui/CommentItem'
 import { DropdownMenu } from '../../DropdownMenu/ui/DropdownMenu'
@@ -15,17 +19,19 @@ import { PostHeader } from '../../PostHeader/ui/PostHeader'
 
 import s from './PostModal.module.scss'
 
-export type Post = {
+type PostModalProps = {
+  post: PostPayload
+  onClose: () => void
+}
+// type comments and likedUsers for json-server
+type LikedUser = {
   id: string
-  userId: string
-  photoUrls: string[]
-  description: string
-  createdAt: string
-  updatedAt: string
+  avatarUrl: string
 }
 
-type Comment = {
+export type PostComment = {
   id: string
+  postId: string
   username: string
   avatarUrl: string
   text: string
@@ -34,31 +40,37 @@ type Comment = {
   likesCount: number
 }
 
-type PostModalProps = {
-  post: Post
-  onClose: () => void
-}
-
-type LikedUser = {
-  id: string
-  avatarUrl: string
-}
-
-const likedUsers: LikedUser[] = [
-  { id: '1', avatarUrl: '/assets/images/ava.png' },
-  { id: '2', avatarUrl: '/assets/images/ava.png' },
-  { id: '3', avatarUrl: '/assets/images/ava.png' },
-]
-
 export function PostModal({ post, onClose }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
-  const [comments, setComments] = useState<Comment[]>([])
+  const [comments, setComments] = useState<PostComment[]>([])
   const [showEditModal, setShowEditModal] = useState(false)
+  const [likedUsers, setLikedUsers] = useState<LikedUser[]>([])
 
+  const { data: profile } = useGetUserProfileQuery(post.userId)
+  const { data: authUser } = useAuthMeQuery()
+  const isAuthor = authUser?.id === post.userId
+
+  // fetch comments and likedUsers from json-server
   useEffect(() => {
-    fetch(`http://localhost:3001/comments?postId=${post.id}`)
-      .then((res) => res.json())
-      .then((data) => setComments(data))
+    console.log('postId:', post.id)
+    const fetchMockData = async () => {
+      try {
+        const [commentsRes, likedRes] = await Promise.all([
+          fetch(`http://localhost:3001/comments?postId=${post.id}`),
+          fetch(`http://localhost:3001/likedUsers?postId=${post.id}`),
+        ])
+
+        const commentsData = await commentsRes.json()
+        const likedData = await likedRes.json()
+
+        setComments(commentsData)
+        setLikedUsers(likedData)
+      } catch (error) {
+        console.error('Ошибка загрузки mock-данных:', error)
+      }
+    }
+
+    fetchMockData()
   }, [post.id])
 
   const toggleLike = (id: string) => {
@@ -83,7 +95,6 @@ export function PostModal({ post, onClose }: PostModalProps) {
   }
 
   const handleDelete = () => {
-    alert('Delete clicked')
     setShowMenu(false)
   }
 
@@ -91,21 +102,21 @@ export function PostModal({ post, onClose }: PostModalProps) {
     alert('Publish clicked')
   }
 
-  if (showEditModal) {
+  if (showEditModal && profile) {
     return (
       <EditPostModal
         postId={post.id}
         initialDescription={post.description}
         photoUrls={post.photoUrls}
         onClose={() => setShowEditModal(false)}
-        userId={post.userId}
+        profile={profile}
       />
     )
   }
 
   return (
     <ModalWrapper onClose={onClose}>
-      <div className={s.image}>
+      <div>
         {post.photoUrls && post.photoUrls.length > 1 ? (
           <ImageSlider images={post.photoUrls} />
         ) : (
@@ -124,27 +135,58 @@ export function PostModal({ post, onClose }: PostModalProps) {
         </button>
 
         <PostHeader
-          username={post.userId}
+          username={
+            profile?.userName ? (
+              profile.userName
+            ) : (
+              <div className="h-[20px] w-[100px]">
+                <Skeleton className="h-full w-full" />
+              </div>
+            )
+          }
+          profileImage={profile?.photoUrl || ''}
           onToggleMenu={() => setShowMenu((prev) => !prev)}
           showMenu={showMenu}
         >
-          <DropdownMenu onEdit={handleEdit} onDelete={handleDelete} />
+          <DropdownMenu
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            isAuthor={isAuthor}
+          />
         </PostHeader>
         <div className={s.scrollableArea}>
           <div className={s.postDescription}>
-            <Image
-              src="/assets/images/ava.png"
-              alt="avatar"
-              width={36}
-              height={36}
-              className={s.avatar}
-            />
+            {profile?.photoUrl ? (
+              <Image
+                src={profile.photoUrl}
+                alt="avatar"
+                width={36}
+                height={36}
+                className={s.avatar}
+              />
+            ) : (
+              <div className={s.defaultAvatar} />
+            )}
             <div className={s.commentBlock}>
-              <p className={s.commentText}>
-                <span className={s.usernameBold}>{post.userId}</span>{' '}
+              <div className={s.commentText}>
+                <span className={s.usernameBold}>
+                  {profile?.userName ? (
+                    profile.userName
+                  ) : (
+                    <div className="h-[20px] w-[100px]">
+                      <Skeleton className="h-full w-full" />
+                    </div>
+                  )}
+                </span>{' '}
                 {post.description}
-              </p>
-              <div className={s.time}>2 hours ago</div>
+              </div>
+              <span className={s.time}>
+                {new Date(post.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </span>
             </div>
           </div>
 
@@ -179,10 +221,9 @@ export function PostModal({ post, onClose }: PostModalProps) {
                     className={s.avatarLikes}
                   />
                 ))}
-                <span>2 243 &quot;Like&quot;</span>
+                <span>{likedUsers.length} &quot;Like&quot;</span>
               </div>
               <span className={s.time}>
-                {' '}
                 {new Date(post.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
