@@ -41,20 +41,6 @@ export const useStepsProcess = <T extends StepsType>(
     }
   }
 
-  const handleDeleteImage = (inx: number) => {
-    setStepsState((prevState) => {
-      return prevState.map((obj, index) =>
-        obj !== null
-          ? {
-              urls: prevState[index].urls.filter(
-                (el: File, i: number) => i !== inx,
-              ),
-            }
-          : obj,
-      )
-    })
-  }
-
   const handleChangeStepsState = (inx: number, state: object) => {
     setStepsState((prevState) => {
       return prevState.map((obj, i) => (i === inx ? { ...obj, ...state } : obj))
@@ -75,6 +61,5 @@ export const useStepsProcess = <T extends StepsType>(
     currentTitle,
     stepsState,
     handleOnOpenDraft,
-    handleDeleteImage,
   }
 }

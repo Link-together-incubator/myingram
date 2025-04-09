@@ -1,7 +1,7 @@
 'use client'
-import Image from 'next/image'
 import { ChangeEvent, useEffect, useMemo } from 'react'
 
+import { MainImageDisplay } from '@/features/Post/createPost/ui/steps/CroppingPhoto/MainImageDisplay'
 import { Carousel, Textarea } from '@/shared/ui'
 import {
   CarouselContent,
@@ -25,6 +25,7 @@ export const PublishPhotoStep = ({
   urls,
   postText,
   setStepsState,
+  scales,
 }: PublishPhoto) => {
   const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value
@@ -49,15 +50,9 @@ export const PublishPhotoStep = ({
       <div className={styles.CarouselContainer}>
         <Carousel>
           <CarouselContent>
-            {blobs?.map((url, index) => (
+            {blobs.map((url, index) => (
               <CarouselItem key={url} className={styles.CarouseItem}>
-                <Image
-                  src={url}
-                  alt={`Uploaded ${index + 1}`}
-                  width={500}
-                  height={500}
-                  className={styles.CarouselContainerImage}
-                />
+                <MainImageDisplay url={url} scale={scales[index]} />
               </CarouselItem>
             ))}
           </CarouselContent>

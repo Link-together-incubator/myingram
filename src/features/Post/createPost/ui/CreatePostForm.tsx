@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 
+import { useCreatePostMutation } from '@/entities/post/api/postApi'
 import { saveDraft } from '@/features/Post/createPost/lib/indexedDBDraft'
+import { zoomImageFile } from '@/features/Post/createPost/lib/zoomImageFile'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
 import {
@@ -35,9 +37,9 @@ export const CreatePostForm = () => {
     currentTitle,
     stepsState,
     handleOnOpenDraft,
-    handleDeleteImage,
   } = useStepsProcess(steps, titles)
 
+  const [createPost] = useCreatePostMutation()
   const dispatch = useAppDispatch()
 
   const handleOnClose = () => {
@@ -96,6 +98,39 @@ export const CreatePostForm = () => {
     handleSave()
   }, [userChoice])
 
+  const handleOnCreatePost = async () => {
+    const urls: File[] = stepsState[stepsState.length - 1].urls
+    const text = stepsState[stepsState.length - 1].postText
+    const scales = stepsState[1].scales
+
+    const formData = new FormData()
+
+    try {
+      const resizedFiles = await Promise.all(
+        urls.map((url, inx) => {
+          return zoomImageFile(url, scales[inx])
+        }),
+      )
+
+      resizedFiles.forEach((file) => {
+        formData.append(`files`, file)
+      })
+
+      formData.append('description', text)
+
+      await createPost(formData)
+      dispatch(setCreatePostModal(false))
+      dispatch(
+        setAppAlert({
+          message: 'Post was created',
+          type: 'success',
+        }),
+      )
+    } catch (err) {
+      console.log('Error post create', err)
+    }
+  }
+
   return (
     <div onClick={handleOnClose} className={styles.overlay}>
       <div
@@ -128,6 +163,7 @@ export const CreatePostForm = () => {
             <Button
               disabled={!isValidStep(props, currentStep)}
               variant={'outline'}
+              onClick={handleOnCreatePost}
             >
               Create Post
             </Button>
@@ -136,7 +172,6 @@ export const CreatePostForm = () => {
         <CurrentStepComponent
           setStepsState={handleChangeStepsState}
           handleOnOpenDraft={handleOnOpenDraft}
-          handleDeleteImage={handleDeleteImage}
           handleBack={handleBack}
           handleNext={handleNext}
           {...props}

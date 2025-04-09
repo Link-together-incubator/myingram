@@ -1,15 +1,13 @@
 import { baseApi } from '@/shared/api/baseApi'
 
-import { CreatePostPayload } from '../post.types'
-
 export const postApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createPost: builder.mutation<void, CreatePostPayload>({
-      query: (payload) => {
+    createPost: builder.mutation<void, FormData>({
+      query: (formData) => {
         return {
           url: 'posts',
           method: 'POST',
-          body: payload,
+          body: formData,
         }
       },
     }),

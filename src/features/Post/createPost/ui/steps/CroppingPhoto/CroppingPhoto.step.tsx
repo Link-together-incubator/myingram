@@ -1,337 +1,163 @@
 'use client'
 
-import { BookImage, CirclePlus, CircleX, ZoomIn } from 'lucide-react'
-import Image from 'next/image'
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { BookImage } from 'lucide-react'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setAppAlert } from '@/shared/model/appSlice'
-import { Carousel, Input } from '@/shared/ui'
 import {
+  Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from '@/shared/ui/Carousel/Carousel'
-import { Slider } from '@/shared/ui/Slider/slider'
 
 import { CroppingPhoto } from '../steps.types'
 
 import styles from './CroppingPhoto.module.scss'
+import { MainImageDisplay } from './MainImageDisplay'
+import { PreviewGallery } from './PreviewGallery'
+import { ZoomControls } from './ZoomControls'
 
 export const CroppingPhotoStep = ({
   setStepsState,
   urls,
-  handleDeleteImage,
   handleBack,
+  scales: newScales,
 }: CroppingPhoto) => {
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const [open, setOpen] = useState<boolean>(false)
-  const [scales, setScales] = useState<number[]>(Array(urls.length).fill(1))
-  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0)
-  const [isZooming, setIsZooming] = useState(false)
-  const [currentScale, setCurrentScale] = useState<number>(1)
-
-  const handleScaleChanged = (newScale: number) => {
-    setScales((prevScales) => {
-      const newScales = [...prevScales]
-      newScales[currentImageIndex] = newScale
-      return newScales
-    })
-  }
-
-  const handleNext = () => {
-    setCurrentImageIndex((prevIndex) => prevIndex + 1)
-  }
-
-  const handlePrev = () => {
-    setCurrentImageIndex((prevIndex) => prevIndex - 1)
-  }
-
-  const openFileDialog = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click()
-    }
-  }
-
   const dispatch = useAppDispatch()
+  const [scales, setScales] = useState<number[]>(
+    newScales || Array(urls.length).fill(1),
+  )
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const currentScale = scales[currentImageIndex]
+  const [open, setOpen] = useState(false)
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const files = Array.from(event.target.files)
-      const imageUrls: File[] = []
-
-      const maxFileSize = 20 * 1024 * 1024 // 20 МБ
-
-      for (const file of files) {
-        const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(
-          file.type,
-        )
-        const isValidSize = file.size <= maxFileSize
-
-        if (!isValidType) {
-          dispatch(setAppAlert({ message: 'Wrong type file', type: 'error' }))
-
-          break
-        }
-
-        if (!isValidSize) {
-          dispatch(setAppAlert({ message: 'Wrong size file', type: 'error' }))
-
-          break
-        }
-
-        imageUrls.push(file)
-      }
-
-      // Проверяем, не превышает ли количество загружаемых изображений 10
-      if (urls.length + imageUrls.length <= 10) {
-        setStepsState(1, { urls: [...urls, ...imageUrls] })
-        setStepsState(2, { urls: [...urls, ...imageUrls] })
-      } else {
-        dispatch(setAppAlert({ message: 'Max upload is 10', type: 'error' }))
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (urls.length === 0) {
-      handleBack()
-    }
-  }, [urls.length])
-
-  const blobs = useMemo(() => {
-    return urls.map((url) => URL.createObjectURL(url))
-  }, [urls])
+  const blobs = useMemo(
+    () => urls.map((url) => URL.createObjectURL(url)),
+    [urls],
+  )
 
   useEffect(
-    () => () => {
-      blobs.forEach((url) => URL.revokeObjectURL(url))
-    },
+    () => () => blobs.forEach((url) => URL.revokeObjectURL(url)),
     [blobs],
   )
 
   useEffect(() => {
-    setCurrentScale(scales[currentImageIndex])
-  }, [currentImageIndex, scales])
+    if (urls.length === 0) handleBack()
+  }, [urls.length])
 
-  console.log(currentImageIndex)
+  useEffect(() => {
+    setStepsState(1, { scales })
+    setStepsState(2, { scales })
+  }, [scales])
+
+  const handleScaleChanged = (newScale: number) => {
+    setScales((prev) =>
+      prev.map((scale, i) => (i === currentImageIndex ? newScale : scale)),
+    )
+  }
+
+  const handleNext = () =>
+    setCurrentImageIndex((prev) => Math.min(prev + 1, urls.length - 1))
+  const handlePrev = () => setCurrentImageIndex((prev) => Math.max(prev - 1, 0))
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return
+
+    const files = Array.from(event.target.files)
+    const validFiles: File[] = []
+    const maxFileSize = 20 * 1024 * 1024
+
+    for (const file of files) {
+      const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(
+        file.type,
+      )
+      const isValidSize = file.size <= maxFileSize
+
+      if (!isValidType) {
+        dispatch(setAppAlert({ message: 'Wrong type file', type: 'error' }))
+        continue
+      }
+
+      if (!isValidSize) {
+        dispatch(setAppAlert({ message: 'Wrong size file', type: 'error' }))
+        continue
+      }
+
+      validFiles.push(file)
+    }
+
+    if (urls.length + validFiles.length > 10) {
+      dispatch(setAppAlert({ message: 'Max upload is 10', type: 'error' }))
+      return
+    }
+
+    if (validFiles.length > 0) {
+      const newUrls = [...urls, ...validFiles]
+      setStepsState(1, { urls: newUrls })
+      setStepsState(2, { urls: newUrls })
+      setScales([...scales, ...Array(validFiles.length).fill(1)])
+    }
+  }
+
+  const handleDeleteImage = (index: number) => {
+    const newUrls = urls.filter((_, i) => i !== index)
+    const newScales = scales.filter((_, i) => i !== index)
+
+    setStepsState(1, { urls: newUrls })
+    setStepsState(2, { urls: newUrls })
+    setScales(newScales)
+
+    if (newUrls.length === 0) {
+      setStepsState(0, { urls: newUrls })
+    }
+
+    if (currentImageIndex >= newUrls.length) {
+      setCurrentImageIndex(Math.max(0, newUrls.length - 1))
+    }
+  }
+
   return (
-    <>
-      <div className={styles.CarouselContainer}>
-        {urls.length > 1 ? (
-          <Carousel>
-            <CarouselContent>
-              {blobs.map((url, index) => (
-                <CarouselItem key={url} className={styles.CarouseItem}>
-                  <Image
-                    src={url}
-                    alt={`Uploaded ${index + 1}`}
-                    width={500}
-                    height={500}
-                    className={styles.CarouselContainerImage}
-                    style={{ transform: `scale(${scales[currentImageIndex]})` }}
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious
-              className={styles.CarouselPrevBtn}
-              onClick={handlePrev}
-            />
-            <CarouselNext
-              className={styles.CarouselNextBtn}
-              onClick={handleNext}
-            />
-            <div
-              className={
-                open
-                  ? styles.ImagePreviewContainer
-                  : styles.ImagePreviewHideContainer
-              }
-            >
-              <div className={styles.imagePreview}>
-                {blobs.map((url, index) => {
-                  return (
-                    <div key={url} style={{ position: 'relative' }}>
-                      <Image
-                        src={url}
-                        width={50}
-                        height={70}
-                        className={styles.minImg}
-                        alt={`Uploaded ${index + 1}`}
-                      />
-                      <div
-                        className={styles.deleteImage}
-                        onClick={() => {
-                          handleDeleteImage(index)
-                        }}
-                      >
-                        <CircleX
-                          color={'white'}
-                          width={20}
-                          height={20}
-                          type="default"
-                        />
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-              <div>
-                <CirclePlus
-                  width={30}
-                  height={30}
-                  color={'white'}
-                  onClick={openFileDialog}
-                />
-              </div>
-            </div>
-            <div
-              className={styles.IconContainer}
-              onClick={() => setOpen(!open)}
-            >
-              <BookImage width={30} height={30} color={'white'} />
-            </div>
-            <div
-              className={styles.IconZoomContainer}
-              onClick={() => setIsZooming(!isZooming)}
-            >
-              <ZoomIn width={30} height={30} color={'white'} />
-            </div>
-            {isZooming && (
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '70px',
-                  width: '180px',
-                  left: '100px',
-                  zIndex: '10',
-                  backgroundColor: 'rgba(23, 23, 23, 0.5)',
-                  padding: '15px',
-                  boxSizing: 'border-box',
-                  alignItems: 'center',
-                }}
-              >
-                <Slider
-                  min={1}
-                  max={4}
-                  step={0.1}
-                  value={[currentScale]}
-                  onValueChange={(value: number[]) =>
-                    handleScaleChanged(value[0])
-                  }
-                  className={styles.Slider}
-                />
-              </div>
-            )}
-          </Carousel>
-        ) : (
-          blobs.length === 1 && (
-            <div className={styles.CarouselContainerSinglePhoto}>
-              <Image
-                src={blobs[0]}
-                alt="Uploaded"
-                width={500}
-                height={500}
-                className={styles.CarouselContainerImage}
-                style={{ transform: `scale(${scales[0]})` }}
-              />
-              <div
-                className={
-                  open
-                    ? styles.ImagePreviewContainer
-                    : styles.ImagePreviewHideContainer
-                }
-              >
-                <div className={styles.imagePreview}>
-                  <div style={{ position: 'relative' }}>
-                    <Image
-                      src={blobs[0]}
-                      width={70}
-                      height={70}
-                      className={styles.minImg}
-                      alt="Uploaded"
-                    />
-                    <div
-                      className={styles.deleteImage}
-                      onClick={() => {
-                        handleDeleteImage(0)
-                      }}
-                    >
-                      <CircleX
-                        color={'white'}
-                        width={20}
-                        height={20}
-                        type="default"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <CirclePlus
-                    width={30}
-                    height={30}
-                    color={'white'}
-                    onClick={openFileDialog}
-                  />
-                </div>
-              </div>
-              <div
-                className={styles.IconContainer}
-                onClick={() => setOpen(!open)}
-              >
-                <BookImage width={30} height={30} color={'white'} />
-              </div>
-              <div
-                className={styles.IconZoomContainer}
-                onClick={() => {
-                  setIsZooming(!isZooming)
-                  setCurrentImageIndex(0)
-                }}
-              >
-                <ZoomIn width={30} height={30} color={'white'} />
-              </div>
-              {isZooming && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '70px',
-                    width: '180px',
-                    left: '100px',
-                    zIndex: '10',
-                    backgroundColor: 'rgba(23, 23, 23, 0.5)',
-                    padding: '15px',
-                    boxSizing: 'border-box',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Slider
-                    min={1}
-                    max={4}
-                    step={0.1}
-                    value={[currentScale]}
-                    onValueChange={(value: number[]) =>
-                      handleScaleChanged(value[currentImageIndex])
-                    }
-                    className={styles.Slider}
-                  />
-                </div>
-              )}
-            </div>
-          )
-        )}
+    <div className={styles.CarouselContainer}>
+      {urls.length > 1 ? (
+        <Carousel>
+          <CarouselContent>
+            {blobs.map((url, index) => (
+              <CarouselItem key={url} className={styles.CarouseItem}>
+                <MainImageDisplay url={url} scale={scales[index]} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious
+            className={styles.CarouselPrevBtn}
+            onClick={handlePrev}
+          />
+          <CarouselNext
+            className={styles.CarouselNextBtn}
+            onClick={handleNext}
+          />
+        </Carousel>
+      ) : (
+        <div className="singlePhotoContainer">
+          <MainImageDisplay url={blobs[0]} scale={scales[0]} />
+        </div>
+      )}
+      <PreviewGallery
+        open={open}
+        urls={blobs}
+        onDelete={handleDeleteImage}
+        onFileChange={handleImageChange}
+      />
+      <div className={styles.IconContainer} onClick={() => setOpen(!open)}>
+        <BookImage width={30} height={30} color={'white'} />
       </div>
-      <div>
-        <Input
-          type="file"
-          accept="image/*"
-          multiple // Позволяем загружать несколько файлов
-          onChange={handleImageChange}
-          style={{ display: 'none' }}
-          ref={fileInputRef}
-        />
-      </div>
-    </>
+
+      <ZoomControls
+        currentScale={currentScale}
+        onScaleChange={handleScaleChanged}
+      />
+    </div>
   )
 }

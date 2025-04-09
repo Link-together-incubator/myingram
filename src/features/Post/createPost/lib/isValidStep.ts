@@ -12,6 +12,7 @@ export const isValidStep = (
   if (!Array.isArray(state.urls) || state.urls.length === 0) {
     return false
   }
+
   const areAllUrlsStrings = state.urls.every((url) => typeof url === 'object')
   if (!areAllUrlsStrings) {
     return false

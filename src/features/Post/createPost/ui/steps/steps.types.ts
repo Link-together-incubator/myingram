@@ -11,12 +11,13 @@ export type AddPhotoProps = {
   urls: File[]
 }
 export type CroppingPhotoProps = {
-  handleDeleteImage: (inx: number) => void
   urls: File[]
+  scales: number[]
 }
 export type PublishPhotoProps = {
   postText: string
   urls: File[]
+  scales: number[]
 }
 export type AppPhoto = BasicStepProps<AddPhotoProps> & AddPhotoProps
 export type CroppingPhoto = BasicStepProps<CroppingPhotoProps> &
