@@ -46,4 +46,12 @@
       color: var(--accent-500);
     }
   }
+
+  .defaultAvatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--dark-100);
+    display: inline-block;
+  }
   

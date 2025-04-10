@@ -1,22 +1,12 @@
 'use client'
-import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
-import { Post, PostModal } from '@/entities/post/ui/PostModal/ui/PostModal'
 import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
-import { Button } from '@/shared/ui'
 
+const TEST_POST_ID = '6280fd16-468d-4b71-9ad1-1c914702a75f'
 
 export default function Home() {
   const user = useAuthMeData()
-  const [showModal, setShowModal] = useState(false)
-  const [post, setPost] = useState<Post | null>(null)
-
-  useEffect(() => {
-    // Временный json-server работает на http://localhost:3001
-    fetch('http://localhost:3001/posts/1')
-      .then((res) => res.json())
-      .then((data) => setPost(data))
-  }, [])
 
   return (
     <div
@@ -24,12 +14,9 @@ export default function Home() {
     >
       Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
       подтвердил почту
-      <Button variant="outline" onClick={() => setShowModal(true)}>
-        Modal Post
-      </Button>
-      {showModal && post && (
-        <PostModal post={post} onClose={() => setShowModal(false)} />
-      )}
+      <Link href={`/post/${TEST_POST_ID}`} scroll={false}>
+        <div className="mockPostCard">Post Card</div>
+      </Link>
     </div>
   )
 }
