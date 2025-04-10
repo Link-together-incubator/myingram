@@ -1,5 +1,6 @@
 .modal{
     width: 972px;
+    height: 564px; 
 }
 
 .wrapper{
@@ -42,7 +43,8 @@
 
 .content{
     display: flex;
-    
+    flex: 1; 
+    overflow: hidden; 
 }
 
 .description{

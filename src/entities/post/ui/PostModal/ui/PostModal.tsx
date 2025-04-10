@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { PostPayload } from '@/entities/post/post.types'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { Button } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
@@ -45,7 +46,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
   const [comments, setComments] = useState<PostComment[]>([])
   const [showEditModal, setShowEditModal] = useState(false)
   const [likedUsers, setLikedUsers] = useState<LikedUser[]>([])
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const { data: profile } = useGetUserProfileQuery(post.userId)
   const { data: authUser } = useAuthMeQuery()
   const isAuthor = authUser?.id === post.userId
@@ -96,6 +97,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
 
   const handleDelete = () => {
     setShowMenu(false)
+    setShowDeleteModal(true)
   }
 
   const handlePublish = () => {
@@ -116,7 +118,13 @@ export function PostModal({ post, onClose }: PostModalProps) {
 
   return (
     <ModalWrapper onClose={onClose}>
-      <div>
+      <div className={`${s.modal} ${s.postModalContent}`}>
+        {showDeleteModal && (
+          <DeletePostModal
+            postId={post.id}
+            onClose={() => setShowDeleteModal(false)}
+          />
+        )}
         {post.photoUrls && post.photoUrls.length > 1 ? (
           <ImageSlider images={post.photoUrls} />
         ) : (
@@ -124,7 +132,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
             src={post.photoUrls[0] || ''}
             alt="Post image"
             width={490}
-            height={562}
+            height={564}
             className={s.img}
           />
         )}

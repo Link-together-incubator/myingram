@@ -14,4 +14,10 @@
     color: var(--light-100);
     line-height: 24px;
   }
-  
+  .defaultAvatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--dark-100);
+    display: inline-block;
+  }

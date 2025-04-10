@@ -210,3 +210,13 @@
   background-color: var(--dark-100);
   display: inline-block;
 }
+
+ .postModalContent {
+  height: 564px;
+}
+
+.img{
+  width: 490px;
+  height: 564px;
+  object-fit: cover;
+}

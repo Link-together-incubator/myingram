@@ -7,18 +7,27 @@ import s from './UserInfo.module.scss'
 type UserInfoProps = {
   username: string
   className?: string
+  profileImage?: string
 }
 
-export const UserInfo = ({ username, className }: UserInfoProps) => {
+export const UserInfo = ({
+  username,
+  className,
+  profileImage,
+}: UserInfoProps) => {
   return (
     <div className={`${s.userInfo} ${className ?? ''}`}>
-      <Image
-        src="/assets/images/ava.png"
-        alt="avatar"
-        width={36}
-        height={36}
-        className={s.avatar}
-      />
+      {profileImage ? (
+        <Image
+          src={profileImage}
+          alt="avatar"
+          width={36}
+          height={36}
+          className={s.avatar}
+        />
+      ) : (
+        <div className={s.defaultAvatar} />
+      )}
       <span className={s.username}>{username}</span>
     </div>
   )
