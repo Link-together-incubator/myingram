@@ -1,7 +1,8 @@
 'use client'
-import { ChangeEvent, useEffect, useMemo } from 'react'
+import Image from 'next/image'
+import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 
-import { MainImageDisplay } from '@/features/Post/createPost/ui/steps/CroppingPhoto/MainImageDisplay'
+import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
 import { Carousel, Textarea } from '@/shared/ui'
 import {
   CarouselContent,
@@ -26,6 +27,7 @@ export const PublishPhotoStep = ({
   postText,
   setStepsState,
   scales,
+  isLoading,
 }: PublishPhoto) => {
   const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value
@@ -33,6 +35,8 @@ export const PublishPhotoStep = ({
       setStepsState(2, { postText: inputValue })
     }
   }
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const user = useAuthMeData()
 
   const blobs = useMemo(() => {
     return urls.map((url) => URL.createObjectURL(url))
@@ -44,6 +48,9 @@ export const PublishPhotoStep = ({
     },
     [blobs],
   )
+  const handleNext = () =>
+    setCurrentImageIndex((prev) => Math.min(prev + 1, urls.length - 1))
+  const handlePrev = () => setCurrentImageIndex((prev) => Math.max(prev - 1, 0))
 
   return (
     <div style={{ display: 'flex' }}>
@@ -52,12 +59,27 @@ export const PublishPhotoStep = ({
           <CarouselContent>
             {blobs.map((url, index) => (
               <CarouselItem key={url} className={styles.CarouseItem}>
-                <MainImageDisplay url={url} scale={scales[index]} />
+                <Image
+                  src={url}
+                  alt={`Uploaded ${index}`}
+                  width={500}
+                  height={500}
+                  className={styles.CarouselContainerImage}
+                  style={{
+                    transform: `scale(${currentImageIndex === index ? scales[index] : 1})`,
+                  }}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className={styles.CarouselPrevBtn} />
-          <CarouselNext className={styles.CarouselNextBtn} />
+          <CarouselPrevious
+            onClick={handlePrev}
+            className={styles.CarouselPrevBtn}
+          />
+          <CarouselNext
+            onClick={handleNext}
+            className={styles.CarouselNextBtn}
+          />
         </Carousel>
       </div>
       <div style={{ width: '100%' }}>
@@ -78,7 +100,7 @@ export const PublishPhotoStep = ({
               borderRadius: '50%',
             }}
           ></div>
-          <span style={{ color: 'white' }}>User name</span>
+          <span style={{ color: 'white' }}>{user?.name}</span>
         </div>
         <div style={{ padding: '15px', boxSizing: 'border-box' }}>
           <Textarea
@@ -88,6 +110,7 @@ export const PublishPhotoStep = ({
             style={{ width: '450px' }}
             value={postText}
             onChange={handleDescriptionChange}
+            disabled={isLoading}
           />
         </div>
         <div

@@ -119,6 +119,8 @@ export const CroppingPhotoStep = ({
     }
   }
 
+  if (blobs.length === 0) return null
+
   return (
     <div className={styles.CarouselContainer}>
       {urls.length > 1 ? (

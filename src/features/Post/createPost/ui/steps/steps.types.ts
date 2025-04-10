@@ -18,6 +18,7 @@ export type PublishPhotoProps = {
   postText: string
   urls: File[]
   scales: number[]
+  isLoading: boolean
 }
 export type AppPhoto = BasicStepProps<AddPhotoProps> & AddPhotoProps
 export type CroppingPhoto = BasicStepProps<CroppingPhotoProps> &

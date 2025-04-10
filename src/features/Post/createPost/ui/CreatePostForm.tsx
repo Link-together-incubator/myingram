@@ -39,10 +39,12 @@ export const CreatePostForm = () => {
     handleOnOpenDraft,
   } = useStepsProcess(steps, titles)
 
-  const [createPost] = useCreatePostMutation()
+  const [createPost, { isLoading }] = useCreatePostMutation()
   const dispatch = useAppDispatch()
 
   const handleOnClose = () => {
+    if (isLoading) return
+
     dispatch(
       setPrompt({
         state: {
@@ -118,7 +120,7 @@ export const CreatePostForm = () => {
 
       formData.append('description', text)
 
-      await createPost(formData)
+      await createPost(formData).unwrap()
       dispatch(setCreatePostModal(false))
       dispatch(
         setAppAlert({
@@ -136,6 +138,7 @@ export const CreatePostForm = () => {
       <div
         onClick={(e) => e.stopPropagation()}
         className={styles.modal}
+        key={currentStep}
         style={
           currentStep === 2 ? { maxWidth: '1000px' } : { maxWidth: '520px' }
         }
@@ -146,7 +149,11 @@ export const CreatePostForm = () => {
               Cancel
             </Button>
           ) : (
-            <Button variant={'outline'} onClick={handleBack}>
+            <Button
+              disabled={isLoading}
+              variant={'outline'}
+              onClick={handleBack}
+            >
               Back
             </Button>
           )}
@@ -161,7 +168,7 @@ export const CreatePostForm = () => {
             </Button>
           ) : (
             <Button
-              disabled={!isValidStep(props, currentStep)}
+              disabled={!isValidStep(props, currentStep) || isLoading}
               variant={'outline'}
               onClick={handleOnCreatePost}
             >
@@ -174,6 +181,7 @@ export const CreatePostForm = () => {
           handleOnOpenDraft={handleOnOpenDraft}
           handleBack={handleBack}
           handleNext={handleNext}
+          isLoading={isLoading}
           {...props}
         />
       </div>

@@ -46,7 +46,7 @@
   object-fit: cover;
   transition: transform 0.5s ease-in-out;
   cursor: pointer;
-  height: 700px;
+  height: 500px;
 }
 
 .CarouselImage {
@@ -72,11 +72,11 @@
 }
 
 .TextAreaContainer {
-  padding: '15px'; 
-  box-sizing: border-box
+  padding: '15px';
+  box-sizing: border-box;
 }
 
-.UserNameContainer { 
+.UserNameContainer {
   display: 'flex';
   align-items: 'center';
   gap: '15px';
