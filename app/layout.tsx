@@ -3,6 +3,7 @@ import '@/_app/styles/globals.css'
 import { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import Script from 'next/script'
+import { Suspense } from 'react'
 
 import { InitProvider, ModalProvider, StoreProvider } from '@/_app/providers'
 import { ProgressBar } from '@/shared/ui'
@@ -31,13 +32,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <StoreProvider>
-          <ModalProvider>
-            <InitProvider>
-              <Header />
-              <ProgressBar />
-              <main>{children}</main>
-            </InitProvider>
-          </ModalProvider>
+          <Suspense>
+            <ModalProvider>
+              <InitProvider>
+                <Header />
+                <ProgressBar />
+                <main>{children}</main>
+              </InitProvider>
+            </ModalProvider>
+          </Suspense>
         </StoreProvider>
         <Script
           src="https://www.google.com/recaptcha/api.js?hl=en"

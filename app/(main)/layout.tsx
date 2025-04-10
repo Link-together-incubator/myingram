@@ -1,6 +1,5 @@
 'use client'
 
-import { withSignInRedirect } from '@/shared/lib/hocs/withSignInRedirect'
 import { AppSidebar } from '@/widgets/Sidebar/ui/AppSidebar'
 import { SidebarProvider, SidebarTrigger } from '@/widgets/Sidebar/ui/Sidebar'
 
@@ -20,4 +19,4 @@ function Layout({
   )
 }
 
-export default withSignInRedirect(Layout)
+export default Layout
