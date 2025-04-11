@@ -1,7 +1,7 @@
 'use client'
 
 import { Eye, EyeOff, Search } from 'lucide-react'
-import { InputHTMLAttributes, useState } from 'react'
+import { InputHTMLAttributes, Ref, useState } from 'react'
 
 import s from './Input.module.scss'
 
@@ -28,12 +28,13 @@ type InputProps = {
   disabled?: boolean
   className?: string
   label?: string
+  ref?: Ref<HTMLInputElement>
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const Input = ({
   variant = 'default',
   error,
-
+  ref,
   disabled,
   className,
   label,
@@ -57,6 +58,7 @@ export const Input = ({
           type={variant === 'password' && !showPassword ? 'password' : 'text'}
           placeholder={placeholders[variant]}
           disabled={disabled}
+          ref={ref}
           {...props}
         />
         {variant === 'password' && (

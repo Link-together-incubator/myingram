@@ -1,3 +1,4 @@
+import { baseApi } from '@/shared/api/baseApi'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
 import { resetState } from '@/shared/lib/utils/resetStoreAction'
 
@@ -11,8 +12,6 @@ import {
   SignUpPayload,
   VerificationPayload,
 } from '../user.types'
-
-import { baseApi } from './../../../shared/api/baseApi'
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

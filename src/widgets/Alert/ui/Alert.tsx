@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import { useEffect } from 'react'
 
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
-import { setAppError } from '@/shared/model/appSlice'
+import { setAppAlert } from '@/shared/model/appSlice'
 
 import cls from './Alert.module.scss'
 
@@ -15,15 +15,17 @@ type AlertProps = {
   data: { message: string; type: AlertType }
 }
 
+const TIMEOUT_AUTOCLOSE_ALERT = 3000
+
 export const Alert = ({ data: { message, type } }: AlertProps) => {
   const dispatch = useAppDispatch()
 
   const closeAlertCallback = () => {
-    dispatch(setAppError(null))
+    dispatch(setAppAlert(null))
   }
 
   useEffect(() => {
-    const timeoutId = setTimeout(closeAlertCallback, 5000)
+    const timeoutId = setTimeout(closeAlertCallback, TIMEOUT_AUTOCLOSE_ALERT)
 
     return () => {
       clearInterval(timeoutId)

@@ -10,6 +10,8 @@ import {
 import Link from 'next/link'
 
 import { useLogoutMutation } from '@/entities/user/api/userApi'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { setCreatePostModal } from '@/shared/model/appSlice'
 import {
   Sidebar,
   SidebarContent,
@@ -72,6 +74,7 @@ const sidebarFooter = [
 
 export function AppSidebar() {
   const [logout, { isLoading }] = useLogoutMutation()
+  const dispatch = useAppDispatch()
 
   const handleLogOut = async () => {
     try {
@@ -90,10 +93,17 @@ export function AppSidebar() {
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url}>
+                    <button
+                      onClick={
+                        item.title === 'Create'
+                          ? dispatch.bind(null, setCreatePostModal(true))
+                          : undefined
+                      }
+                      className="cursor-pointer"
+                    >
                       <item.icon style={{ width: '24px', height: '24px' }} />
                       <span>{item.title}</span>
-                    </Link>
+                    </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

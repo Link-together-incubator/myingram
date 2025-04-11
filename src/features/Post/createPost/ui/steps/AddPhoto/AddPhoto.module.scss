@@ -1,0 +1,35 @@
+.content {
+  padding: 50px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageContainer {
+  background-color: var(--background-3);
+  width: 100%;
+  max-width: 255px;
+  height: 228px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  max-width: 255px;
+  border-radius: 2px;
+}
