@@ -17,6 +17,7 @@ export default function Home() {
       <Link href={`/post/${TEST_POST_ID}`} scroll={false}>
         <div className="mockPostCard">Post Card</div>
       </Link>
+      <div className="h-[1000px]"></div>
     </div>
   )
 }
