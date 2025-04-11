@@ -5,6 +5,12 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 import { PostPayload } from '@/entities/post/post.types'
+import {
+  CommentItem,
+  DropdownMenu,
+  ImageSlider,
+  PostHeader,
+} from '@/entities/post/ui'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/entities/user/api/userApi'
 import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
@@ -12,11 +18,6 @@ import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { Button } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
-
-import { CommentItem } from '../../CommentItem/ui/CommentItem'
-import { DropdownMenu } from '../../DropdownMenu/ui/DropdownMenu'
-import { ImageSlider } from '../../ImageSlider/ui/ImageSlider'
-import { PostHeader } from '../../PostHeader/ui/PostHeader'
 
 import s from './PostModal.module.scss'
 

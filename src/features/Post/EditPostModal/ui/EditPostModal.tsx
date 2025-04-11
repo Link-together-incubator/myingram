@@ -9,7 +9,7 @@ import { Button, Textarea } from '@/shared/ui'
 import { ConfirmModal } from '@/shared/ui/ConfirmModal/ConfirmModal'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 
-import { UserInfo } from '../../../../entities/post/ui/UserInfo/UserInfo'
+import { UserInfo } from '../../../../entities/post/ui/UserInfo/ui/UserInfo'
 
 import s from './EditPostModal.module.scss'
 

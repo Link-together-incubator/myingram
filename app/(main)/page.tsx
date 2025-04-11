@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
 
-const TEST_POST_ID = '6280fd16-468d-4b71-9ad1-1c914702a75f'
+const TEST_POST_ID = 'c3e8fcec-133f-45fb-b90e-8a47d049d0e2'
 
 export default function Home() {
   const user = useAuthMeData()

@@ -16,10 +16,12 @@ export const DeletePostModal = ({ postId, onClose }: DeletePostModalProps) => {
   const handleConfirm = async () => {
     try {
       await deletePost({ postId }).unwrap()
-      router.push('/')
       onClose()
+      router.push('/')
     } catch (err) {
       console.error('Ошибка при удалении поста:', err)
+      onClose()
+      router.push('/')
     }
   }
   return (
