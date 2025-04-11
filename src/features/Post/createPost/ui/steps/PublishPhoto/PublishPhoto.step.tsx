@@ -16,10 +16,6 @@ import { PublishPhoto } from '../steps.types'
 
 import styles from './PublishPhoto.module.scss'
 
-type Textarea = {
-  description: string
-}
-
 const maxLength = 500
 
 export const PublishPhotoStep = ({

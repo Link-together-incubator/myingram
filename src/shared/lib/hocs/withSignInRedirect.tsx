@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
 import { useAuthMeData } from '../../../entities/user/lib/useAuthMeData'
@@ -9,7 +8,6 @@ export const withSignInRedirect = <P extends object>(
   Component: ComponentType<P>,
 ) => {
   const WrappedComponent = (props: P) => {
-    const router = useRouter()
     const user = useAuthMeData()
 
     useEffect(() => {

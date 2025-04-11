@@ -55,6 +55,7 @@ export function Carousel({
     {
       ...opts,
       axis: orientation === 'horizontal' ? 'x' : 'y',
+      watchDrag: false,
     },
     plugins,
   )
@@ -248,12 +249,3 @@ export function CarouselNext({
     </Button>
   )
 }
-
-// export {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-//   type CarouselApi,
-// }
