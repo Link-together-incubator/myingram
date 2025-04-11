@@ -24,3 +24,5 @@ export { Pagination } from './Pagination/ui/Pagination'
 export { SwitchButton } from './SwitchButton/SwitchButton'
 
 export { SelectBox } from './SelectBox/SelectBox'
+
+export { Carousel } from './Carousel/Carousel'

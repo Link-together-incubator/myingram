@@ -5,56 +5,85 @@ import {
   isRejected,
 } from '@reduxjs/toolkit'
 
-import { EmailSentModal, ErrorAlert, RequestStatus } from './appSlice.types'
+import {
+  Alert,
+  EmailSentModal,
+  PromptState,
+  RequestStatus,
+  UserChoice,
+} from './appSlice.types'
 
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
-    error: null as ErrorAlert,
-    status: 'idle' as RequestStatus,
-    isShowEmailSentModal: null as EmailSentModal,
+    modals: {
+      alert: null as Alert,
+      appStatus: 'idle' as RequestStatus,
+      emailSentMessage: null as EmailSentModal,
+      createPostModal: false,
+      promptModal: {
+        state: null as PromptState,
+        userChoice: null as UserChoice,
+      },
+    },
   },
   reducers: (create) => ({
-    setAppError: create.reducer<ErrorAlert>((state, action) => {
-      state.error = action.payload
+    setAppAlert: create.reducer<Alert>((state, action) => {
+      state.modals.alert = action.payload
     }),
 
+    setPrompt: create.reducer<{ state: PromptState; userChoice: UserChoice }>(
+      (state, action) => {
+        state.modals.promptModal.state = action.payload.state
+        state.modals.promptModal.userChoice = action.payload.userChoice
+      },
+    ),
+
     setIsShowEmailSentModal: create.reducer<EmailSentModal>((state, action) => {
-      if (action.payload === null) {
-        state.isShowEmailSentModal = null
-      } else {
-        state.isShowEmailSentModal = {
-          message: action.payload.message,
-          title: action.payload.title,
-        }
-      }
+      state.modals.emailSentMessage = action.payload
     }),
 
     setStatus: create.reducer<RequestStatus>((state, action) => {
-      state.status = action.payload
+      state.modals.appStatus = action.payload
+    }),
+
+    setCreatePostModal: create.reducer<boolean>((state, action) => {
+      state.modals.createPostModal = action.payload
     }),
   }),
   extraReducers: (builder) => {
     builder
       .addMatcher(isPending, (state) => {
-        state.status = 'loading'
+        state.modals.appStatus = 'loading'
       })
       .addMatcher(isFulfilled, (state) => {
-        state.status = 'succeeded'
+        state.modals.appStatus = 'succeeded'
       })
       .addMatcher(isRejected, (state) => {
-        state.status = 'failed'
+        state.modals.appStatus = 'failed'
       })
   },
   selectors: {
-    selectShowEmailSentModal: (state) => state.isShowEmailSentModal,
-    selectStatusRequest: (state) => state.status,
-    selectError: (state) => state.error,
+    selectShowEmailSentModal: (state) => state.modals.emailSentMessage,
+    selectStatusRequest: (state) => state.modals.appStatus,
+    selectAlert: (state) => state.modals.alert,
+    selectModals: (state) => state.modals,
+    selectUserChoice: (state) => state.modals.promptModal.userChoice,
   },
 })
 
-export const { setAppError, setIsShowEmailSentModal, setStatus } =
-  appSlice.actions
-export const { selectShowEmailSentModal, selectStatusRequest, selectError } =
-  appSlice.selectors
+export const {
+  setAppAlert,
+  setIsShowEmailSentModal,
+  setStatus,
+  setCreatePostModal,
+  setPrompt,
+} = appSlice.actions
+export const {
+  selectShowEmailSentModal,
+  selectStatusRequest,
+  selectAlert,
+  selectModals,
+  selectUserChoice,
+} = appSlice.selectors
 export const appReducer = appSlice.reducer

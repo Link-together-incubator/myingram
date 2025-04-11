@@ -1,8 +1,10 @@
+import { baseApi } from '@/shared/api/baseApi'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
 import { resetState } from '@/shared/lib/utils/resetStoreAction'
 
 import {
   AuthMeResponse,
+  GooglePayload,
   LoginArgs,
   LoginResponse,
   PasswordRecoveryPayload,
@@ -10,8 +12,6 @@ import {
   SignUpPayload,
   VerificationPayload,
 } from '../user.types'
-
-import { baseApi } from './../../../shared/api/baseApi'
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -56,6 +56,20 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+    loginGoogle: builder.mutation<LoginResponse, GooglePayload>({
+      query: (payload) => ({
+        url: 'auth/google',
+        method: 'POST',
+        body: payload,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const response = await queryFulfilled.catch(console.log)
+        if (response) {
+          localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
+          await dispatch(userApi.endpoints.authMe.initiate())
+        }
+      },
+    }),
     verifyResend: builder.mutation<void, VerificationPayload>({
       query: (payload) => {
         return {
@@ -78,6 +92,8 @@ export const userApi = baseApi.injectEndpoints({
         return {
           url: `auth/me`,
           method: 'GET',
+          keepUnusedDataFor: 0,
+          cacheTime: 0,
         }
       },
     }),
@@ -115,4 +131,5 @@ export const {
   useAuthMeQuery,
   useLazyAuthMeQuery,
   useLogoutMutation,
+  useLoginGoogleMutation,
 } = userApi

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { ACCESS_TOKEN } from '../constants/const'
 import { getCropString } from '../lib/utils/getCropString'
-import { setAppError } from '../model/appSlice'
+import { setAppAlert } from '../model/appSlice'
 
 type ErrorData = {
   errorsMessages?: string[] | { field: string; message: string }[]
@@ -66,7 +66,7 @@ export const baseApi = createApi({
           error = 'Error! Server is not available'
         }
         api.dispatch(
-          setAppError({
+          setAppAlert({
             message: getCropString(error, 30),
             type: 'error',
           }),

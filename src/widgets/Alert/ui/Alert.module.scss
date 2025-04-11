@@ -12,7 +12,7 @@
   justify-content: space-between;
   animation: slideIn 0.5s ease-out;
   transition: opacity 0.5s ease-out;
-  z-index: 100;
+  z-index: 10000;
 }
 
 .btn {
@@ -39,8 +39,8 @@
 }
 
 .classic {
-  background-color: var(--foreground-5);
-  border-color: var(--danger-1);
+  background-color: var(--background-4);
+  border-color: goldenrod;
 }
 
 @keyframes slideIn {

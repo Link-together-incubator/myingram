@@ -9,6 +9,15 @@ import {
 
 export const postApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createPost: builder.mutation<void, FormData>({
+      query: (formData) => {
+        return {
+          url: 'posts',
+          method: 'POST',
+          body: formData,
+        }
+      },
+    }),
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostPayload>({
       query: ({ postId, description }) => {
         return {
@@ -42,6 +51,7 @@ export const postApi = baseApi.injectEndpoints({
 })
 
 export const {
+  useCreatePostMutation,
   useUpdatePostMutation,
   useGetPostByIdQuery,
   useDeletePostMutation,

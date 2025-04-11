@@ -30,3 +30,7 @@ export type AuthMeResponse = {
   email: string
   isConfirmed: string
 }
+
+export type GooglePayload = {
+  token: string
+}
