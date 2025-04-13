@@ -60,6 +60,7 @@
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-prettier": "^5.2.3",
     "is-core-module": "^2.16.1",
+    "json-server": "0.17.4",
     "prettier": "^3.5.3",
     "resolve": "^1.22.10",
     "sass": "^1.85.1",

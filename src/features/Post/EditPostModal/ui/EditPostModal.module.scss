@@ -16,7 +16,7 @@
     line-height: 36px;
     color: var(--light-100);
 }
-
+ 
 .header {
     display: flex;
     justify-content: space-between;
@@ -78,7 +78,7 @@
 
 .saveButton{
     max-width: 135px;
-    padding: 6px 8px;
+    padding: 6px 8px !important;
     align-self: flex-end;
     margin-top: auto;
 }
