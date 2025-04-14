@@ -6,13 +6,12 @@ export default function useScroll(
   callback: () => void,
 ) {
   const observer = useRef<IntersectionObserver | null>(null)
-  console.log(observer)
 
   useEffect(() => {
     const options = {
-      root: parentRef.current,
+      root: null,
       rootMargin: '0px',
-      threshold: 1,
+      threshold: 0,
     }
 
     if (!parentRef.current || !childRef.current) {
@@ -20,11 +19,14 @@ export default function useScroll(
     }
 
     observer.current = new IntersectionObserver(([target]) => {
+      console.log(target, 'target')
+      console.log(target.isIntersecting, 'target1')
       if (target.isIntersecting) {
         console.log('intersected')
         callback()
       }
     }, options)
+    console.log(observer.current, 'observerCurrent')
 
     observer.current.observe(childRef.current)
 

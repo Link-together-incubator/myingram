@@ -2,32 +2,15 @@
 
 import Image from 'next/image'
 import { useParams } from 'next/navigation'
-import { RefObject, useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
+import { Post } from '@/entities/post/api/posts.types'
 import { useUserProfileQuery } from '@/entities/user/api/userApi'
 import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 import useScroll from '@/shared/lib/hooks/useScroll'
 import { Button } from '@/shared/ui'
 
 import s from './profile.module.scss'
-
-type Posts = {
-  items: Post[]
-  totalCount: number
-  pagesCount: number
-  page: number
-  pageSize: number
-}
-
-type Post = {
-  id: string
-  userId: string
-  description: string
-  photoUrls: string[]
-  createdAt: string
-  updatedAt: string
-  photoUploadStatus: string
-}
 
 export default function Profile() {
   const user = useAuthMeData()
@@ -36,8 +19,10 @@ export default function Profile() {
 
   const isCurrentUser = user?.id === id
 
-  const [posts, setPosts] = useState<Posts[]>([])
+  const [posts, setPosts] = useState<Post[]>([])
+  const [postsCount, setPostsCount] = useState(0)
   const [page, setPage] = useState(1)
+
   const limit = 8
   const childRef = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
@@ -47,28 +32,15 @@ export default function Profile() {
 
   function fetchPosts(page: number, limit: number) {
     fetch(
-      `https://gateway.myin-gram.ru/api/v1/posts?page=${page}&pageSize=${limit}&userId=${id}`,
+      `https://gateway.myin-gram.ru/api/v1/posts?pageNumber=${page}&pageSize=${limit}&userId=${id}`,
     )
       .then((response) => response.json())
       .then((json) => {
-        setPosts((prev) => [...prev, ...json])
         setPage((prev) => prev + 1)
+        setPosts((prev) => [...prev, ...json.items])
+        setPostsCount(json.totalCount)
       })
   }
-
-  useEffect(() => {
-    fetchPosts(page, limit)
-  }, [])
-  //TODO: нужен запрос на получение данных о пользователе по id
-  // const user = useAuthMeData()
-  //
-
-  // const isCurrentUser = user?.id === id
-  // const isFriend = user?.friends?.includes(id)
-
-  // if (!userData) {
-  //   return <div>User not found</div>
-  // }
 
   return (
     <div className={s.profileBlock}>
@@ -87,7 +59,7 @@ export default function Profile() {
           <div className={s.profileAndButtonGroup}>
             <div className={s.profileNameAndPaidGroup}>
               <h1 className={s.userName}>{data?.userName}</h1>
-              {data?.paymentAccont ? (
+              {data?.paymentAccount ? (
                 <Image
                   src={'/assets/svg/Paid.png'}
                   alt={''}
@@ -128,7 +100,7 @@ export default function Profile() {
               <span>Followers</span>
             </div>
             <div>
-              <span>{posts.totalCount}</span>
+              <span>{postsCount}</span>
               <span>Publications</span>
             </div>
           </div>
@@ -136,15 +108,14 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className={s.posts}>
-        {/* TODO: сделать посты */}
+      <div ref={parentRef} className={s.posts}>
         {posts.map((post) => (
-          <div className={s.imageContainer} key={post.id} ref={parentRef}>
+          <div className={s.imageContainer} key={post.id}>
             <Image src={post.photoUrls[0]} alt={''} width={234} height={228} />
           </div>
         ))}
-        <div ref={childRef} style={{ overflow: 'hidden' }}></div>
       </div>
+      <div ref={childRef}></div>
     </div>
   )
 }

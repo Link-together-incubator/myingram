@@ -5,6 +5,7 @@ export type UserResponse = {
   photoUrl: string
   firstName: string
   lastName: string
+  paymentAccount: boolean
   dateOfBirth: string
   country: string
   city: string
