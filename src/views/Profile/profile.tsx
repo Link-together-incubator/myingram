@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { useRef, useState } from 'react'
 
-import { Post } from '@/entities/post/api/posts.types'
+import { PostResponse } from '@/entities/post/post.types'
 import { useUserProfileQuery } from '@/entities/user/api/userApi'
 import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 import useScroll from '@/shared/lib/hooks/useScroll'
@@ -19,7 +19,7 @@ export default function Profile() {
 
   const isCurrentUser = user?.id === id
 
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<PostResponse[]>([])
   const [postsCount, setPostsCount] = useState(0)
   const [page, setPage] = useState(1)
 
