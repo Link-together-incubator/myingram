@@ -13,7 +13,7 @@ import {
   VerificationPayload,
 } from './auth.types'
 
-export const auth = baseApi.injectEndpoints({
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<void, SignUpPayload>({
       query: (payload) => {
