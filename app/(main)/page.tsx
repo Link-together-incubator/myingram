@@ -11,6 +11,7 @@ export default function Home() {
     >
       Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
       подтвердил почту
+      <div className="h-[1000px]"></div>
     </div>
   )
 }

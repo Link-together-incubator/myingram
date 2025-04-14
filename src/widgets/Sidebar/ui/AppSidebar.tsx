@@ -11,6 +11,8 @@ import Link from 'next/link'
 
 import { useLogoutMutation } from '@/features/auth/api/authApi'
 import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
+import { setCreatePostModal } from '@/shared/model/appSlice'
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +26,7 @@ import {
 
 export function AppSidebar() {
   const [logout, { isLoading }] = useLogoutMutation()
+  const dispatch = useAppDispatch()
   const user = useAuthMeData()
 
   const handleLogOut = async () => {
@@ -92,10 +95,24 @@ export function AppSidebar() {
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon style={{ width: '24px', height: '24px' }} />
-                      <span>{item.title}</span>
-                    </Link>
+                    {item.title === 'Create' ? (
+                      <button
+                        onClick={
+                          item.title === 'Create'
+                            ? dispatch.bind(null, setCreatePostModal(true))
+                            : undefined
+                        }
+                        className="cursor-pointer"
+                      >
+                        <item.icon style={{ width: '24px', height: '24px' }} />
+                        <span>{item.title}</span>
+                      </button>
+                    ) : (
+                      <Link href={item.url}>
+                        <item.icon style={{ width: '24px', height: '24px' }} />
+                        <span>{item.title}</span>
+                      </Link>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
