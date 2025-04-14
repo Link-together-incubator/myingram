@@ -13,7 +13,7 @@ import {
   VerificationPayload,
 } from './auth.types'
 
-export const userApi = baseApi.injectEndpoints({
+export const auth = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<void, SignUpPayload>({
       query: (payload) => {
@@ -52,7 +52,7 @@ export const userApi = baseApi.injectEndpoints({
         const response = await queryFulfilled.catch(console.log)
         if (response) {
           localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
-          await dispatch(userApi.endpoints.authMe.initiate())
+          await dispatch(authApi.endpoints.authMe.initiate())
         }
       },
     }),
@@ -66,7 +66,7 @@ export const userApi = baseApi.injectEndpoints({
         const response = await queryFulfilled.catch(console.log)
         if (response) {
           localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
-          await dispatch(userApi.endpoints.authMe.initiate())
+          await dispatch(authApi.endpoints.authMe.initiate())
         }
       },
     }),
@@ -132,4 +132,4 @@ export const {
   useLazyAuthMeQuery,
   useLogoutMutation,
   useLoginGoogleMutation,
-} = userApi
+} = authApi
