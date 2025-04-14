@@ -3,7 +3,7 @@
 import { ReactNode, useEffect } from 'react'
 
 import { useAppStart } from '@/_app/lib/useAppStart'
-import { useLoginGoogleMutation } from '@/entities/user/api/userApi'
+import { useLoginGoogleMutation } from '@/features/auth/api/authApi'
 import { Loader } from '@/shared/ui'
 
 export const InitProvider = ({ children }: { children: ReactNode }) => {

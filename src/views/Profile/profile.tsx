@@ -29,6 +29,7 @@ export default function Profile() {
   const intersected = useScroll(parentRef, childRef, () =>
     fetchPosts(page, limit),
   )
+  console.log(intersected)
 
   function fetchPosts(page: number, limit: number) {
     fetch(

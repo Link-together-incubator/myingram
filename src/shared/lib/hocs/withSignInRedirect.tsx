@@ -2,7 +2,7 @@
 
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeData } from '../../../entities/user/lib/useAuthMeData'
+import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 
 export const withSignInRedirect = <P extends object>(
   Component: ComponentType<P>,

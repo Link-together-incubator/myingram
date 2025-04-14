@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
 
 export const useAppStart = () => {

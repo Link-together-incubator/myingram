@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 
-import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
+import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
 import { Carousel, Textarea } from '@/shared/ui'
 import {
   CarouselContent,
