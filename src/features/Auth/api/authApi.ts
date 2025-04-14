@@ -1,8 +1,10 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { ACCESS_TOKEN } from '@/shared/constants/const'
 import { resetState } from '@/shared/lib/utils/resetStoreAction'
 
 import {
   AuthMeResponse,
+  GooglePayload,
   LoginArgs,
   LoginResponse,
   PasswordRecoveryPayload,
@@ -11,7 +13,7 @@ import {
   VerificationPayload,
 } from './auth.types'
 
-export const authApi = baseApi.injectEndpoints({
+export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<void, SignUpPayload>({
       query: (payload) => {
@@ -49,8 +51,22 @@ export const authApi = baseApi.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const response = await queryFulfilled.catch(console.log)
         if (response) {
-          localStorage.setItem('access-token', response!.data.accessToken)
-          await dispatch(authApi.endpoints.authMe.initiate())
+          localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
+          await dispatch(userApi.endpoints.authMe.initiate())
+        }
+      },
+    }),
+    loginGoogle: builder.mutation<LoginResponse, GooglePayload>({
+      query: (payload) => ({
+        url: 'auth/google',
+        method: 'POST',
+        body: payload,
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        const response = await queryFulfilled.catch(console.log)
+        if (response) {
+          localStorage.setItem(ACCESS_TOKEN, response!.data.accessToken)
+          await dispatch(userApi.endpoints.authMe.initiate())
         }
       },
     }),
@@ -76,6 +92,8 @@ export const authApi = baseApi.injectEndpoints({
         return {
           url: `auth/me`,
           method: 'GET',
+          keepUnusedDataFor: 0,
+          cacheTime: 0,
         }
       },
     }),
@@ -94,7 +112,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         await queryFulfilled.catch(console.log)
-        localStorage.removeItem('access-token')
+        localStorage.removeItem(ACCESS_TOKEN)
 
         dispatch(baseApi.util.resetApiState())
         dispatch(resetState())
@@ -113,4 +131,5 @@ export const {
   useAuthMeQuery,
   useLazyAuthMeQuery,
   useLogoutMutation,
-} = authApi
+  useLoginGoogleMutation,
+} = userApi
