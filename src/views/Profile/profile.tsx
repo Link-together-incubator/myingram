@@ -7,10 +7,12 @@ import { useRef, useState } from 'react'
 import { PostResponse } from '@/entities/post/post.types'
 import { useUserProfileQuery } from '@/entities/user/api/userApi'
 import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
-import useScroll from '@/shared/lib/hooks/useScroll'
+import { useScroll } from '@/shared/lib/hooks/useScroll'
 import { Button } from '@/shared/ui'
 
 import s from './profile.module.scss'
+
+const LIMIT = 8
 
 export default function Profile() {
   const user = useAuthMeData()
@@ -23,11 +25,10 @@ export default function Profile() {
   const [postsCount, setPostsCount] = useState(0)
   const [page, setPage] = useState(1)
 
-  const limit = 8
   const childRef = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
   const intersected = useScroll(parentRef, childRef, () =>
-    fetchPosts(page, limit),
+    fetchPosts(page, LIMIT),
   )
   console.log(intersected)
 

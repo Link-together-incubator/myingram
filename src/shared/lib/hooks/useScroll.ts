@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export default function useScroll(
+export function useScroll(
   parentRef: React.RefObject<HTMLElement | null>,
   childRef: React.RefObject<HTMLElement | null>,
   callback: () => void,
