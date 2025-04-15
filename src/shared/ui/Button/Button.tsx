@@ -1,3 +1,5 @@
+'use client'
+
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Link from 'next/link'
@@ -46,7 +48,7 @@ export const Button = ({
   href,
   ...props
 }: ButtonProps) => {
-  const isLink = variant === 'link' || isA
+  const isLink = (variant === 'link' || isA) && !!href
 
   const Comp = asChild ? Slot : isLink ? Link : 'button'
 

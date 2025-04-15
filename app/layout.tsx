@@ -3,9 +3,13 @@ import '@/_app/styles/globals.css'
 import { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import Script from 'next/script'
-import { Suspense } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 
-import { InitProvider, ModalProvider, StoreProvider } from '@/_app/providers'
+import {
+  ModalProvider,
+  PostToolkitProvider,
+  StoreProvider,
+} from '@/_app/providers'
 import { ProgressBar } from '@/shared/ui'
 import { Header } from '@/widgets/Header'
 
@@ -23,23 +27,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: Readonly<PropsWithChildren>) {
   return (
     <html lang="en">
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <StoreProvider>
           <Suspense>
-            <ModalProvider>
-              <InitProvider>
+            <PostToolkitProvider>
+              <ModalProvider>
                 <Header />
                 <ProgressBar />
                 <main>{children}</main>
-              </InitProvider>
-            </ModalProvider>
+              </ModalProvider>
+            </PostToolkitProvider>
           </Suspense>
         </StoreProvider>
         <Script

@@ -1,6 +1,6 @@
 'use client'
-
-import { ReactNode, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { PropsWithChildren, useEffect } from 'react'
 
 import { CreatePostForm } from '@/features/Post/createPost'
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
@@ -9,11 +9,8 @@ import { Alert } from '@/widgets/Alert'
 import { Prompt } from '@/widgets/Prompt/ui/Prompt'
 import { SuccessEmailSent } from '@/widgets/SuccessEmailSent'
 
-type ModalProviderProps = {
-  children: ReactNode
-}
 // TODO: при открытии любой модалки = перерендер всех модалок. МБ вынести в отдельные провайдеры?
-export function ModalProvider({ children }: ModalProviderProps) {
+export function ModalProvider({ children }: PropsWithChildren) {
   const {
     alert,
     createPostModal,
@@ -21,19 +18,19 @@ export function ModalProvider({ children }: ModalProviderProps) {
     promptModal: { state: promptModalState },
   } = useAppSelector(selectModals)
 
+  const searchParams = useSearchParams()
+  const postId = searchParams.get('postId')
+
   useEffect(() => {
-    if (!emailSentMessage && !alert && !createPostModal && !promptModalState)
+    if (!emailSentMessage && !createPostModal && !promptModalState && !postId)
       return
 
-    const body = document.querySelector('body')
-    if (!body) return
-
-    body.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden'
 
     return () => {
-      body.style.overflow = 'visible'
+      document.body.style.overflow = 'visible'
     }
-  }, [alert, createPostModal, emailSentMessage, promptModalState])
+  }, [createPostModal, emailSentMessage, promptModalState, postId])
 
   return (
     <>
@@ -46,6 +43,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
       {createPostModal && <CreatePostForm />}
       {promptModalState && <Prompt {...promptModalState} />}
       {alert && <Alert data={alert} />}
+
       {children}
     </>
   )
