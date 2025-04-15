@@ -1,4 +1,5 @@
 import { baseApi } from '@/shared/api/baseApi'
+import { buildQueryString } from '@/shared/lib/utils/queryParams'
 
 import {
   GetPostsPayload,
@@ -50,10 +51,13 @@ export const postApi = baseApi.injectEndpoints({
       }),
     }),
     getPosts: builder.query<GetPostsPayload, GetPostsQueryParamPayload>({
-      query: ({ pageNumber, pageSize, userId }) => ({
-        url: `posts?pageNumber=1&pageSize=10`,
-        method: 'GET',
-      }),
+      query: (param = {}) => {
+        const queries = buildQueryString(param)
+        return {
+          url: `posts${queries}`,
+          method: 'GET',
+        }
+      },
     }),
   }),
 })
