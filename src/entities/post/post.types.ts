@@ -11,6 +11,14 @@ export type PostPayload = {
   updatedAt: string
 }
 
+export type GetPostsPayload = {
+  totalCount: number
+  pagesCount: number
+  page: number
+  pageSize: number
+  items: PostPayload[]
+}
+
 export type UpdatePostPayload = {
   postId: string
   description: string
@@ -31,6 +39,12 @@ export type UpdatePostResponse = {
 export type User = {
   id: string
   name: string
+}
+
+export type GetPostsQueryParamPayload = {
+  pageNumber?: number
+  pageSize?: number
+  userId?: string
 }
 
 export type Users = User[]

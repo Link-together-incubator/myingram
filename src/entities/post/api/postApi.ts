@@ -1,10 +1,12 @@
 import { baseApi } from '@/shared/api/baseApi'
 
 import {
-  UpdatePostPayload,
-  PostPayload,
-  UpdatePostResponse,
+  GetPostsPayload,
+  GetPostsQueryParamPayload,
   PostByIdPayload,
+  PostPayload,
+  UpdatePostPayload,
+  UpdatePostResponse,
 } from '../post.types'
 
 export const postApi = baseApi.injectEndpoints({
@@ -47,10 +49,17 @@ export const postApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    getPosts: builder.query<GetPostsPayload, GetPostsQueryParamPayload>({
+      query: ({ pageNumber, pageSize, userId }) => ({
+        url: `posts?pageNumber=1&pageSize=10`,
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
 export const {
+  useGetPostsQuery,
   useCreatePostMutation,
   useUpdatePostMutation,
   useGetPostByIdQuery,

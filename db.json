@@ -2,7 +2,7 @@
   "comments": [
     {
       "id": "c1",
-      "postId": "c88b10b4-9e17-4178-98b8-b6a3978a7d8c",
+      "postId": "3d337c41-7ae9-46e1-82e2-a94688a6807d",
       "username": "user1",
       "avatarUrl": "/assets/images/ava.png",
       "text": "Nice photo!",
@@ -12,7 +12,7 @@
     },
     {
       "id": "c2",
-      "postId": "c88b10b4-9e17-4178-98b8-b6a3978a7d8c",
+      "postId": "3d337c41-7ae9-46e1-82e2-a94688a6807d",
       "username": "user2",
       "avatarUrl": "/assets/images/ava.png",
       "text": "Love this!",
@@ -22,7 +22,7 @@
     },
     {
       "id": "c3",
-      "postId": "c88b10b4-9e17-4178-98b8-b6a3978a7d8c",
+      "postId": "3d337c41-7ae9-46e1-82e2-a94688a6807d",
       "username": "user2",
       "avatarUrl": "/assets/images/ava.png",
       "text": "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",

@@ -15,6 +15,7 @@ import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/entities/user/api/userApi'
 import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
+import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { Button } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
@@ -23,7 +24,6 @@ import s from './PostModal.module.scss'
 
 type PostModalProps = {
   post: PostPayload
-  onClose: () => void
 }
 // type comments and likedUsers for json-server
 type LikedUser = {
@@ -42,7 +42,7 @@ export type PostComment = {
   likesCount: number
 }
 
-export function PostModal({ post, onClose }: PostModalProps) {
+export function PostModal({ post }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
   const [comments, setComments] = useState<PostComment[]>([])
   const [showEditModal, setShowEditModal] = useState(false)
@@ -50,6 +50,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const { data: profile } = useGetUserProfileQuery(post.userId)
   const { data: authUser } = useAuthMeQuery()
+  const { closePostModal } = usePostModal()
   const isAuthor = authUser?.id === post.userId
 
   // fetch comments and likedUsers from json-server
@@ -118,7 +119,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
   }
 
   return (
-    <ModalWrapper onClose={onClose}>
+    <ModalWrapper onClose={closePostModal}>
       <div className={`${s.modal} ${s.postModalContent}`}>
         {showDeleteModal && (
           <DeletePostModal
@@ -139,7 +140,7 @@ export function PostModal({ post, onClose }: PostModalProps) {
         )}
       </div>
       <div className={s.content}>
-        <button className={s.closeButton} onClick={onClose}>
+        <button className={s.closeButton} onClick={closePostModal}>
           <X size={24} color="white" />
         </button>
 
