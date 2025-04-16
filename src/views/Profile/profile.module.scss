@@ -5,14 +5,12 @@
   width: 100%;
   padding: 36px 64px 0 24px;
   margin-top: 69px;
-
 }
 
 .profileHeader {
   display: flex;
   flex-direction: row;
   gap: 38px;
-
 }
 
 .profileHeader img {
@@ -43,14 +41,11 @@
   line-height: 36px;
   vertical-align: middle;
   color: var(--primary-foreground);
-
-
 }
 
 .profileNameAndPaidGroup img {
   width: 24px;
   height: 24px;
-
 }
 
 .buttonGroup {
@@ -75,14 +70,6 @@
   flex-direction: column;
 }
 
-//.followersBlock > div:first-child {
-//  gap: 100px; /* Отступ между первым и вторым элементом */
-//}
-//
-//.followersBlock > div:nth-child(2) {
-//  gap: 88px; /* Отступ между вторым и третьим элементом */
-//}
-
 .textBlock {
   font-weight: 400;
   font-size: 16px;
@@ -91,15 +78,22 @@
 }
 
 .posts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
   gap: 12px;
+  max-width: 100%;
 }
 
 .imageContainer {
-  flex: 1 1 calc(25% - 12px);
-  box-sizing: border-box;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .imageContainer img {
@@ -107,4 +101,3 @@
   height: 100%;
   object-fit: cover;
 }
-

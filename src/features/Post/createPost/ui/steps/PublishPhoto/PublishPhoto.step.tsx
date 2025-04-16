@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { ChangeEvent, useEffect, useMemo, useState } from 'react'
 
-import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { Carousel, Textarea } from '@/shared/ui'
 import {
   CarouselContent,
@@ -32,7 +32,7 @@ export const PublishPhotoStep = ({
     }
   }
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const user = useAuthMeData()
+  const { data: user } = useAuthMeQuery()
 
   const blobs = useMemo(() => {
     return urls.map((url) => URL.createObjectURL(url))

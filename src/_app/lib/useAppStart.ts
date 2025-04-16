@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
@@ -16,14 +15,5 @@ export const useAppStart = () => {
     newParams.delete('accessToken')
     router.replace(window.location.pathname)
   }
-  const { data, error } = useAuthMeQuery()
-  const [isInitialLoad, setIsInitialLoad] = useState(true)
-
-  useEffect(() => {
-    if (data || error) {
-      setIsInitialLoad(false)
-    }
-  }, [data, error])
-
-  return isInitialLoad
+  useAuthMeQuery()
 }

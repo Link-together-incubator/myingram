@@ -3,15 +3,14 @@
 import { BellRing } from 'lucide-react'
 import Link from 'next/link'
 
-import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { ROUTES } from '@/shared/constants/routes'
 import { Button } from '@/shared/ui'
 
 import s from './Header.module.scss'
 
 export function Header() {
-  const user = useAuthMeData()
-
+  const { data: user } = useAuthMeQuery()
   return (
     <header className={s.header}>
       <div className={s['header-container']}>

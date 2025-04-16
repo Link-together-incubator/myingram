@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { ROUTES } from '@/shared/constants/routes'
 
 export const withMainRedirect = <P extends object>(
@@ -11,7 +11,7 @@ export const withMainRedirect = <P extends object>(
 ) => {
   const WrappedComponent = (props: P) => {
     const router = useRouter()
-    const user = useAuthMeData()
+    const { data: user } = useAuthMeQuery()
     const path = usePathname()
 
     useEffect(() => {

@@ -4,10 +4,9 @@ import { ReactNode, useEffect } from 'react'
 
 import { useAppStart } from '@/_app/lib/useAppStart'
 import { useLoginGoogleMutation } from '@/features/auth/api/authApi'
-import { Loader } from '@/shared/ui'
 
 export const InitProvider = ({ children }: { children: ReactNode }) => {
-  const isInitialLoad = useAppStart()
+  useAppStart()
   const [googleLogin] = useLoginGoogleMutation()
   useEffect(() => {
     // Извлекаем хеш из URL (часть после #)
@@ -25,14 +24,6 @@ export const InitProvider = ({ children }: { children: ReactNode }) => {
       )
     }
   }, [])
-
-  if (isInitialLoad) {
-    return (
-      <div className="min-h-screen w-full flex justify-center items-center">
-        <Loader />
-      </div>
-    )
-  }
 
   return children
 }

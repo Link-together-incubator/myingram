@@ -2,13 +2,13 @@
 
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 
 export const withSignInRedirect = <P extends object>(
   Component: ComponentType<P>,
 ) => {
   const WrappedComponent = (props: P) => {
-    const user = useAuthMeData()
+    const { data: user } = useAuthMeQuery()
 
     useEffect(() => {
       if (!user?.email) {

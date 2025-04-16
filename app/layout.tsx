@@ -6,6 +6,7 @@ import Script from 'next/script'
 import { PropsWithChildren, Suspense } from 'react'
 
 import {
+  InitProvider,
   ModalProvider,
   PostToolkitProvider,
   StoreProvider,
@@ -35,13 +36,15 @@ export default async function RootLayout({
       <body className={`${montserrat.variable} antialiased min-h-screen dark`}>
         <StoreProvider>
           <Suspense>
-            <PostToolkitProvider>
-              <ModalProvider>
-                <Header />
-                <ProgressBar />
-                <main>{children}</main>
-              </ModalProvider>
-            </PostToolkitProvider>
+            <InitProvider>
+              <PostToolkitProvider>
+                <ModalProvider>
+                  <Header />
+                  <ProgressBar />
+                  <main>{children}</main>
+                </ModalProvider>
+              </PostToolkitProvider>
+            </InitProvider>
           </Suspense>
         </StoreProvider>
         <Script

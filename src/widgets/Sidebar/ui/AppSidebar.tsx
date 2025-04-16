@@ -9,8 +9,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-import { useLogoutMutation } from '@/features/auth/api/authApi'
-import { useAuthMeData } from '@/features/auth/api/lib/useAuthMeData'
+import { useAuthMeQuery, useLogoutMutation } from '@/features/auth/api/authApi'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setCreatePostModal } from '@/shared/model/appSlice'
 import {
@@ -27,7 +26,7 @@ import {
 export function AppSidebar() {
   const [logout, { isLoading }] = useLogoutMutation()
   const dispatch = useAppDispatch()
-  const user = useAuthMeData()
+  const { data: user } = useAuthMeQuery()
 
   const handleLogOut = async () => {
     try {

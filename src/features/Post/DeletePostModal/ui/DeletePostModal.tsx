@@ -1,7 +1,7 @@
 'use client'
-import { useRouter } from 'next/navigation'
 
 import { useDeletePostMutation } from '@/entities/post/api/postApi'
+import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { ConfirmModal } from '@/shared/ui/ConfirmModal/ConfirmModal'
 
 type DeletePostModalProps = {
@@ -11,17 +11,16 @@ type DeletePostModalProps = {
 
 export const DeletePostModal = ({ postId, onClose }: DeletePostModalProps) => {
   const [deletePost] = useDeletePostMutation()
-  const router = useRouter()
+  const { closePostModal } = usePostModal()
 
   const handleConfirm = async () => {
     try {
       await deletePost({ postId }).unwrap()
-      onClose()
-      router.push('/')
+      closePostModal()
     } catch (err) {
       console.error('Ошибка при удалении поста:', err)
+    } finally {
       onClose()
-      router.push('/')
     }
   }
   return (

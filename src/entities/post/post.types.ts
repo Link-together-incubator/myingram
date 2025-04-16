@@ -3,15 +3,6 @@ export type CreatePostPayload = {
   files: File[]
 }
 
-export type PostResponse = {
-  id: string
-  userId: string
-  description: string
-  photoUrls: string[]
-  createdAt: string
-  updatedAt: string
-  photoUploadStatus: string
-}
 export type PostPayload = {
   id: string
   userId: string

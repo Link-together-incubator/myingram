@@ -13,13 +13,12 @@ import {
 export const postApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createPost: builder.mutation<void, FormData>({
-      query: (formData) => {
-        return {
-          url: 'posts',
-          method: 'POST',
-          body: formData,
-        }
-      },
+      query: (formData) => ({
+        url: 'posts',
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: [{ type: 'Post', id: 'LIST' }],
     }),
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostPayload>({
       query: ({ postId, description }) => {
@@ -29,9 +28,9 @@ export const postApi = baseApi.injectEndpoints({
           body: { description },
         }
       },
-      invalidatesTags: (result, error, { postId }) => [
-        { type: 'Post', id: postId },
-      ],
+      invalidatesTags: (result, error, { postId }) => {
+        return [{ type: 'Post', id: postId }]
+      },
     }),
     getPostById: builder.query<PostPayload, PostByIdPayload>({
       query: ({ postId }) => {
@@ -40,15 +39,44 @@ export const postApi = baseApi.injectEndpoints({
           method: 'GET',
         }
       },
-      providesTags: (result, error, { postId }) => [
-        { type: 'Post', id: postId },
-      ],
+      providesTags: (result, error, { postId }) => {
+        return [{ type: 'Post', id: postId }]
+      },
     }),
     deletePost: builder.mutation<void, { postId: string }>({
       query: ({ postId }) => ({
         url: `posts/${postId}`,
         method: 'DELETE',
       }),
+      async onQueryStarted({ postId }, { dispatch, queryFulfilled, getState }) {
+        const rootState = getState() as RootState
+
+        const invalidatedSubscriptions = postApi.util.selectInvalidatedBy(
+          rootState,
+          [{ type: 'Post', id: 'LIST' }],
+        )
+        const patchResults = invalidatedSubscriptions
+          .map(({ endpointName, originalArgs }) => {
+            if (endpointName !== 'getPosts') return
+
+            return dispatch(
+              postApi.util.updateQueryData(
+                endpointName,
+                originalArgs,
+                (draft) => {
+                  draft.items = draft.items.filter((post) => post.id !== postId)
+                },
+              ),
+            )
+          })
+          .filter(Boolean)
+
+        try {
+          await queryFulfilled
+        } catch {
+          patchResults.forEach((patchResult) => patchResult?.undo())
+        }
+      },
     }),
     getPosts: builder.query<GetPostsPayload, GetPostsQueryParamPayload>({
       query: (param = {}) => {
@@ -58,6 +86,21 @@ export const postApi = baseApi.injectEndpoints({
           method: 'GET',
         }
       },
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        return `${endpointName}-${queryArgs.userId}`
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.pageNumber === 1 && currentCache.items.length > 0)
+          return currentCache
+        return {
+          ...newItems,
+          items: [...currentCache.items, ...newItems.items],
+        }
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return currentArg?.pageNumber !== previousArg?.pageNumber
+      },
+      providesTags: () => [{ type: 'Post' as const, id: 'LIST' }],
     }),
   }),
 })

@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react'
 
-import { ResetPasswordForm } from '@/features/Auth/PasswordRecovery'
+import { ResetPasswordForm } from '@/features/auth/PasswordRecovery'
 
 export default function PasswordRecovery() {
   return (
