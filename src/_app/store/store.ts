@@ -21,10 +21,13 @@ export const storeReducer = (
   return rootReducer(state, action)
 }
 
-export const store = configureStore({
-  reducer: storeReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
-})
+export const makeStore = () => {
+  return configureStore({
+    reducer: storeReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(baseApi.middleware),
+  })
+}
 
-export type AppDispatch = typeof store.dispatch
+export type AppStore = ReturnType<typeof makeStore>
+export type AppDispatch = AppStore['dispatch']

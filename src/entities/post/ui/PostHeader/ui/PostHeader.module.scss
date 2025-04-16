@@ -1,0 +1,57 @@
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 0;
+  }
+  
+  .header::after {
+    content: '';
+    position: absolute;
+    left: -24px;
+    right: -24px;
+    bottom: 0px;
+    height: 1px;
+    background-color: var(--dark-100);
+  }
+  
+  .userInfo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .username {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--light-100);
+    line-height: 24px;
+  }
+  
+  .icons {
+    display: flex;
+    gap: 8px;
+    position: relative;
+  }
+  
+  .avatar {
+    height: 36px;
+  }
+  
+  .dotsHorizontal {
+    color: var(--light-100);
+  
+    &:hover {
+      color: var(--accent-500);
+    }
+  }
+
+  .defaultAvatar{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--dark-100);
+    display: inline-block;
+  }
+  
