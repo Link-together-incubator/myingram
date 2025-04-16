@@ -2,7 +2,7 @@
 
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeQuery } from '@/features/autht/api/authApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 
 export const withSignInRedirect = <P extends object>(
   Component: ComponentType<P>,

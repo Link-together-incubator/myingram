@@ -1,6 +1,6 @@
 'use client'
 
-import { PasswordRecoveryForm } from '@/features/autht/PasswordRecovery'
+import { PasswordRecoveryForm } from '@/features/auth/PasswordRecovery'
 
 export default function PasswordRecovery() {
   return <PasswordRecoveryForm />

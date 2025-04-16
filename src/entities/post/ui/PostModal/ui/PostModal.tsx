@@ -13,7 +13,7 @@ import {
   PostHeader,
 } from '@/entities/post/ui'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
-import { useAuthMeQuery } from '@/features/autht/api/authApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'

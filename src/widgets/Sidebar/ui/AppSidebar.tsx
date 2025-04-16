@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-import { useAuthMeQuery, useLogoutMutation } from '@/features/autht/api/authApi'
+import { useAuthMeQuery, useLogoutMutation } from '@/features/auth/api/authApi'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setCreatePostModal } from '@/shared/model/appSlice'
 import {

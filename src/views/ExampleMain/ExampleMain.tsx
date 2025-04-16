@@ -1,7 +1,7 @@
 'use client'
 
 import { useGetPostsQuery } from '@/entities/post/api/postApi'
-import { useAuthMeQuery } from '@/features/autht/api/authApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { Button } from '@/shared/ui'
 
