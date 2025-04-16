@@ -3,8 +3,8 @@
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { LoginArgs } from '@/features/auth/api/auth.types'
-import { useLoginUserMutation } from '@/features/auth/api/authApi'
+import { LoginArgs } from '@/features/autht/api/auth.types'
+import { useLoginUserMutation } from '@/features/autht/api/authApi'
 import { EMAIL_REGEX, PASSWORD_REGEX } from '@/shared/constants/validators'
 import { Button, Card, Input } from '@/shared/ui'
 

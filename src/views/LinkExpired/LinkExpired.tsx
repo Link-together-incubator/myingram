@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
 
-import { VerificationPayload } from '@/features/auth/api/auth.types'
-import { useVerifyResendMutation } from '@/features/auth/api/authApi'
+import { VerificationPayload } from '@/features/autht/api/auth.types'
+import { useVerifyResendMutation } from '@/features/autht/api/authApi'
 import { EMAIL_REGEX } from '@/shared/constants/validators'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'

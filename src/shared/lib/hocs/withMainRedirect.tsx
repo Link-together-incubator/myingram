@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { ComponentType, useEffect } from 'react'
 
-import { useAuthMeQuery } from '@/features/auth/api/authApi'
+import { useAuthMeQuery } from '@/features/autht/api/authApi'
 import { ROUTES } from '@/shared/constants/routes'
 
 export const withMainRedirect = <P extends object>(

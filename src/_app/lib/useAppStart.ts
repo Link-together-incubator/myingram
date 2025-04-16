@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
-import { useAuthMeQuery } from '@/features/auth/api/authApi'
+import { useAuthMeQuery } from '@/features/autht/api/authApi'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
 
 export const useAppStart = () => {

@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 
-import { Services } from '@/features/auth/Services'
-import { SignUpForm } from '@/features/auth/SignUp'
+import { Services } from '@/features/autht/Services'
+import { SignUpForm } from '@/features/autht/SignUp'
 
 import s from './SignUp.module.scss'
 

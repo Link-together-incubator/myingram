@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { LoginPayload } from '@/features/auth/api/auth.types'
-import { useRegisterUserMutation } from '@/features/auth/api/authApi'
+import { LoginPayload } from '@/features/autht/api/auth.types'
+import { useRegisterUserMutation } from '@/features/autht/api/authApi'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setIsShowEmailSentModal } from '@/shared/model/appSlice'
 
