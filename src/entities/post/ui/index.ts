@@ -2,6 +2,7 @@ export { AppAlertClient } from './AppAlertClient/AppAlertClient'
 
 export { PostModalServerSide } from './PostModal/ui/PostModalServerSide'
 
+export type { PostPayload } from '../post.types'
 export { CommentItem } from './CommentItem/ui/CommentItem'
 export { DropdownMenu } from './DropdownMenu/ui/DropdownMenu'
 export { ImageSlider } from './ImageSlider/ui/ImageSlider'

@@ -1,18 +1,18 @@
 'use client'
 
 import { useGetPostsQuery } from '@/entities/post/api/postApi'
-import { useAuthMeData } from '@/entities/user/lib/useAuthMeData'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { Button } from '@/shared/ui'
 
 export default function ExampleMain() {
-  const user = useAuthMeData()
+  const { data: user } = useAuthMeQuery()
   const { data: postData } = useGetPostsQuery({ pageNumber: 1, pageSize: 10 })
   const { openPostModal } = usePostModal()
   const handlePostModal = (postId: string) => () => {
     openPostModal(postId)
   }
-
+  console.log('postData', postData)
   return (
     <div
       className={`flex gap-72 flex-col pt-[80px] px-9 mx-auto w-full max-w-[1180px] text-3xl text-amber-100`}
@@ -23,6 +23,7 @@ export default function ExampleMain() {
         postData.items.map((post) => (
           <div key={post.id}>
             <h1>Author: {post.userId}</h1>
+            <h2>PostId: {post.id}</h2>
             <Button
               onClick={handlePostModal(post.id)}
               variant="default"

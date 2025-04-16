@@ -10,7 +10,7 @@ export const ServerSideProvider = <T extends object = {}>(
     const { searchParams } = props
     const awaitedSearchParams = await searchParams
     const postId = awaitedSearchParams?.postId
-    console.log('Extracted postId:', postId)
+
     return (
       <>
         {typeof postId === 'string' && <PostModalServerSide postId={postId} />}

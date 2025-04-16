@@ -2,8 +2,9 @@
 
 import { Bookmark, Heart, Send, X } from 'lucide-react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import { postApi, useGetPostByIdQuery } from '@/entities/post/api/postApi'
 import { PostPayload } from '@/entities/post/post.types'
 import {
   CommentItem,
@@ -12,9 +13,10 @@ import {
   PostHeader,
 } from '@/entities/post/ui'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
-import { useAuthMeQuery } from '@/entities/user/api/userApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
+import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { Button } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
@@ -42,20 +44,36 @@ export type PostComment = {
   likesCount: number
 }
 
-export function PostModal({ post }: PostModalProps) {
+export function PostModal({ post: serverPost }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
   const [comments, setComments] = useState<PostComment[]>([])
   const [showEditModal, setShowEditModal] = useState(false)
   const [likedUsers, setLikedUsers] = useState<LikedUser[]>([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const { data: profile } = useGetUserProfileQuery(post.userId)
+
   const { data: authUser } = useAuthMeQuery()
   const { closePostModal } = usePostModal()
+  const dispatch = useAppDispatch()
+
+  const isInitQuery = useRef(true)
+
+  const { data: clientPost } = useGetPostByIdQuery(
+    { postId: serverPost.id },
+    { skip: isInitQuery.current },
+  )
+  const post = clientPost || serverPost
   const isAuthor = authUser?.id === post.userId
+  const { data: profile } = useGetUserProfileQuery(post.userId)
+
+  useEffect(() => {
+    isInitQuery.current = false
+    dispatch(
+      postApi.util.upsertQueryData('getPostById', { postId: post.id }, post),
+    )
+  }, [])
 
   // fetch comments and likedUsers from json-server
   useEffect(() => {
-    console.log('postId:', post.id)
     const fetchMockData = async () => {
       try {
         const [commentsRes, likedRes] = await Promise.all([

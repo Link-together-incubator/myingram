@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 
-import { useLogoutMutation } from '@/entities/user/api/userApi'
+import { useAuthMeQuery, useLogoutMutation } from '@/features/auth/api/authApi'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { setCreatePostModal } from '@/shared/model/appSlice'
 import {
@@ -23,58 +23,10 @@ import {
   SidebarMenuItem,
 } from '@/widgets/Sidebar/ui/Sidebar'
 
-const mainItems = [
-  {
-    title: 'Feed',
-    url: '#',
-    icon: Home,
-  },
-  {
-    title: 'Create',
-    url: '#',
-    icon: SquarePlus,
-  },
-  {
-    title: 'My Profile',
-    url: '#',
-    icon: Home,
-  },
-  {
-    title: 'Messenger',
-    url: '#',
-    icon: MessageCircleMore,
-  },
-  {
-    title: 'Search',
-    url: '#',
-    icon: Search,
-  },
-]
-
-const secondaryItems = [
-  {
-    title: 'Statistics',
-    url: '#',
-    icon: TrendingUp,
-  },
-  {
-    title: 'Favorites',
-    url: '#',
-    icon: Bookmark,
-  },
-]
-
-const sidebarFooter = [
-  {
-    title: 'Log Out',
-    url: '#',
-    icon: LogOut,
-  },
-]
-
 export function AppSidebar() {
   const [logout, { isLoading }] = useLogoutMutation()
   const dispatch = useAppDispatch()
+  const { data: user } = useAuthMeQuery()
 
   const handleLogOut = async () => {
     try {
@@ -83,6 +35,55 @@ export function AppSidebar() {
       console.log('Logout failed', err)
     }
   }
+
+  const mainItems = [
+    {
+      title: 'Feed',
+      url: '#',
+      icon: Home,
+    },
+    {
+      title: 'Create',
+      url: '#',
+      icon: SquarePlus,
+    },
+    {
+      title: 'My Profile',
+      url: `/profile/${user?.id}`,
+      icon: Home,
+    },
+    {
+      title: 'Messenger',
+      url: '#',
+      icon: MessageCircleMore,
+    },
+    {
+      title: 'Search',
+      url: '#',
+      icon: Search,
+    },
+  ]
+
+  const secondaryItems = [
+    {
+      title: 'Statistics',
+      url: '#',
+      icon: TrendingUp,
+    },
+    {
+      title: 'Favorites',
+      url: '#',
+      icon: Bookmark,
+    },
+  ]
+
+  const sidebarFooter = [
+    {
+      title: 'Log Out',
+      url: '#',
+      icon: LogOut,
+    },
+  ]
 
   return (
     <Sidebar>
@@ -93,17 +94,24 @@ export function AppSidebar() {
               {mainItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <button
-                      onClick={
-                        item.title === 'Create'
-                          ? dispatch.bind(null, setCreatePostModal(true))
-                          : undefined
-                      }
-                      className="cursor-pointer"
-                    >
-                      <item.icon style={{ width: '24px', height: '24px' }} />
-                      <span>{item.title}</span>
-                    </button>
+                    {item.title === 'Create' ? (
+                      <button
+                        onClick={
+                          item.title === 'Create'
+                            ? dispatch.bind(null, setCreatePostModal(true))
+                            : undefined
+                        }
+                        className="cursor-pointer"
+                      >
+                        <item.icon style={{ width: '24px', height: '24px' }} />
+                        <span>{item.title}</span>
+                      </button>
+                    ) : (
+                      <Link href={item.url}>
+                        <item.icon style={{ width: '24px', height: '24px' }} />
+                        <span>{item.title}</span>
+                      </Link>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

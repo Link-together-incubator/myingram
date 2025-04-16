@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-import { useVerifyEmailQuery } from '@/entities/user/api/userApi'
+import { useVerifyEmailQuery } from '@/features/auth/api/authApi'
 import { ROUTES } from '@/shared/constants/routes'
 import { withToken, WithTokenProps } from '@/shared/lib/hocs/withToken'
 

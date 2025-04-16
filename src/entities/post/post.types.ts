@@ -2,6 +2,7 @@ export type CreatePostPayload = {
   description: string
   files: File[]
 }
+
 export type PostPayload = {
   id: string
   userId: string
