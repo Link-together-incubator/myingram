@@ -1,0 +1,33 @@
+.container{
+  width: 100%;
+  width: 492px;
+  border-radius: 2px;
+  border: 1px solid var(--background-1);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--background-1);
+    padding: 12px 24px;
+    justify-content: space-between;
+  }
+
+  .title {
+    font: var(--font-h2);
+    color: var(--foreground-1);
+  }
+
+  .deleteButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #dc2626; 
+  color: white;
+  border-radius: 9999px;
+  padding: 0.25rem; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

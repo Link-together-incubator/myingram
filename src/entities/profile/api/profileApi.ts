@@ -6,8 +6,17 @@ export const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query<UserProfile, string>({
       query: (userId) => `profile/${userId}`,
+      providesTags: (result) => [{ type: 'UserProfile', id: result?.id }],
+    }),
+    editUserProfile: builder.mutation<UserProfile, FormData>({
+      query: (formData) => ({
+        url: 'profile/edit',
+        method: 'PUT',
+        body: formData,
+      }),
+      invalidatesTags: (result) => [{ type: 'UserProfile', id: result?.id }],
     }),
   }),
 })
 
-export const { useGetUserProfileQuery } = profileApi
+export const { useGetUserProfileQuery, useEditUserProfileMutation } = profileApi

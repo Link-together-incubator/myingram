@@ -21,6 +21,7 @@ export const baseFetch = async <T>(
   if (!res.ok) {
     throw new Error(`HTTP error! status: ${res.status}`)
   }
+
   const data: T = await res.json()
   if (isErrorResponse(data)) {
     throw new Error(data.errorsMessages[0].message)

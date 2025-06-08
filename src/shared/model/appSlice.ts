@@ -21,6 +21,7 @@ export const appSlice = createSlice({
       appStatus: 'idle' as RequestStatus,
       emailSentMessage: null as EmailSentModal,
       createPostModal: false,
+      uploadAvatarModal: false,
       promptModal: {
         state: null as PromptState,
         userChoice: null as UserChoice,
@@ -50,6 +51,10 @@ export const appSlice = createSlice({
     setCreatePostModal: create.reducer<boolean>((state, action) => {
       state.modals.createPostModal = action.payload
     }),
+
+    setUploadAvatarModal: create.reducer<boolean>((state, action) => {
+      state.modals.uploadAvatarModal = action.payload
+    }),
   }),
   extraReducers: (builder) => {
     builder
@@ -78,6 +83,7 @@ export const {
   setStatus,
   setCreatePostModal,
   setPrompt,
+  setUploadAvatarModal,
 } = appSlice.actions
 export const {
   selectShowEmailSentModal,
