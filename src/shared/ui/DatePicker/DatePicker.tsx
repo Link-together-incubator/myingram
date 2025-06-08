@@ -14,31 +14,41 @@ import {
 
 import { Button } from '../Button/Button'
 
-export function DatePicker() {
+import s from './DataPicker.module.scss'
+
+type Props = {
+  selected?: Date
+  onChange?: (date?: Date) => void
+  error?: string
+}
+
+export function DatePicker({ selected, onChange, error }: Props) {
   const [date, setDate] = React.useState<Date>()
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant={'date'}
-          className={cn(
-            'w-[158px] h-[36px] justify-start text-left font-normal ',
-            !date && 'text-muted-foreground',
-          )}
-        >
-          {date ? format(date, 'dd/MM/yyyy') : <span>Pick a date</span>}
-          <CalendarIcon className=" h-4 w-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
-    </Popover>
+    <div className={s.datePickerWrapper}>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant={'date'} className={cn(s.btn, error && s.error)}>
+            {selected ? (
+              <span>{format(selected, 'dd.MM.yyyy')}</span>
+            ) : (
+              <span>Pick a date</span>
+            )}
+            <CalendarIcon className="block h-4 w-4" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={selected}
+            onSelect={onChange}
+            initialFocus
+            disabled={(date) => date > new Date()}
+          />
+        </PopoverContent>
+      </Popover>
+      {error && <p className={s.errorMessage}>{error}</p>}
+    </div>
   )
 }

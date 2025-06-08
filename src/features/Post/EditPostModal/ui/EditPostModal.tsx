@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { useUpdatePostMutation } from '@/entities/post/api/postApi'
-import { UserProfile } from '@/entities/profile/profile.types'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { Button, Textarea } from '@/shared/ui'
 import { ConfirmModal } from '@/shared/ui/ConfirmModal/ConfirmModal'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'

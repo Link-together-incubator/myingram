@@ -44,7 +44,7 @@ export function ModalWrapper({
   console.log('isMounted', isMounted)
   const modalContent = (
     <div
-      key={'modal-wrapper'}
+      key={'model-wrapper'}
       className={`${s.overlay}`}
       onClick={handleOverlayClick}
     >

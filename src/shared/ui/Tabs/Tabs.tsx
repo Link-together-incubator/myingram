@@ -46,4 +46,17 @@ function TabsTrigger({
   )
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsPrimitive }
+function TabsContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+  return (
+    <TabsPrimitive.Content
+      data-slot="tabs-trigger"
+      className={cn(s.tabsContent, className)}
+      {...props}
+    />
+  )
+}
+
+export { Tabs, TabsList, TabsTrigger, TabsContent, TabsPrimitive }
