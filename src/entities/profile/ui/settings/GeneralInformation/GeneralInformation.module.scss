@@ -1,0 +1,17 @@
+.generalInformation{
+  width: 100%;
+  display: flex;
+}
+
+.avatarContainer{
+  width: 100%;
+  max-width: 261px;
+  padding: 48px 38px 48px 24px;
+}
+
+.avatarPhoto{
+  margin-bottom: 24px;
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
+}

@@ -9,7 +9,6 @@ import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { setUploadAvatarModal } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 export default function ExampleMain() {
-  const dispatch = useDispatch()
   const { data: user } = useAuthMeQuery()
   const { data: postData } = useGetPostsQuery({ pageNumber: 1, pageSize: 10 })
   const { openPostModal } = usePostModal()
@@ -37,12 +36,6 @@ export default function ExampleMain() {
           unoptimized
         />
       )}
-      <Button
-        onClick={() => dispatch(setUploadAvatarModal(true))}
-        variant="outline"
-      >
-        Загрузить аватар
-      </Button>
       {postData &&
         postData.items.map((post) => (
           <div key={post.id}>

@@ -1,0 +1,30 @@
+.datePickerWrapper {
+  margin-bottom: 1rem;
+
+  .error {
+    border-color: var(--danger-3);
+  }
+
+  .errorMessage {
+    color: var(--danger-3);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+}
+
+.btn {
+  width: 100%;
+  height: 38px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid var(--background-1);
+  border-radius: 2px;
+  color: var(--foreground-1);
+  transition: 0.5s;
+  &:hover {
+    background-color: var(--dark-500);
+    color: var(--foreground-1);
+  }
+}

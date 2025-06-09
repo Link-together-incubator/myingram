@@ -14,6 +14,7 @@ import { useScroll } from '@/shared/lib/hooks/useScroll'
 import { Button } from '@/shared/ui'
 
 import s from './profile.module.scss'
+import { Settings } from '@/entities/profile/ui/settings/Settings'
 const LIMIT = 8
 
 interface ProfileInitProps {
@@ -87,8 +88,14 @@ export default function Profile({
 
   const { openPostModal } = usePostModal()
 
+  const [openSettings, setOpenSettings] = useState<boolean>(false)
+
   return (
-    <div className={s.profileBlock}>
+      <>
+      {openSettings && <Settings setOpenSettings={setOpenSettings}/>}
+
+      {!openSettings
+      && <div className={s.profileBlock}>
       <div className={s.profileHeader}>
         {profile?.photoUrl ? (
           <Image src={profile.photoUrl} alt={''} width={234} height={228} />
@@ -117,7 +124,7 @@ export default function Profile({
             </div>
             <div className={s.buttonGroup}>
               {isCurrentUser ? (
-                <Button variant={'default'}>Profile Settings</Button>
+                <Button onClick={() => setOpenSettings(true)} variant={'default'}>Profile Settings</Button>
               ) : user?.email ? (
                 <>
                   {profile?.followed ? (
@@ -167,6 +174,7 @@ export default function Profile({
         ))}
       </div>
       <div ref={childRef}></div>
-    </div>
+    </div>}
+   </>
   )
 }
