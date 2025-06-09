@@ -16,16 +16,17 @@ export const CroppingAvatar = ({
   imageSrc,
   onCropComplete,
 }: CroppingAvatarStepProps) => {
-  console.log('CroppingAvatar rendered')
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1.4)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
 
   const handleSave = async () => {
-    console.log('handleSave triggered')
     if (!croppedAreaPixels) return
     const blob = await getCroppedImg(imageSrc, croppedAreaPixels)
-    console.log('cropped blob:', blob)
+
+    console.log('MIME-тип Blob:', blob.type)
+    console.log('Размер Blob:', blob.size, 'байт')
+
     onCropComplete(blob)
   }
 

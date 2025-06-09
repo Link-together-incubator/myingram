@@ -19,6 +19,7 @@ export default function ExampleMain() {
   }
 
   const profilePhotoUrl = profile?.photoUrl
+  console.log('photoUrl:', profile?.photoUrl)
 
   return (
     <div
@@ -33,7 +34,7 @@ export default function ExampleMain() {
           width={192}
           height={192}
           className="relative rounded-full object-cover"
-          priority
+          unoptimized
         />
       )}
       <Button

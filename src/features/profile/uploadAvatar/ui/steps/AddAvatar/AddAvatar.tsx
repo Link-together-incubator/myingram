@@ -22,9 +22,7 @@ export const AddAvatar = ({ onFileSelected }: AddAvatarProps) => {
   }
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('handleImageChange called')
     const file = event.target.files?.[0]
-    console.log('handleImageChange triggered with file:', file)
     if (!file) return
 
     const isValidType = ['image/png', 'image/jpeg', 'image/jpg'].includes(
