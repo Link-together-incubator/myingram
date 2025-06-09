@@ -22,9 +22,7 @@ export const GeneralInformationSchema = z.object({
     })
     .min(1, { message: 'Minimum number of characters 1' })
     .max(50, { message: 'Maximum number of characters 50' }),
-  dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: 'Date must be in valid ISO format',
-  }),
+  dateOfBirth: z.string().optional(),
   country: z.string(),
   city: z.string(),
   aboutMe: z.string().max(200, { message: 'Maximum number of characters 200' }),

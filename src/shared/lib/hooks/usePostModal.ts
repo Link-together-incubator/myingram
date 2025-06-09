@@ -5,6 +5,8 @@ import { createContext, useContext } from 'react'
 type ModalContextType = {
   openPostModal: (id: string) => void
   closePostModal: () => void
+  openAvatarModal: () => void
+  closeAvatarModal: () => void
 }
 
 export const ModalContext = createContext<ModalContextType | null>(null)

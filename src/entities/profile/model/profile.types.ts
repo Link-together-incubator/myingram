@@ -15,3 +15,13 @@ export type UserProfile = {
   createdAt: string
   paymentAccount: boolean
 }
+export type EditUserProfile = {
+  file: string
+  userName: string
+  firstName: string
+  lastName: string
+  dateOfBirth: string
+  country: string
+  city: string
+  aboutMe: string
+}

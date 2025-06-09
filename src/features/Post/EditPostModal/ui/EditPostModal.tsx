@@ -85,7 +85,11 @@ export const EditPostModal = ({
             className={s.img}
           />
           <div className={s.description}>
-            <UserInfo username={profile.userName} className={s.userInfo} />
+            <UserInfo
+              username={profile.userName}
+              className={s.userInfo}
+              profileImage={profile.photoUrl}
+            />
             <Textarea
               className={s.textarea}
               label="Add publication descriptions"

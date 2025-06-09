@@ -1,21 +1,23 @@
 import { baseApi } from '@/shared/api/baseApi'
+import {UserProfile,  EditUserProfile } from "@/entities/profile/model/profile.types";
+import {GeneralInformationData} from "@/entities/profile/model/GeneralInformationSchem";
 
-import { UserProfile } from '@/entities/profile/model/profile.types'
-import { GeneralInformationData } from '@/entities/profile/model/GeneralInformationSchem'
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query<UserProfile, string>({
       query: (userId) => `profile/${userId}`,
+      providesTags: (result) => [{ type: 'UserProfile', id: result?.id }],
     }),
-    editProfile: builder.mutation<void, GeneralInformationData>({
-      query: (data) => ({
+    editUserProfile: builder.mutation<EditUserProfile, FormData>({
+      query: (formData) => ({
         url: 'profile/edit',
         method: 'PUT',
-        body: data,
+        body: formData,
       }),
+      // invalidatesTags: (result) => [{ type: ' EditUserProfile', id: result?.id }],
     }),
   }),
 })
 
-export const { useGetUserProfileQuery, useEditProfileMutation } = profileApi
+export const { useGetUserProfileQuery, useEditUserProfileMutation } = profileApi

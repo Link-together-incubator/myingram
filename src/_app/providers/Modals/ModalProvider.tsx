@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { PropsWithChildren, useEffect } from 'react'
 
 import { CreatePostForm } from '@/features/Post/createPost'
+import { UploadAvatarForm } from '@/features/profile/uploadAvatar/ui/UploadAvatarForm'
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector'
 import { selectModals } from '@/shared/model/appSlice'
 import { Alert } from '@/widgets/Alert'
@@ -15,6 +16,7 @@ export function ModalProvider({ children }: PropsWithChildren) {
     alert,
     createPostModal,
     emailSentMessage,
+    uploadAvatarModal,
     promptModal: { state: promptModalState },
   } = useAppSelector(selectModals)
 
@@ -22,7 +24,13 @@ export function ModalProvider({ children }: PropsWithChildren) {
   const postId = searchParams.get('postId')
 
   useEffect(() => {
-    if (!emailSentMessage && !createPostModal && !promptModalState && !postId)
+    if (
+      !emailSentMessage &&
+      !createPostModal &&
+      !promptModalState &&
+      !postId &&
+      !uploadAvatarModal
+    )
       return
 
     document.body.style.overflow = 'hidden'
@@ -30,7 +38,13 @@ export function ModalProvider({ children }: PropsWithChildren) {
     return () => {
       document.body.style.overflow = 'visible'
     }
-  }, [createPostModal, emailSentMessage, promptModalState, postId])
+  }, [
+    createPostModal,
+    emailSentMessage,
+    promptModalState,
+    postId,
+    uploadAvatarModal,
+  ])
 
   return (
     <>
@@ -41,6 +55,7 @@ export function ModalProvider({ children }: PropsWithChildren) {
         />
       )}
       {createPostModal && <CreatePostForm />}
+      {uploadAvatarModal && <UploadAvatarForm />}
       {promptModalState && <Prompt {...promptModalState} />}
       {alert && <Alert data={alert} />}
 

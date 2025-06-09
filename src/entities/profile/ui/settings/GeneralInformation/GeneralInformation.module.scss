@@ -1,23 +1,17 @@
-.informationFields {
-  margin-top: 24px;
+.generalInformation{
+  width: 100%;
+  display: flex;
+}
+
+.avatarContainer{
+  width: 100%;
+  max-width: 261px;
+  padding: 48px 38px 48px 24px;
+}
+
+.avatarPhoto{
   margin-bottom: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-.location {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.locationInput {
-  width: 50%;
-}
-
-.sendBtn {
-  margin-left: auto;
-  width: 100%;
-  max-width: 164px;
+  width: 192px;
+  height: 192px;
+  border-radius: 50%;
 }

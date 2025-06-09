@@ -1,95 +1,33 @@
+'use client'
 import s from './GeneralInformation.module.scss'
-import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
-import { Separator } from '@/shared/ui/Separator/Separator'
+import {EditProfileForm} from "@/features/profile/editProfile/ui/EditProfileForm";
+import {useAuthMeQuery} from "@/features/auth/api/authApi";
+import {useGetUserProfileQuery} from "@/entities/profile/api/profileApi";
+import {Button} from "@/shared/ui";
+import {setUploadAvatarModal} from "@/shared/model/appSlice";
+import {useDispatch} from "react-redux";
 
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  GeneralInformationData,
-  GeneralInformationSchema,
-} from '@/entities/profile/model/GeneralInformationSchem'
-import { useEditProfileMutation } from '@/entities/profile/api/profileApi'
 
 export const GeneralInformation = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors, isValid },
-    reset,
-    setError,
-  } = useForm<GeneralInformationData>({
-    mode: 'onTouched',
-    resolver: zodResolver(GeneralInformationSchema),
+  const { data: authData } = useAuthMeQuery()
+  const userId = authData?.id
+  const { data: profile} = useGetUserProfileQuery(userId!, {
+    skip: !userId,
   })
-
-  const [editProfile] = useEditProfileMutation()
-
-  const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
-    console.log(formData)
-
-    try {
-      await editProfile(formData).unwrap()
-    } catch (e) {
-      console.log(`Error ${e}`)
-    }
-  }
+    const dispatch = useDispatch()
 
   return (
-    <form className={s.informationFields} onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        label={'Username*'}
-        error={errors.userName && errors.userName.message}
-        {...register('userName')}
-      />
-      <Input
-        label={'First Name*'}
-        error={errors.firstName && errors.firstName.message}
-        {...register('firstName')}
-      />
-      <Input
-        label={'Last Name*'}
-        error={errors.lastName && errors.lastName.message}
-        {...register('lastName')}
-      />
-
-      <Controller
-        name="dateOfBirth"
-        control={control}
-        render={({ field }) => (
-          <DatePicker
-            selected={field.value ? new Date(field.value) : undefined}
-            onChange={(date) => field.onChange(date?.toISOString())}
-            error={errors.dateOfBirth && errors.dateOfBirth.message}
-          />
-        )}
-      />
-
-      <div className={s.location}>
-        <Input
-          className={s.locationInput}
-          label={'Select your country'}
-          {...register('country')}
-        />
-        <Input
-          className={s.locationInput}
-          label={'Select your city'}
-          {...register('city')}
-        />
+      <div className={s.generalInformation}>
+        <div className={s.avatarContainer}>
+          <img className={s.avatarPhoto} width={192} height={192} src={profile?.photoUrl || '/assets/images/avatarPhoto.webp'} alt="avatar-photo"/>
+            <Button
+                onClick={() => dispatch(setUploadAvatarModal(true))}
+                variant="outline"
+            >
+                Загрузить аватар
+            </Button>
+        </div>
+        <EditProfileForm/>
       </div>
-
-      <Textarea
-        label={'About Me'}
-        placeholder={'Text-area'}
-        error={errors.aboutMe && errors.aboutMe.message}
-        {...register('aboutMe')}
-      />
-
-      <Separator />
-
-      <Button className={s.sendBtn} variant={'default'} type={'submit'}>
-        Save Changes
-      </Button>
-    </form>
   )
 }

@@ -25,8 +25,20 @@ export const PostToolkitProvider = ({ children }: PropsWithChildren) => {
     router.push(`?${params.toString()}`, { scroll: false })
   }, [searchParams, router])
 
+  const openAvatarModal = useCallback(() => {
+    const params = new URLSearchParams(searchParams)
+    params.set('avatarModal', 'true')
+    router.push(`?${params.toString()}`, { scroll: false })
+  }, [searchParams, router])
+
+  const closeAvatarModal = useCallback(() => {
+    const params = new URLSearchParams(searchParams)
+    params.delete('avatarModal')
+    router.push(`?${params.toString()}`, { scroll: false })
+  }, [searchParams, router])
+
   const context = useMemo(() => {
-    return { openPostModal, closePostModal }
+    return { openPostModal, closePostModal, openAvatarModal, closeAvatarModal }
   }, [currentPostId])
   return (
     <ModalContext.Provider value={context}>{children}</ModalContext.Provider>

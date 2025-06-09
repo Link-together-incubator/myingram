@@ -41,7 +41,7 @@ export function ModalWrapper({
       }
     }
   }
-  console.log('isMounted', isMounted)
+  console.log('Render ModalWrapper')
   const modalContent = (
     <div
       key={'model-wrapper'}
