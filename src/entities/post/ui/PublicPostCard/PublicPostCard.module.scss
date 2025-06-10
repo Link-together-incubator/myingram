@@ -1,0 +1,56 @@
+.container {
+  width: 234px;
+}
+
+.publicPagePost {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.postImages {
+  overflow: hidden;
+  width: 234px;
+  height: 240px;
+  position: relative;
+
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &.hide {
+    height: 120px;
+  }
+}
+
+.user {
+  font: var(--font-h3);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.publicationTime {
+  font: var(--font-small-12);
+  color: var(--light-900);
+}
+
+.description {
+  font: var(--font-regular-14);
+  overflow: hidden;
+  margin-top: 3px;
+  margin-bottom: 0;
+  color: var(--light-100);
+}
+
+.showMore {
+  cursor: pointer;
+  display: inline;
+  color: var(--accent-500);
+  text-decoration: underline;
+}

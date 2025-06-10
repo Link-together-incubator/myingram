@@ -15,3 +15,11 @@ export type UserProfile = {
   createdAt: string
   paymentAccount: boolean
 }
+
+export type UserProfileListResponse = {
+  items: UserProfile[]
+  totalCount: number
+  pagesCount: number
+  page: number
+  pageSize: number
+}
