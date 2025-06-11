@@ -1,22 +1,21 @@
 'use client'
 import { X } from 'lucide-react'
 import { useDispatch } from 'react-redux'
-
-import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
-import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { EditProfileForm } from '@/features/profile/editProfile/ui/EditProfileForm'
 import { useDeleteAvatar } from '@/shared/lib/hooks/useDeleteAvatar'
 import { setUploadAvatarModal } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 
 import s from './GeneralInformation.module.scss'
+import {UserProfile} from "@/entities/profile/model/profile.types";
+import Image from "next/image";
 
-export const GeneralInformation = () => {
-  const { data: authData } = useAuthMeQuery()
-  const userId = authData?.id
-  const { data: profile } = useGetUserProfileQuery(userId!, {
-    skip: !userId,
-  })
+type Props = {
+  profile: UserProfile
+}
+
+export const GeneralInformation = ({profile}: Props) => {
+
   console.log('profile', profile)
   const { requestDelete } = useDeleteAvatar()
   const dispatch = useDispatch()
@@ -30,7 +29,7 @@ export const GeneralInformation = () => {
               <X size={20} color="white" onClick={requestDelete} />
             </button>
           )}
-          <img
+          <Image
             className={s.avatarPhoto}
             width={192}
             height={192}
@@ -45,7 +44,7 @@ export const GeneralInformation = () => {
           Загрузить аватар
         </Button>
       </div>
-      <EditProfileForm />
+      <EditProfileForm profile={profile} />
     </div>
   )
 }
