@@ -1,7 +1,4 @@
-import {
-  EditUserProfile,
-  UserProfile,
-} from '@/entities/profile/model/profile.types'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { baseApi } from '@/shared/api/baseApi'
 
 export const profileApi = baseApi.injectEndpoints({
@@ -10,7 +7,7 @@ export const profileApi = baseApi.injectEndpoints({
       query: (userId) => `profile/${userId}`,
       providesTags: (result) => [{ type: 'UserProfile', id: result?.id }],
     }),
-    editUserProfile: builder.mutation<EditUserProfile, FormData>({
+    editUserProfile: builder.mutation<void, FormData>({
       query: (formData) => ({
         url: 'profile/edit',
         method: 'PUT',
