@@ -1,5 +1,6 @@
 'use client'
 import { X } from 'lucide-react'
+import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
@@ -17,7 +18,7 @@ export const GeneralInformation = () => {
   const { data: profile } = useGetUserProfileQuery(userId!, {
     skip: !userId,
   })
-  console.log('profile', profile)
+  console.log('profile', profile?.photoUrl)
   const { requestDelete } = useDeleteAvatar()
   const dispatch = useDispatch()
 
@@ -30,7 +31,7 @@ export const GeneralInformation = () => {
               <X size={20} color="white" onClick={requestDelete} />
             </button>
           )}
-          <img
+          <Image
             className={s.avatarPhoto}
             width={192}
             height={192}

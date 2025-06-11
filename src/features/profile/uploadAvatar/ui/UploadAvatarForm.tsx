@@ -64,7 +64,7 @@ export const UploadAvatarForm = () => {
       const result = await editUserProfile(formData).unwrap()
       console.log('Photo updated', result)
 
-      await new Promise((resolve) => setTimeout(resolve, 5000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
       await refetch()
       dispatch(setUploadAvatarModal(false))
     } catch (error) {
