@@ -11,28 +11,27 @@ import {
   GeneralInformationData,
   GeneralInformationSchema,
 } from '@/entities/profile/model/GeneralInformationSchem'
-import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
 import { Separator } from '@/shared/ui/Separator/Separator'
 
 import s from './editProfileForm.module.scss'
+import {useEffect} from "react";
+import {UserProfile} from "@/entities/profile/model/profile.types";
 
-export const EditProfileForm = () => {
-  const { data: authData } = useAuthMeQuery()
-  const userId = authData?.id
+type Props = {
+    profile: UserProfile
+}
 
-  const { data: profile, refetch } = useGetUserProfileQuery(userId!, {
-    skip: !userId,
-  })
+export const EditProfileForm = ({profile}: Props) => {
+
   const [editProfile] = useEditUserProfileMutation()
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: { errors},
     reset,
-    setError,
   } = useForm<GeneralInformationData>({
     mode: 'onTouched',
     resolver: zodResolver(GeneralInformationSchema),
@@ -47,7 +46,11 @@ export const EditProfileForm = () => {
     },
   })
 
-  const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
+    useEffect(()=>{
+        reset()
+    },[profile])
+
+    const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
     try {
       const payload = new FormData()
       payload.append('file', profile?.photoUrl || '')
@@ -60,6 +63,8 @@ export const EditProfileForm = () => {
       payload.append('aboutMe', formData.aboutMe || '')
 
       await editProfile(payload).unwrap()
+      // await refetch() // Добавьте эту строку
+      reset(formData)
     } catch (e) {
       console.log(`Error ${e}`)
     }

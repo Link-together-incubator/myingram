@@ -92,7 +92,7 @@ export default function Profile({
 
   return (
     <>
-      {openSettings && <Settings setOpenSettings={setOpenSettings} />}
+      {openSettings && <Settings profile={profile} setOpenSettings={setOpenSettings} />}
 
       {!openSettings && (
         <div className={s.profileBlock}>

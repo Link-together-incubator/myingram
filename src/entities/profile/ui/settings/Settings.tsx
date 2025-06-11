@@ -5,12 +5,14 @@ import { Button } from '@/shared/ui'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/shared/ui/Tabs/Tabs'
 
 import s from './Settings.module.scss'
+import {UserProfile} from "@/entities/profile/model/profile.types";
 
 type Props = {
   setOpenSettings: (open: boolean) => void
+  profile: UserProfile
 }
 
-export const Settings = ({ setOpenSettings }: Props) => {
+export const Settings = ({ setOpenSettings, profile }: Props) => {
   return (
     <Tabs defaultValue={'generalInformation'} className={s.settings}>
       <TabsList className={s.tabsList}>
@@ -36,7 +38,7 @@ export const Settings = ({ setOpenSettings }: Props) => {
       </TabsList>
 
       <TabsContent className={s.content} value={'generalInformation'}>
-        <GeneralInformation />
+        <GeneralInformation profile={profile} />
       </TabsContent>
 
       <TabsContent className={s.content} value={'devices'}>
