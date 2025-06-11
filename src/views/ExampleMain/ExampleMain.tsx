@@ -1,24 +1,16 @@
 'use client'
-import Image from 'next/image'
-import { useDispatch } from 'react-redux'
 
 import { useGetPostsQuery } from '@/entities/post/api/postApi'
-import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
-import { setUploadAvatarModal } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 export default function ExampleMain() {
   const { data: user } = useAuthMeQuery()
   const { data: postData } = useGetPostsQuery({ pageNumber: 1, pageSize: 10 })
   const { openPostModal } = usePostModal()
-  const { data: profile } = useGetUserProfileQuery(user?.id as string)
   const handlePostModal = (postId: string) => () => {
     openPostModal(postId)
   }
-
-  const profilePhotoUrl = profile?.photoUrl
-  console.log('photoUrl:', profile?.photoUrl)
 
   return (
     <div
@@ -26,16 +18,6 @@ export default function ExampleMain() {
     >
       Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
       подтвердил почту
-      {profilePhotoUrl && (
-        <Image
-          src={profilePhotoUrl}
-          alt="Profile"
-          width={192}
-          height={192}
-          className="relative rounded-full object-cover"
-          unoptimized
-        />
-      )}
       {postData &&
         postData.items.map((post) => (
           <div key={post.id}>

@@ -16,7 +16,7 @@ export type UserProfile = {
   paymentAccount: boolean
 }
 export type EditUserProfile = {
-  file: string
+  file: File
   userName: string
   firstName: string
   lastName: string

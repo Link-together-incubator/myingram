@@ -15,3 +15,23 @@
   height: 192px;
   border-radius: 50%;
 }
+
+.avatarWrapper {
+  position: relative;
+  width: 192px;
+  height: 192px;
+}
+
+.deleteButton {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc3545;
+  border: none;
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

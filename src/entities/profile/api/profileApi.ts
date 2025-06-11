@@ -1,6 +1,6 @@
 import {
-  UserProfile,
   EditUserProfile,
+  UserProfile,
 } from '@/entities/profile/model/profile.types'
 import { baseApi } from '@/shared/api/baseApi'
 
