@@ -1,11 +1,11 @@
 'use client'
 
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { GeneralInformation } from '@/entities/profile/ui/settings/GeneralInformation/GeneralInformation'
 import { Button } from '@/shared/ui'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/shared/ui/Tabs/Tabs'
 
 import s from './Settings.module.scss'
-import {UserProfile} from "@/entities/profile/model/profile.types";
 
 type Props = {
   setOpenSettings: (open: boolean) => void

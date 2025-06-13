@@ -37,8 +37,9 @@ export default function Profile({
   const dispatch = useAppDispatch()
 
   const { data: clientProfile } = useUserProfileQuery(serverProfile.id, {
-    skip: !initialized,
+    // skip: !initialized,
   })
+  console.log('clientProfile',clientProfile)
   const { data: postData } = useGetPostsQuery(
     {
       pageNumber: page,
@@ -92,7 +93,9 @@ export default function Profile({
 
   return (
     <>
-      {openSettings && <Settings profile={profile} setOpenSettings={setOpenSettings} />}
+      {openSettings && (
+        <Settings profile={profile} setOpenSettings={setOpenSettings} />
+      )}
 
       {!openSettings && (
         <div className={s.profileBlock}>

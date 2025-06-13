@@ -46,7 +46,8 @@ export const useDeleteAvatar = () => {
     const deletePhoto = async () => {
       try {
         const formData = new FormData()
-        formData.append('file', '')
+        const emptyFile = new File([''], 'empty.jpg', { type: 'image/jpeg' })
+        formData.append('file', emptyFile)
         formData.append('userName', profile?.userName || '')
         formData.append('firstName', profile?.firstName || '')
         formData.append('lastName', profile?.lastName || '')

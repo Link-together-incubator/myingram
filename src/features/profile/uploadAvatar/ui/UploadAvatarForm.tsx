@@ -61,7 +61,10 @@ export const UploadAvatarForm = () => {
       formData.append('city', profile?.city || '')
       formData.append('aboutMe', profile?.aboutMe || '')
 
-      const result = await editUserProfile(formData).unwrap()
+      const result = await editUserProfile({
+        body: formData,
+        id: profile?.id,
+      }).unwrap()
       console.log('Photo updated', result)
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
