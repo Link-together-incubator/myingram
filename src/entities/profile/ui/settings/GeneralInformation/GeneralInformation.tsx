@@ -3,7 +3,8 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 import { useDispatch } from 'react-redux'
 
-import { UserProfile } from '@/entities/profile/model/profile.types'
+import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { EditProfileForm } from '@/features/profile/editProfile/ui/EditProfileForm'
 import { useDeleteAvatar } from '@/shared/lib/hooks/useDeleteAvatar'
 import { setUploadAvatarModal } from '@/shared/model/appSlice'
@@ -11,14 +12,22 @@ import { Button } from '@/shared/ui'
 
 import s from './GeneralInformation.module.scss'
 
-type Props = {
-  profile: UserProfile
-}
+export const GeneralInformation = () => {
+  const { data: authData } = useAuthMeQuery()
+  const userId = authData?.id
 
-export const GeneralInformation = ({ profile }: Props) => {
-  console.log('profile', profile)
+  const { data: profile } = useGetUserProfileQuery(userId!, {
+    skip: !userId,
+  })
+
   const { requestDelete } = useDeleteAvatar()
   const dispatch = useDispatch()
+
+  const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
+  const avatarSrc =
+    !profile?.photoUrl || isFakePhoto
+      ? '/assets/images/avatarPhoto.webp'
+      : profile.photoUrl
 
   return (
     <div className={s.generalInformation}>
@@ -33,7 +42,7 @@ export const GeneralInformation = ({ profile }: Props) => {
             className={s.avatarPhoto}
             width={192}
             height={192}
-            src={profile?.photoUrl || '/assets/images/avatarPhoto.webp'}
+            src={avatarSrc}
             alt="avatar-photo"
           />
         </div>
@@ -44,7 +53,7 @@ export const GeneralInformation = ({ profile }: Props) => {
           Загрузить аватар
         </Button>
       </div>
-      <EditProfileForm profile={profile} />
+      <EditProfileForm />
     </div>
   )
 }

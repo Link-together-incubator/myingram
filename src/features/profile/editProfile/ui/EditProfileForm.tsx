@@ -1,7 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import { useEffect } from 'react'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import {
   useEditUserProfileMutation,
@@ -11,26 +12,26 @@ import {
   GeneralInformationData,
   GeneralInformationSchema,
 } from '@/entities/profile/model/GeneralInformationSchem'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
 import { Separator } from '@/shared/ui/Separator/Separator'
 
 import s from './editProfileForm.module.scss'
-import {useEffect} from "react";
-import {UserProfile} from "@/entities/profile/model/profile.types";
 
-type Props = {
-    profile: UserProfile
-}
+export const EditProfileForm = () => {
+  const { data: authData } = useAuthMeQuery()
+  const userId = authData?.id
 
-export const EditProfileForm = ({profile}: Props) => {
-
+  const { data: profile } = useGetUserProfileQuery(userId!, {
+    skip: !userId,
+  })
   const [editProfile] = useEditUserProfileMutation()
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors},
+    formState: { errors },
     reset,
   } = useForm<GeneralInformationData>({
     mode: 'onTouched',
@@ -46,14 +47,30 @@ export const EditProfileForm = ({profile}: Props) => {
     },
   })
 
-    useEffect(()=>{
-        reset()
-    },[profile])
+  useEffect(() => {
+    if (profile) {
+      reset({
+        userName: profile.userName,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        dateOfBirth: profile.dateOfBirth,
+        country: profile.country,
+        city: profile.city,
+        aboutMe: profile.aboutMe,
+      })
+    }
+  }, [profile, reset])
 
-    const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
+  const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
     try {
       const payload = new FormData()
-      payload.append('file', profile?.photoUrl || '')
+      if (profile?.photoUrl) {
+        const response = await fetch(profile.photoUrl)
+        const blob = await response.blob()
+        const file = new File([blob], 'avatar.jpg', { type: blob.type })
+        payload.append('file', file)
+      }
+
       payload.append('userName', formData.userName || '')
       payload.append('firstName', formData.firstName || '')
       payload.append('lastName', formData.lastName || '')
@@ -63,10 +80,9 @@ export const EditProfileForm = ({profile}: Props) => {
       payload.append('aboutMe', formData.aboutMe || '')
 
       await editProfile(payload).unwrap()
-      // await refetch() // Добавьте эту строку
       reset(formData)
     } catch (e) {
-      console.log(`Error ${e}`)
+      console.error(`Error: ${e}`)
     }
   }
 

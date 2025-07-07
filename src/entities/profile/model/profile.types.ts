@@ -25,8 +25,3 @@ export type EditUserProfile = {
   city: string
   aboutMe: string
 }
-
-export type EditUserProfileBody = {
-  id?: string
-  body: FormData
-}

@@ -37,7 +37,7 @@ export const UploadAvatarForm = () => {
   const { data: authData } = useAuthMeQuery()
   const userId = authData?.id
 
-  const { data: profile, refetch } = useGetUserProfileQuery(userId!, {
+  const { data: profile } = useGetUserProfileQuery(userId!, {
     skip: !userId,
   })
 
@@ -47,8 +47,9 @@ export const UploadAvatarForm = () => {
 
   const handleCropComplete = async (croppedImage: Blob) => {
     try {
+      const uniqueFileName = `avatar-${Date.now()}.jpg`
       const formData = new FormData()
-      const file = new File([croppedImage], 'avatar.jpg', {
+      const file = new File([croppedImage], uniqueFileName, {
         type: 'image/jpeg',
       })
       formData.append('file', file)
@@ -61,14 +62,7 @@ export const UploadAvatarForm = () => {
       formData.append('city', profile?.city || '')
       formData.append('aboutMe', profile?.aboutMe || '')
 
-      const result = await editUserProfile({
-        body: formData,
-        id: profile?.id,
-      }).unwrap()
-      console.log('Photo updated', result)
-
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      await refetch()
+      await editUserProfile(formData).unwrap()
       dispatch(setUploadAvatarModal(false))
     } catch (error) {
       console.error('Error:', error)

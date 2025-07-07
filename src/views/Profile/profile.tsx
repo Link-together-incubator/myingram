@@ -5,9 +5,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { postApi, useGetPostsQuery } from '@/entities/post/api/postApi'
 import { GetPostsPayload } from '@/entities/post/post.types'
+import { profileApi } from '@/entities/profile/api/profileApi'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { Settings } from '@/entities/profile/ui/settings/Settings'
-import { UserResponse } from '@/entities/user/api/user.types'
-import { userApi, useUserProfileQuery } from '@/entities/user/api/userApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
@@ -19,7 +19,7 @@ const LIMIT = 8
 
 interface ProfileInitProps {
   serverPostsData: GetPostsPayload
-  serverProfile: UserResponse
+  serverProfile: UserProfile
 }
 
 export default function Profile({
@@ -36,10 +36,10 @@ export default function Profile({
   const [initialized, setInitialized] = useState(false)
   const dispatch = useAppDispatch()
 
-  const { data: clientProfile } = useUserProfileQuery(serverProfile.id, {
-    // skip: !initialized,
-  })
-  console.log('clientProfile',clientProfile)
+  // const { data: clientProfile } = useGetUserProfileQuery(serverProfile.id, {
+  //   skip: !initialized,
+  // })
+
   const { data: postData } = useGetPostsQuery(
     {
       pageNumber: page,
@@ -50,7 +50,8 @@ export default function Profile({
       skip: !initialized,
     },
   )
-  const profile = initialized ? clientProfile || serverProfile : serverProfile
+  const profile = serverProfile
+
   const posts = initialized
     ? postData?.items || serverPostsData.items
     : serverPostsData.items
@@ -69,8 +70,8 @@ export default function Profile({
     )
 
     dispatch(
-      userApi.util.upsertQueryData(
-        'userProfile',
+      profileApi.util.upsertQueryData(
+        'getUserProfile',
         serverProfile.id,
         serverProfile,
       ),
@@ -93,9 +94,7 @@ export default function Profile({
 
   return (
     <>
-      {openSettings && (
-        <Settings profile={profile} setOpenSettings={setOpenSettings} />
-      )}
+      {openSettings && <Settings setOpenSettings={setOpenSettings} />}
 
       {!openSettings && (
         <div className={s.profileBlock}>

@@ -1,23 +1,17 @@
-import {
-  EditUserProfileBody,
-  UserProfile,
-} from '@/entities/profile/model/profile.types'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { baseApi } from '@/shared/api/baseApi'
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query<UserProfile, string>({
       query: (userId) => `profile/${userId}`,
-      // providesTags: (result, error, userId) => [
-      //   { type: 'UserProfile', id: userId },
-      // ],
-      providesTags: ['UserProfile']
+      providesTags: ['UserProfile'],
     }),
-    editUserProfile: builder.mutation<void, EditUserProfileBody>({
-      query: ({ body, id }) => ({
+    editUserProfile: builder.mutation<void, FormData>({
+      query: (formData) => ({
         url: 'profile/edit',
         method: 'PUT',
-        body,
+        body: formData,
       }),
       invalidatesTags: ['UserProfile'],
     }),
