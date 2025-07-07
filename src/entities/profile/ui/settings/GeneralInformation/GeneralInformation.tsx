@@ -7,18 +7,20 @@ import { setUploadAvatarModal } from '@/shared/model/appSlice'
 import { Button } from '@/shared/ui'
 
 import s from './GeneralInformation.module.scss'
-import {UserProfile} from "@/entities/profile/model/profile.types";
-import Image from "next/image";
+import Image from 'next/image'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
+import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 
-type Props = {
-  profile: UserProfile
-}
-
-export const GeneralInformation = ({profile}: Props) => {
-
-  console.log('profile', profile)
+export const GeneralInformation = () => {
   const { requestDelete } = useDeleteAvatar()
   const dispatch = useDispatch()
+
+  const { data: authData } = useAuthMeQuery()
+  const userId = authData?.id
+
+  const { data: profile } = useGetUserProfileQuery(userId!, {
+    skip: !userId,
+  })
 
   return (
     <div className={s.generalInformation}>

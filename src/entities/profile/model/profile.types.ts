@@ -25,3 +25,5 @@ export type EditUserProfile = {
   city: string
   aboutMe: string
 }
+
+export type EditUserProfileWithoutFile = Partial<Omit<EditUserProfile, 'file'>>

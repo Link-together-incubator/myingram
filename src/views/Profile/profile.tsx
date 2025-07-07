@@ -2,10 +2,8 @@
 
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
-
 import { postApi, useGetPostsQuery } from '@/entities/post/api/postApi'
 import { GetPostsPayload } from '@/entities/post/post.types'
-import { Settings } from '@/entities/profile/ui/settings/Settings'
 import { UserResponse } from '@/entities/user/api/user.types'
 import { userApi, useUserProfileQuery } from '@/entities/user/api/userApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
@@ -13,6 +11,7 @@ import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { useScroll } from '@/shared/lib/hooks/useScroll'
 import { Button } from '@/shared/ui'
+import { useRouter } from 'next/navigation'
 
 import s from './profile.module.scss'
 const LIMIT = 8
@@ -29,6 +28,11 @@ export default function Profile({
   const { data: user } = useAuthMeQuery()
   const isCurrentUser = user?.id === serverProfile.userId
   const [page, setPage] = useState(1)
+  const router = useRouter()
+
+  const handleProfileSettingsRoute = () => {
+    router.push('/settings')
+  }
 
   const childRef = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
@@ -88,99 +92,91 @@ export default function Profile({
 
   const { openPostModal } = usePostModal()
 
-  const [openSettings, setOpenSettings] = useState<boolean>(false)
-
   return (
-    <>
-      {openSettings && <Settings profile={profile} setOpenSettings={setOpenSettings} />}
-
-      {!openSettings && (
-        <div className={s.profileBlock}>
-          <div className={s.profileHeader}>
-            {profile?.photoUrl ? (
-              <Image src={profile.photoUrl} alt={''} width={234} height={228} />
-            ) : (
-              <Image
-                src={'/assets/images/avatarPhoto.webp'}
-                alt={''}
-                width={204}
-                height={204}
-              />
-            )}
-            <div className={s.infoBlock}>
-              <div className={s.profileAndButtonGroup}>
-                <div className={s.profileNameAndPaidGroup}>
-                  <h1 className={s.userName}>{profile?.userName}</h1>
-                  {profile?.paymentAccount ? (
-                    <Image
-                      src={'/assets/svg/Paid.png'}
-                      alt={''}
-                      width={24}
-                      height={24}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div className={s.buttonGroup}>
-                  {isCurrentUser ? (
-                    <Button
-                      onClick={() => setOpenSettings(true)}
-                      variant={'default'}
-                    >
-                      Profile Settings
-                    </Button>
-                  ) : user?.email ? (
+    <div className={s.profileBlock}>
+      <div className={s.profileHeader}>
+        {profile?.photoUrl ? (
+          <Image src={profile.photoUrl} alt={''} width={234} height={228} />
+        ) : (
+          <Image
+            src={'/assets/images/avatarPhoto.webp'}
+            alt={''}
+            width={204}
+            height={204}
+          />
+        )}
+        <div className={s.infoBlock}>
+          <div className={s.profileAndButtonGroup}>
+            <div className={s.profileNameAndPaidGroup}>
+              <h1 className={s.userName}>{profile?.userName}</h1>
+              {profile?.paymentAccount ? (
+                <Image
+                  src={'/assets/svg/Paid.png'}
+                  alt={''}
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className={s.buttonGroup}>
+              {isCurrentUser ? (
+                <Button
+                  onClick={handleProfileSettingsRoute}
+                  variant={'default'}
+                >
+                  Profile Settings
+                </Button>
+              ) : user?.email ? (
+                <>
+                  {profile?.followed ? (
                     <>
-                      {profile?.followed ? (
-                        <>
-                          <Button variant={'default'}>Unfollow</Button>
-                          <Button variant={'secondary'}>Send Message</Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button variant={'default'}>Follow</Button>
-                          <Button variant={'secondary'}>Send Message</Button>
-                        </>
-                      )}
+                      <Button variant={'default'}>Unfollow</Button>
+                      <Button variant={'secondary'}>Send Message</Button>
                     </>
-                  ) : null}
-                </div>
-              </div>
-              <div className={s.followersBlock}>
-                <div>
-                  <span>{profile?.subscriptions}</span>
-                  <span>Following</span>
-                </div>
-                <div>
-                  <span>{profile?.subscribers}</span>
-                  <span>Followers</span>
-                </div>
-                <div>
-                  <span>{postsCount}</span>
-                  <span>Publications</span>
-                </div>
-              </div>
-              <p className={s.textBlock}>{profile?.aboutMe}</p>
+                  ) : (
+                    <>
+                      <Button variant={'default'}>Follow</Button>
+                      <Button variant={'secondary'}>Send Message</Button>
+                    </>
+                  )}
+                </>
+              ) : null}
             </div>
           </div>
-
-          <div ref={parentRef} className={s.posts}>
-            {posts.map((post) => (
-              <div className={s.imageContainer} key={post.id}>
-                <Image
-                  src={post.photoUrls[0]}
-                  alt={post.description}
-                  width={234}
-                  height={228}
-                  onClick={openPostModal.bind(null, post.id)}
-                />
-              </div>
-            ))}
+          <div className={s.followersBlock}>
+            <div>
+              <span>{profile?.subscriptions}</span>
+              <span>Following</span>
+            </div>
+            <div>
+              <span>{profile?.subscribers}</span>
+              <span>Followers</span>
+            </div>
+            <div>
+              <span>{postsCount}</span>
+              <span>Publications</span>
+            </div>
           </div>
-          <div ref={childRef}></div>
+          <p className={s.textBlock}>{profile?.aboutMe}</p>
         </div>
-      )}
-    </>
+      </div>
+
+      <div ref={parentRef} className={s.posts}>
+        {posts.map((post) => (
+          <div className={s.imageContainer} key={post.id}>
+            <Image
+              src={post.photoUrls[0]}
+              alt={post.description}
+              width={234}
+              height={228}
+              onClick={openPostModal.bind(null, post.id)}
+            />
+          </div>
+        ))}
+      </div>
+      <div ref={childRef}></div>
+    </div>
   )
 }

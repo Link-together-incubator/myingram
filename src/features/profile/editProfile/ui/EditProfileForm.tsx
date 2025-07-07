@@ -3,10 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 
-import {
-  useEditUserProfileMutation,
-  useGetUserProfileQuery,
-} from '@/entities/profile/api/profileApi'
+import { useEditUserProfilePatchMutation } from '@/entities/profile/api/profileApi'
 import {
   GeneralInformationData,
   GeneralInformationSchema,
@@ -15,22 +12,21 @@ import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
 import { Separator } from '@/shared/ui/Separator/Separator'
 
 import s from './editProfileForm.module.scss'
-import {useEffect} from "react";
-import {UserProfile} from "@/entities/profile/model/profile.types";
+import { useEffect } from 'react'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 
 type Props = {
-    profile: UserProfile
+  profile: UserProfile | undefined
 }
 
-export const EditProfileForm = ({profile}: Props) => {
-
-  const [editProfile] = useEditUserProfileMutation()
+export const EditProfileForm = ({ profile }: Props) => {
+  const [editProfile] = useEditUserProfilePatchMutation()
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors},
+    formState: { errors },
     reset,
   } = useForm<GeneralInformationData>({
     mode: 'onTouched',
@@ -39,32 +35,28 @@ export const EditProfileForm = ({profile}: Props) => {
       userName: profile?.userName || '',
       firstName: profile?.firstName || '',
       lastName: profile?.lastName || '',
-      dateOfBirth: profile?.dateOfBirth || '',
+      dateOfBirth: profile?.dateOfBirth || undefined,
       country: profile?.country || '',
       city: profile?.city || '',
       aboutMe: profile?.aboutMe || '',
     },
   })
 
-    useEffect(()=>{
-        reset()
-    },[profile])
+  useEffect(() => {
+    reset({
+      userName: profile?.userName || '',
+      firstName: profile?.firstName || '',
+      lastName: profile?.lastName || '',
+      dateOfBirth: profile?.dateOfBirth || undefined,
+      country: profile?.country || '',
+      city: profile?.city || '',
+      aboutMe: profile?.aboutMe || '',
+    })
+  }, [profile, reset])
 
-    const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
+  const onSubmit: SubmitHandler<GeneralInformationData> = async (data) => {
     try {
-      const payload = new FormData()
-      payload.append('file', profile?.photoUrl || '')
-      payload.append('userName', formData.userName || '')
-      payload.append('firstName', formData.firstName || '')
-      payload.append('lastName', formData.lastName || '')
-      payload.append('dateOfBirth', formData.dateOfBirth || '')
-      payload.append('country', formData.country || '')
-      payload.append('city', formData.city || '')
-      payload.append('aboutMe', formData.aboutMe || '')
-
-      await editProfile(payload).unwrap()
-      // await refetch() // Добавьте эту строку
-      reset(formData)
+      await editProfile(data).unwrap()
     } catch (e) {
       console.log(`Error ${e}`)
     }
