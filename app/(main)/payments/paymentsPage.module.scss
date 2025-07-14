@@ -1,0 +1,17 @@
+.container {
+  color: var(--card-foreground);
+  font: var(--font-regular-14);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  font: var(--font-bold-16);
+}
+
+.link {
+  font: var(--font-bold-16);
+}

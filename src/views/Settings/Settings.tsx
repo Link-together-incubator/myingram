@@ -4,6 +4,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { GeneralInformation } from '@/entities/profile/ui/settings/GeneralInformation/GeneralInformation'
+import { AccountManagement } from '@/features/Payments/ui/AccountManagement/AccountManagement'
+import MayPaymentsPage from '@/features/Payments/ui/MyPayments/MyPaymentsPage'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs/Tabs'
 
 import s from './Settings.module.scss'
@@ -90,11 +92,11 @@ export const Settings = () => {
       </TabsContent>
 
       <TabsContent className={s.content} value="accountManagement">
-        Account Management
+        <AccountManagement />
       </TabsContent>
 
       <TabsContent className={s.content} value="myPayments">
-        My payments
+        <MayPaymentsPage />
       </TabsContent>
     </Tabs>
   )

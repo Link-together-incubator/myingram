@@ -26,3 +26,21 @@ export { SwitchButton } from './SwitchButton/SwitchButton'
 export { SelectBox } from './SelectBox/SelectBox'
 
 export { Carousel } from './Carousel/Carousel'
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from './Table/Table'
+
+export {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './Select/select'

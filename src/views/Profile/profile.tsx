@@ -11,6 +11,10 @@ import {
 } from '@/entities/profile/api/profileApi'
 import { UserResponse } from '@/entities/user/api/user.types'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
+import {
+  useGetSubscriptionsQuery,
+  useUnsubscribeMutation,
+} from '@/features/Payments/api/apiPayments'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { useScroll } from '@/shared/lib/hooks/useScroll'
@@ -45,6 +49,9 @@ export default function Profile({
   const { data: clientProfile } = useGetUserProfileQuery(serverProfile.id, {
     skip: !initialized,
   })
+
+  const { data: subscriptions } = useGetSubscriptionsQuery(undefined)
+  const [unSubscribe] = useUnsubscribeMutation()
   const { data: postData } = useGetPostsQuery(
     {
       pageNumber: page,
@@ -63,6 +70,26 @@ export default function Profile({
   const postsCount = initialized
     ? postData?.totalCount || serverPostsData.totalCount
     : serverPostsData.totalCount
+
+  function isLastDayOfSubscription(subscriptionEndDate: string) {
+    const today = new Date()
+    const endDate = new Date(subscriptionEndDate)
+    return (
+      today.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
+    )
+  }
+
+  useEffect(() => {
+    const autoRenewalEnabled =
+      localStorage.getItem('autoRenewalEnabled') ?? 'false'
+
+    const subscriptionEndDate = subscriptions?.items[0].expiresAt
+    if (subscriptionEndDate && isLastDayOfSubscription(subscriptionEndDate)) {
+      if (!JSON.parse(autoRenewalEnabled)) {
+        unSubscribe({ paymentId: subscriptions.items[0].id })
+      }
+    }
+  }, [subscriptions])
 
   useEffect(() => {
     dispatch(
