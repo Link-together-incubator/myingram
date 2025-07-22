@@ -13,15 +13,15 @@ import { Button } from '@/shared/ui'
 import s from './GeneralInformation.module.scss'
 
 export const GeneralInformation = () => {
+  const { requestDelete } = useDeleteAvatar()
+  const dispatch = useDispatch()
+
   const { data: authData } = useAuthMeQuery()
   const userId = authData?.id
 
   const { data: profile } = useGetUserProfileQuery(userId!, {
     skip: !userId,
   })
-
-  const { requestDelete } = useDeleteAvatar()
-  const dispatch = useDispatch()
 
   const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
   const avatarSrc =
@@ -53,7 +53,7 @@ export const GeneralInformation = () => {
           Загрузить аватар
         </Button>
       </div>
-      <EditProfileForm />
+      <EditProfileForm profile={profile} />
     </div>
   )
 }

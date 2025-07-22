@@ -1,24 +1,24 @@
 .userInfo {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-  
-  .avatar {
-    height: 36px;
-    border-radius: 50%;
-  }
-  
-  .username {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--light-100);
-    line-height: 24px;
-  }
-  .defaultAvatar{
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: var(--dark-100);
-    display: inline-block;
-  }
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.avatar {
+  height: 36px;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--light-100);
+  line-height: 24px;
+}
+.defaultAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--dark-100);
+  display: inline-block;
+}

@@ -52,6 +52,11 @@ export const EditPostModal = ({
       console.error('Ошибка при обновлении поста:', err)
     }
   }
+  const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
+  const avatarSrc =
+    !profile?.photoUrl || isFakePhoto
+      ? '/assets/images/avatarPhoto.webp'
+      : profile.photoUrl
   return (
     <ModalWrapper
       onClose={onClose}
@@ -88,7 +93,7 @@ export const EditPostModal = ({
             <UserInfo
               username={profile.userName}
               className={s.userInfo}
-              profileImage={profile.photoUrl}
+              profileImage={avatarSrc}
             />
             <Textarea
               className={s.textarea}

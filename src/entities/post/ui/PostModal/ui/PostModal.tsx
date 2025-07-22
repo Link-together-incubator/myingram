@@ -130,6 +130,11 @@ export function PostModal({ post: serverPost }: PostModalProps) {
       />
     )
   }
+  const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
+  const avatarSrc =
+    !profile?.photoUrl || isFakePhoto
+      ? '/assets/images/avatarPhoto.webp'
+      : profile.photoUrl
 
   return (
     <ModalWrapper onClose={closePostModal}>
@@ -167,7 +172,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
               </div>
             )
           }
-          profileImage={profile?.photoUrl || ''}
+          profileImage={avatarSrc}
           onToggleMenu={() => setShowMenu((prev) => !prev)}
           showMenu={showMenu}
         >
@@ -181,7 +186,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
           <div className={s.postDescription}>
             {profile?.photoUrl ? (
               <Image
-                src={profile.photoUrl}
+                src={avatarSrc}
                 alt="avatar"
                 width={36}
                 height={36}

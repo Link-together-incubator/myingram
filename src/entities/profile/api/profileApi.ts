@@ -1,4 +1,7 @@
-import { UserProfile } from '@/entities/profile/model/profile.types'
+import {
+  EditUserProfileWithoutFile,
+  UserProfile,
+} from '@/entities/profile/model/profile.types'
 import { baseApi } from '@/shared/api/baseApi'
 
 export const profileApi = baseApi.injectEndpoints({
@@ -15,7 +18,21 @@ export const profileApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['UserProfile'],
     }),
+    editUserProfilePatch: builder.mutation<
+      EditUserProfileWithoutFile,
+      EditUserProfileWithoutFile
+    >({
+      query: (data) => ({
+        url: 'profile',
+        method: 'PATCH',
+        body: data,
+      }),
+    }),
   }),
 })
 
-export const { useGetUserProfileQuery, useEditUserProfileMutation } = profileApi
+export const {
+  useEditUserProfileMutation,
+  useEditUserProfilePatchMutation,
+  useGetUserProfileQuery,
+} = profileApi

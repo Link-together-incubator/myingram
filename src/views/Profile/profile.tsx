@@ -1,13 +1,15 @@
 'use client'
-
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { postApi, useGetPostsQuery } from '@/entities/post/api/postApi'
 import { GetPostsPayload } from '@/entities/post/post.types'
-import { profileApi } from '@/entities/profile/api/profileApi'
-import { UserProfile } from '@/entities/profile/model/profile.types'
-import { Settings } from '@/entities/profile/ui/settings/Settings'
+import {
+  profileApi,
+  useGetUserProfileQuery,
+} from '@/entities/profile/api/profileApi'
+import { UserResponse } from '@/entities/user/api/user.types'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
@@ -16,10 +18,9 @@ import { Button } from '@/shared/ui'
 
 import s from './profile.module.scss'
 const LIMIT = 8
-
 interface ProfileInitProps {
   serverPostsData: GetPostsPayload
-  serverProfile: UserProfile
+  serverProfile: UserResponse
 }
 
 export default function Profile({
@@ -29,6 +30,11 @@ export default function Profile({
   const { data: user } = useAuthMeQuery()
   const isCurrentUser = user?.id === serverProfile.userId
   const [page, setPage] = useState(1)
+  const router = useRouter()
+
+  const handleProfileSettingsRoute = () => {
+    router.push('/settings')
+  }
 
   const childRef = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
@@ -36,10 +42,9 @@ export default function Profile({
   const [initialized, setInitialized] = useState(false)
   const dispatch = useAppDispatch()
 
-  // const { data: clientProfile } = useGetUserProfileQuery(serverProfile.id, {
-  //   skip: !initialized,
-  // })
-
+  const { data: clientProfile } = useGetUserProfileQuery(serverProfile.id, {
+    skip: !initialized,
+  })
   const { data: postData } = useGetPostsQuery(
     {
       pageNumber: page,
@@ -50,8 +55,7 @@ export default function Profile({
       skip: !initialized,
     },
   )
-  const profile = serverProfile
-
+  const profile = initialized ? clientProfile || serverProfile : serverProfile
   const posts = initialized
     ? postData?.items || serverPostsData.items
     : serverPostsData.items
@@ -89,100 +93,95 @@ export default function Profile({
   useScroll(parentRef, childRef, handleNextPage)
 
   const { openPostModal } = usePostModal()
-
-  const [openSettings, setOpenSettings] = useState<boolean>(false)
+  const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
+  const avatarSrc =
+    !profile?.photoUrl || isFakePhoto
+      ? '/assets/images/avatarPhoto.webp'
+      : profile.photoUrl
 
   return (
-    <>
-      {openSettings && <Settings setOpenSettings={setOpenSettings} />}
+    <div className={s.profileBlock}>
+      <div className={s.profileHeader}>
+        <Image
+          src={avatarSrc}
+          alt="User avatar"
+          width={234}
+          height={228}
+          unoptimized
+        />
 
-      {!openSettings && (
-        <div className={s.profileBlock}>
-          <div className={s.profileHeader}>
-            {profile?.photoUrl ? (
-              <Image src={profile.photoUrl} alt={''} width={234} height={228} />
-            ) : (
-              <Image
-                src={'/assets/images/avatarPhoto.webp'}
-                alt={''}
-                width={204}
-                height={204}
-              />
-            )}
-            <div className={s.infoBlock}>
-              <div className={s.profileAndButtonGroup}>
-                <div className={s.profileNameAndPaidGroup}>
-                  <h1 className={s.userName}>{profile?.userName}</h1>
-                  {profile?.paymentAccount ? (
-                    <Image
-                      src={'/assets/svg/Paid.png'}
-                      alt={''}
-                      width={24}
-                      height={24}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div className={s.buttonGroup}>
-                  {isCurrentUser ? (
-                    <Button
-                      onClick={() => setOpenSettings(true)}
-                      variant={'default'}
-                    >
-                      Profile Settings
-                    </Button>
-                  ) : user?.email ? (
+        <div className={s.infoBlock}>
+          <div className={s.profileAndButtonGroup}>
+            <div className={s.profileNameAndPaidGroup}>
+              <h1 className={s.userName}>{profile?.userName}</h1>
+              {profile?.paymentAccount ? (
+                <Image
+                  src={'/assets/svg/Paid.png'}
+                  alt={''}
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className={s.buttonGroup}>
+              {isCurrentUser ? (
+                <Button
+                  onClick={handleProfileSettingsRoute}
+                  variant={'default'}
+                >
+                  Profile Settings
+                </Button>
+              ) : user?.email ? (
+                <>
+                  {profile?.followed ? (
                     <>
-                      {profile?.followed ? (
-                        <>
-                          <Button variant={'default'}>Unfollow</Button>
-                          <Button variant={'secondary'}>Send Message</Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button variant={'default'}>Follow</Button>
-                          <Button variant={'secondary'}>Send Message</Button>
-                        </>
-                      )}
+                      <Button variant={'default'}>Unfollow</Button>
+                      <Button variant={'secondary'}>Send Message</Button>
                     </>
-                  ) : null}
-                </div>
-              </div>
-              <div className={s.followersBlock}>
-                <div>
-                  <span>{profile?.subscriptions}</span>
-                  <span>Following</span>
-                </div>
-                <div>
-                  <span>{profile?.subscribers}</span>
-                  <span>Followers</span>
-                </div>
-                <div>
-                  <span>{postsCount}</span>
-                  <span>Publications</span>
-                </div>
-              </div>
-              <p className={s.textBlock}>{profile?.aboutMe}</p>
+                  ) : (
+                    <>
+                      <Button variant={'default'}>Follow</Button>
+                      <Button variant={'secondary'}>Send Message</Button>
+                    </>
+                  )}
+                </>
+              ) : null}
             </div>
           </div>
-
-          <div ref={parentRef} className={s.posts}>
-            {posts.map((post) => (
-              <div className={s.imageContainer} key={post.id}>
-                <Image
-                  src={post.photoUrls[0]}
-                  alt={post.description}
-                  width={234}
-                  height={228}
-                  onClick={openPostModal.bind(null, post.id)}
-                />
-              </div>
-            ))}
+          <div className={s.followersBlock}>
+            <div>
+              <span>{profile?.subscriptions}</span>
+              <span>Following</span>
+            </div>
+            <div>
+              <span>{profile?.subscribers}</span>
+              <span>Followers</span>
+            </div>
+            <div>
+              <span>{postsCount}</span>
+              <span>Publications</span>
+            </div>
           </div>
-          <div ref={childRef}></div>
+          <p className={s.textBlock}>{profile?.aboutMe}</p>
         </div>
-      )}
-    </>
+      </div>
+
+      <div ref={parentRef} className={s.posts}>
+        {posts.map((post) => (
+          <div className={s.imageContainer} key={post.id}>
+            <Image
+              src={post.photoUrls[0]}
+              alt={post.description}
+              width={234}
+              height={228}
+              onClick={openPostModal.bind(null, post.id)}
+            />
+          </div>
+        ))}
+      </div>
+      <div ref={childRef}></div>
+    </div>
   )
 }

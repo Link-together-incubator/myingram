@@ -4,28 +4,23 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
-import {
-  useEditUserProfileMutation,
-  useGetUserProfileQuery,
-} from '@/entities/profile/api/profileApi'
+import { useEditUserProfilePatchMutation } from '@/entities/profile/api/profileApi'
 import {
   GeneralInformationData,
   GeneralInformationSchema,
 } from '@/entities/profile/model/GeneralInformationSchem'
-import { useAuthMeQuery } from '@/features/auth/api/authApi'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
 import { Separator } from '@/shared/ui/Separator/Separator'
 
 import s from './editProfileForm.module.scss'
 
-export const EditProfileForm = () => {
-  const { data: authData } = useAuthMeQuery()
-  const userId = authData?.id
+type Props = {
+  profile: UserProfile | undefined
+}
 
-  const { data: profile } = useGetUserProfileQuery(userId!, {
-    skip: !userId,
-  })
-  const [editProfile] = useEditUserProfileMutation()
+export const EditProfileForm = ({ profile }: Props) => {
+  const [editProfile] = useEditUserProfilePatchMutation()
 
   const {
     register,
@@ -40,7 +35,7 @@ export const EditProfileForm = () => {
       userName: profile?.userName || '',
       firstName: profile?.firstName || '',
       lastName: profile?.lastName || '',
-      dateOfBirth: profile?.dateOfBirth || '',
+      dateOfBirth: profile?.dateOfBirth || undefined,
       country: profile?.country || '',
       city: profile?.city || '',
       aboutMe: profile?.aboutMe || '',
@@ -48,41 +43,22 @@ export const EditProfileForm = () => {
   })
 
   useEffect(() => {
-    if (profile) {
-      reset({
-        userName: profile.userName,
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        dateOfBirth: profile.dateOfBirth,
-        country: profile.country,
-        city: profile.city,
-        aboutMe: profile.aboutMe,
-      })
-    }
+    reset({
+      userName: profile?.userName || '',
+      firstName: profile?.firstName || '',
+      lastName: profile?.lastName || '',
+      dateOfBirth: profile?.dateOfBirth || undefined,
+      country: profile?.country || '',
+      city: profile?.city || '',
+      aboutMe: profile?.aboutMe || '',
+    })
   }, [profile, reset])
 
-  const onSubmit: SubmitHandler<GeneralInformationData> = async (formData) => {
+  const onSubmit: SubmitHandler<GeneralInformationData> = async (data) => {
     try {
-      const payload = new FormData()
-      if (profile?.photoUrl) {
-        const response = await fetch(profile.photoUrl)
-        const blob = await response.blob()
-        const file = new File([blob], 'avatar.jpg', { type: blob.type })
-        payload.append('file', file)
-      }
-
-      payload.append('userName', formData.userName || '')
-      payload.append('firstName', formData.firstName || '')
-      payload.append('lastName', formData.lastName || '')
-      payload.append('dateOfBirth', formData.dateOfBirth || '')
-      payload.append('country', formData.country || '')
-      payload.append('city', formData.city || '')
-      payload.append('aboutMe', formData.aboutMe || '')
-
-      await editProfile(payload).unwrap()
-      reset(formData)
+      await editProfile(data).unwrap()
     } catch (e) {
-      console.error(`Error: ${e}`)
+      console.log(`Error ${e}`)
     }
   }
 
