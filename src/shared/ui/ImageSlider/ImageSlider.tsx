@@ -7,9 +7,15 @@ import s from './ImageSlider.module.scss'
 
 type ImageSliderProps = {
   images: string[]
+  width?: number
+  height?: number
 }
 
-export const ImageSlider = ({ images }: ImageSliderProps) => {
+export const ImageSlider = ({
+  images,
+  width = 490,
+  height = 564,
+}: ImageSliderProps) => {
   const [current, setCurrent] = useState(0)
 
   const prevSlide = () => {
@@ -21,7 +27,10 @@ export const ImageSlider = ({ images }: ImageSliderProps) => {
   }
 
   return (
-    <div className={s.slider}>
+    <div
+      className={s.slider}
+      style={{ width: `${width}px`, height: `${height}px` }}
+    >
       <div className={s.imageWrapper}>
         <Image
           src={images[current]}

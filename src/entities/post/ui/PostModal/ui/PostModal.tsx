@@ -6,19 +6,14 @@ import { useEffect, useRef, useState } from 'react'
 
 import { postApi, useGetPostByIdQuery } from '@/entities/post/api/postApi'
 import { PostPayload } from '@/entities/post/post.types'
-import {
-  CommentItem,
-  DropdownMenu,
-  ImageSlider,
-  PostHeader,
-} from '@/entities/post/ui'
+import { CommentItem, DropdownMenu, PostHeader } from '@/entities/post/ui'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
-import { Button } from '@/shared/ui'
+import { Button, ImageSlider } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
 

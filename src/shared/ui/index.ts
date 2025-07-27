@@ -26,3 +26,5 @@ export { SwitchButton } from './SwitchButton/SwitchButton'
 export { SelectBox } from './SelectBox/SelectBox'
 
 export { Carousel } from './Carousel/Carousel'
+
+export { ImageSlider } from './ImageSlider/ImageSlider'

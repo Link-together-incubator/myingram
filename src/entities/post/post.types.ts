@@ -12,6 +12,8 @@ export type PostPayload = {
   updatedAt: string
 }
 
+// ToDo: наверное тут надо переименовать на GetPostsResponse, т.к. payload -это нагрузка от клиента на сервер, например в POST запросах body
+
 export type GetPostsPayload = {
   totalCount: number
   pagesCount: number
