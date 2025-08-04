@@ -83,7 +83,7 @@ export default function Profile({
     const autoRenewalEnabled =
       localStorage.getItem('autoRenewalEnabled') ?? 'false'
 
-    const subscriptionEndDate = subscriptions?.items[0].expiresAt
+    const subscriptionEndDate = subscriptions?.items[0]?.expiresAt
     if (subscriptionEndDate && isLastDayOfSubscription(subscriptionEndDate)) {
       if (!JSON.parse(autoRenewalEnabled)) {
         unSubscribe({ paymentId: subscriptions.items[0].id })

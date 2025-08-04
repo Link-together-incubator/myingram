@@ -25,7 +25,7 @@ export const AccountManagement = () => {
   }
 
   const now = new Date()
-  const expire = subscription?.items[0].expiresAt
+  const expire = subscription?.items[0]?.expiresAt
 
   return (
     <div className={s.accountManagementWrapper}>
