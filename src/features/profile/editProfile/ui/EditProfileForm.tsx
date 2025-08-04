@@ -14,6 +14,8 @@ import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
 import { Separator } from '@/shared/ui/Separator/Separator'
 
 import s from './editProfileForm.module.scss'
+import {useRouter} from "next/navigation";
+import {useAuthMeQuery} from "@/features/auth/api/authApi";
 
 type Props = {
   profile: UserProfile | undefined
@@ -21,6 +23,8 @@ type Props = {
 
 export const EditProfileForm = ({ profile }: Props) => {
   const [editProfile] = useEditUserProfilePatchMutation()
+    const router = useRouter()
+    const { data: user } = useAuthMeQuery()
 
   const {
     register,
@@ -57,6 +61,7 @@ export const EditProfileForm = ({ profile }: Props) => {
   const onSubmit: SubmitHandler<GeneralInformationData> = async (data) => {
     try {
       await editProfile(data).unwrap()
+      router.push(`/profile/${user?.id}`)
     } catch (e) {
       console.log(`Error ${e}`)
     }
