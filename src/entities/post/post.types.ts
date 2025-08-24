@@ -3,10 +3,19 @@ export type CreatePostPayload = {
   files: File[]
 }
 
+export type PhotoObject = {
+  id: string
+  createdAt: string
+  updatedAt: string
+  fileName: string
+  fileUrl: string
+  postId: string
+}
+
 export type PostPayload = {
   id: string
   userId: string
-  photoUrls: string[]
+  urls: PhotoObject[]
   description: string
   createdAt: string
   updatedAt: string

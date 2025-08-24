@@ -124,7 +124,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
       <EditPostModal
         postId={post.id}
         initialDescription={post.description}
-        photoUrls={post.photoUrls}
+        urls={post.urls}
         onClose={() => setShowEditModal(false)}
         profile={profile}
       />
@@ -145,11 +145,11 @@ export function PostModal({ post: serverPost }: PostModalProps) {
             onClose={() => setShowDeleteModal(false)}
           />
         )}
-        {post.photoUrls && post.photoUrls.length > 1 ? (
-          <ImageSlider images={post.photoUrls} />
+        {post.urls && post.urls.length > 1 ? (
+          <ImageSlider images={post.urls.map((url) => url.fileUrl)} />
         ) : (
           <Image
-            src={post.photoUrls[0] || ''}
+            src={post.urls?.[0]?.fileUrl || ''}
             alt="Post image"
             width={490}
             height={564}

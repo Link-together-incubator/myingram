@@ -199,7 +199,7 @@ export default function Profile({
         {posts.map((post) => (
           <div className={s.imageContainer} key={post.id}>
             <Image
-              src={post.photoUrls[0]}
+              src={post.urls[0]?.fileUrl || ''}
               alt={post.description}
               width={234}
               height={228}
