@@ -16,7 +16,6 @@ function ProfilePage({ params }: ServerComponentProps<{ id: string }>) {
   useEffect(() => {
     const fetchData = async () => {
       const token = await localStorage.getItem(ACCESS_TOKEN)
-      console.log('Token:', token)
       const [profile, posts] = await Promise.all([
         baseFetch<UserProfile>(`profile/${id}`, {
           headers: {
@@ -32,8 +31,6 @@ function ProfilePage({ params }: ServerComponentProps<{ id: string }>) {
           },
         ),
       ])
-      console.log('Profile Data:', profile)
-      console.log('Posts Data:', posts)
       setProfileData(profile)
       setPostsData(posts)
     }
