@@ -1,0 +1,48 @@
+.currentSubscriptionWrapper {
+  min-width: 972px;
+  margin-bottom: 20px;
+}
+
+.labelSubscription {
+  margin-bottom: 18px;
+  display: inline-block;
+  font: var(--font-h3);
+  color: var(--popover-foreground);
+}
+
+.currentSubscription {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  height: 84px;
+  padding: 0;
+  margin-bottom: 13px;
+}
+
+.colonWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.expire {
+  display: flex;
+  flex-direction: column;
+  margin-right: 64px;
+}
+
+.nextPayment {
+  display: flex;
+  flex-direction: column;
+}
+
+.spanExpire {
+  margin-bottom: 12px;
+}
+
+.spanNextPayment {
+  margin-bottom: 12px;
+}

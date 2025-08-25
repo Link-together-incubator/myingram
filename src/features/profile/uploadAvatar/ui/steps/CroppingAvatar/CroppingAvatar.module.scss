@@ -1,0 +1,20 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 28px;
+  gap: 36px;
+}
+
+.cropperWrapper {
+  width: 332px;
+  height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+
+.buttonContainer {
+  align-self: flex-end;
+  padding: 0 24px 36px 0;
+}

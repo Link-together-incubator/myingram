@@ -1,0 +1,26 @@
+.container {
+  border: 1px solid var(--card);
+  padding: 1rem;
+  margin: 24px 0 0 24px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .body {
+    .row {
+      background-color: var(--card);
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+
+      .cell {
+        height: 2.5rem; // h-10
+        width: 33%; // w-1/3
+      }
+    }
+  }
+}

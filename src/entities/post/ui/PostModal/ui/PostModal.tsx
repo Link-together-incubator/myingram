@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { postApi, useGetPostByIdQuery } from '@/entities/post/api/postApi'
 import { PostPayload } from '@/entities/post/post.types'
-import { CommentItem, DropdownMenu, PostHeader } from '@/entities/post/ui'
+import { DropdownMenu, ImageSlider, PostHeader } from '@/entities/post/ui'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostModal'
@@ -23,27 +23,27 @@ type PostModalProps = {
   post: PostPayload
 }
 // type comments and likedUsers for json-server
-type LikedUser = {
-  id: string
-  avatarUrl: string
-}
+// type LikedUser = {
+//   id: string
+//   avatarUrl: string
+// }
 
-export type PostComment = {
-  id: string
-  postId: string
-  username: string
-  avatarUrl: string
-  text: string
-  timeAgo: string
-  liked: boolean
-  likesCount: number
-}
+// export type PostComment = {
+//   id: string
+//   postId: string
+//   username: string
+//   avatarUrl: string
+//   text: string
+//   timeAgo: string
+//   liked: boolean
+//   likesCount: number
+// }
 
 export function PostModal({ post: serverPost }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
-  const [comments, setComments] = useState<PostComment[]>([])
+  // const [comments, setComments] = useState<PostComment[]>([])
   const [showEditModal, setShowEditModal] = useState(false)
-  const [likedUsers, setLikedUsers] = useState<LikedUser[]>([])
+  // const [likedUsers, setLikedUsers] = useState<LikedUser[]>([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const { data: authUser } = useAuthMeQuery()
@@ -68,42 +68,42 @@ export function PostModal({ post: serverPost }: PostModalProps) {
   }, [])
 
   // fetch comments and likedUsers from json-server
-  useEffect(() => {
-    const fetchMockData = async () => {
-      try {
-        const [commentsRes, likedRes] = await Promise.all([
-          fetch(`http://localhost:3001/comments?postId=${post.id}`),
-          fetch(`http://localhost:3001/likedUsers?postId=${post.id}`),
-        ])
+  // useEffect(() => {
+  //   const fetchMockData = async () => {
+  //     try {
+  //       const [commentsRes, likedRes] = await Promise.all([
+  //         fetch(`http://localhost:3001/comments?postId=${post.id}`),
+  //         fetch(`http://localhost:3001/likedUsers?postId=${post.id}`),
+  //       ])
 
-        const commentsData = await commentsRes.json()
-        const likedData = await likedRes.json()
+  //       const commentsData = await commentsRes.json()
+  //       const likedData = await likedRes.json()
 
-        setComments(commentsData)
-        setLikedUsers(likedData)
-      } catch (error) {
-        console.error('Ошибка загрузки mock-данных:', error)
-      }
-    }
+  //       setComments(commentsData)
+  //       setLikedUsers(likedData)
+  //     } catch (error) {
+  //       console.error('Ошибка загрузки mock-данных:', error)
+  //     }
+  //   }
 
-    fetchMockData()
-  }, [post.id])
+  //   fetchMockData()
+  // }, [post.id])
 
-  const toggleLike = (id: string) => {
-    setComments((prev) =>
-      prev.map((comment) =>
-        comment.id === id
-          ? {
-              ...comment,
-              liked: !comment.liked,
-              likesCount: comment.liked
-                ? comment.likesCount - 1
-                : comment.likesCount + 1,
-            }
-          : comment,
-      ),
-    )
-  }
+  // const toggleLike = (id: string) => {
+  //   setComments((prev) =>
+  //     prev.map((comment) =>
+  //       comment.id === id
+  //         ? {
+  //             ...comment,
+  //             liked: !comment.liked,
+  //             likesCount: comment.liked
+  //               ? comment.likesCount - 1
+  //               : comment.likesCount + 1,
+  //           }
+  //         : comment,
+  //     ),
+  //   )
+  // }
 
   const handleEdit = () => {
     setShowEditModal(true)
@@ -124,12 +124,17 @@ export function PostModal({ post: serverPost }: PostModalProps) {
       <EditPostModal
         postId={post.id}
         initialDescription={post.description}
-        photoUrls={post.photoUrls}
+        urls={post.urls}
         onClose={() => setShowEditModal(false)}
         profile={profile}
       />
     )
   }
+  const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
+  const avatarSrc =
+    !profile?.photoUrl || isFakePhoto
+      ? '/assets/images/avatarPhoto.webp'
+      : profile.photoUrl
 
   return (
     <ModalWrapper onClose={closePostModal}>
@@ -140,11 +145,11 @@ export function PostModal({ post: serverPost }: PostModalProps) {
             onClose={() => setShowDeleteModal(false)}
           />
         )}
-        {post.photoUrls && post.photoUrls.length > 1 ? (
-          <ImageSlider images={post.photoUrls} />
+        {post.urls && post.urls.length > 1 ? (
+          <ImageSlider images={post.urls.map((url) => url.fileUrl)} />
         ) : (
           <Image
-            src={post.photoUrls[0] || ''}
+            src={post.urls?.[0]?.fileUrl || ''}
             alt="Post image"
             width={490}
             height={564}
@@ -167,7 +172,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
               </div>
             )
           }
-          profileImage={profile?.photoUrl || ''}
+          profileImage={avatarSrc}
           onToggleMenu={() => setShowMenu((prev) => !prev)}
           showMenu={showMenu}
         >
@@ -181,7 +186,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
           <div className={s.postDescription}>
             {profile?.photoUrl ? (
               <Image
-                src={profile.photoUrl}
+                src={avatarSrc}
                 alt="avatar"
                 width={36}
                 height={36}
@@ -213,7 +218,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
             </div>
           </div>
 
-          <div className={s.commentsList}>
+          {/* <div className={s.commentsList}>
             {comments.map((comment) => (
               <CommentItem
                 key={comment.id}
@@ -221,7 +226,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
                 onLikeToggle={toggleLike}
               />
             ))}
-          </div>
+          </div> */}
         </div>
 
         <div className={s.footer}>
@@ -233,7 +238,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
             </div>
 
             <div className={s.footerStats}>
-              <div className={s.likes}>
+              {/* <div className={s.likes}>
                 {likedUsers.slice(0, 3).map((user) => (
                   <Image
                     key={user.id}
@@ -245,7 +250,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
                   />
                 ))}
                 <span>{likedUsers.length} &quot;Like&quot;</span>
-              </div>
+              </div> */}
               <span className={s.time}>
                 {new Date(post.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',

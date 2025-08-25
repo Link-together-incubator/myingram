@@ -4,7 +4,8 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { useUpdatePostMutation } from '@/entities/post/api/postApi'
-import { UserProfile } from '@/entities/profile/profile.types'
+import { PhotoObject } from '@/entities/post/post.types'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { Button, Textarea } from '@/shared/ui'
 import { ConfirmModal } from '@/shared/ui/ConfirmModal/ConfirmModal'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
@@ -16,7 +17,7 @@ import s from './EditPostModal.module.scss'
 type EditPostModalProps = {
   postId: string
   initialDescription: string
-  photoUrls: string[]
+  urls: PhotoObject[]
   onClose: () => void
   profile: UserProfile
 }
@@ -25,7 +26,7 @@ const MAX_LENGTH = 500
 
 export const EditPostModal = ({
   initialDescription,
-  photoUrls,
+  urls,
   onClose,
   profile,
   postId,
@@ -52,6 +53,11 @@ export const EditPostModal = ({
       console.error('Ошибка при обновлении поста:', err)
     }
   }
+  const isFakePhoto = profile?.photoUrl?.includes('empty.jpg')
+  const avatarSrc =
+    !profile?.photoUrl || isFakePhoto
+      ? '/assets/images/avatarPhoto.webp'
+      : profile.photoUrl
   return (
     <ModalWrapper
       onClose={onClose}
@@ -78,14 +84,18 @@ export const EditPostModal = ({
         )}
         <div className={s.content}>
           <Image
-            src={photoUrls[0] || ''}
+            src={urls[0]?.fileUrl || ''}
             alt="Post image"
             width={490}
             height={503}
             className={s.img}
           />
           <div className={s.description}>
-            <UserInfo username={profile.userName} className={s.userInfo} />
+            <UserInfo
+              username={profile.userName}
+              className={s.userInfo}
+              profileImage={avatarSrc}
+            />
             <Textarea
               className={s.textarea}
               label="Add publication descriptions"
