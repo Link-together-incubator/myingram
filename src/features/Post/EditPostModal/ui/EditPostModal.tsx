@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 import { useUpdatePostMutation } from '@/entities/post/api/postApi'
+import { PhotoObject } from '@/entities/post/post.types'
 import { UserProfile } from '@/entities/profile/model/profile.types'
 import { Button, Textarea } from '@/shared/ui'
 import { ConfirmModal } from '@/shared/ui/ConfirmModal/ConfirmModal'
@@ -16,7 +17,7 @@ import s from './EditPostModal.module.scss'
 type EditPostModalProps = {
   postId: string
   initialDescription: string
-  photoUrls: string[]
+  urls: PhotoObject[]
   onClose: () => void
   profile: UserProfile
 }
@@ -25,7 +26,7 @@ const MAX_LENGTH = 500
 
 export const EditPostModal = ({
   initialDescription,
-  photoUrls,
+  urls,
   onClose,
   profile,
   postId,
@@ -83,7 +84,7 @@ export const EditPostModal = ({
         )}
         <div className={s.content}>
           <Image
-            src={photoUrls[0] || ''}
+            src={urls[0]?.fileUrl || ''}
             alt="Post image"
             width={490}
             height={503}

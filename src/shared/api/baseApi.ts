@@ -76,6 +76,6 @@ export const baseApi = createApi({
     return result
   },
   endpoints: () => ({}),
-  tagTypes: ['Post', 'UserProfile'],
+  tagTypes: ['Post', 'UserProfile', 'Subscription'],
   refetchOnFocus: true,
 })

@@ -13,7 +13,7 @@ import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostMo
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
-import { Button } from '@/shared/ui'
+import { Button, ImageSlider } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
 
@@ -124,7 +124,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
       <EditPostModal
         postId={post.id}
         initialDescription={post.description}
-        photoUrls={post.photoUrls}
+        urls={post.urls}
         onClose={() => setShowEditModal(false)}
         profile={profile}
       />
@@ -145,11 +145,11 @@ export function PostModal({ post: serverPost }: PostModalProps) {
             onClose={() => setShowDeleteModal(false)}
           />
         )}
-        {post.photoUrls && post.photoUrls.length > 1 ? (
-          <ImageSlider images={post.photoUrls} />
+        {post.urls && post.urls.length > 1 ? (
+          <ImageSlider images={post.urls.map((url) => url.fileUrl)} />
         ) : (
           <Image
-            src={post.photoUrls[0] || ''}
+            src={post.urls?.[0]?.fileUrl || ''}
             alt="Post image"
             width={490}
             height={564}

@@ -1,0 +1,71 @@
+.changeSubscription {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 144px;
+  margin: 18px 0 24px;
+}
+
+.title {
+  font: var(--font-h3);
+  color: var(--popover-foreground);
+}
+
+.CheckboxDay {
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
+
+.CheckboxWeek {
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
+
+.CheckboxMonth {
+  border-radius: 50%;
+}
+
+.payPalOrStripe {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.payPal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  max-height: 64px;
+  max-width: 96px;
+  margin-right: 54px;
+}
+
+.payPalButton {
+  height: 62px;
+  width: 93px;
+  cursor: pointer;
+}
+
+.stripeButton {
+  height: 62px;
+  width: 93px;
+  cursor: pointer;
+}
+
+.stripe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 64px;
+  max-width: 96px;
+  margin-left: 54px;
+}
+
+.separator {
+  font: var(--font-regular-14);
+  color: var(--card-foreground);
+}

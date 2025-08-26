@@ -1,0 +1,1 @@
+export { fetchCountRegisteredUsers } from './api'

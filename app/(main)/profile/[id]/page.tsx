@@ -1,19 +1,48 @@
+'use client'
+import { useEffect, useState } from 'react'
+
 import { ServerSideProvider } from '@/_app/providers'
 import { GetPostsPayload } from '@/entities/post/post.types'
 import { UserProfile } from '@/entities/profile/model/profile.types'
+import { ACCESS_TOKEN } from '@/shared/constants/const'
 import { ServerComponentProps } from '@/shared/lib/types/types'
 import { baseFetch } from '@/shared/lib/utils/baseFetch'
 import Profile from '@/views/Profile/profile'
 
-async function ProfilePage({ params }: ServerComponentProps<{ id: string }>) {
-  const { id } = await params
+function ProfilePage({ params }: ServerComponentProps<{ id: string }>) {
+  const { id } = params
+  const [profileData, setProfileData] = useState<UserProfile | null>(null)
+  const [postsData, setPostsData] = useState<GetPostsPayload | null>(null)
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await localStorage.getItem(ACCESS_TOKEN)
+      const [profile, posts] = await Promise.all([
+        baseFetch<UserProfile>(`profile/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        baseFetch<GetPostsPayload>(
+          `content/posts?pageNumber=1&pageSize=8&userId=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        ),
+      ])
+      setProfileData(profile)
+      setPostsData(posts)
+    }
+    fetchData()
+  }, [id])
 
-  const [serverProfile, serverPostsData] = await Promise.all([
-    baseFetch<UserProfile>(`profile/${id}`),
-    baseFetch<GetPostsPayload>(`posts?pageNumber=1&pageSize=8&userId=${id}`),
-  ])
   return (
-    <Profile serverPostsData={serverPostsData} serverProfile={serverProfile} />
+    <>
+      {profileData && postsData && (
+        <Profile serverPostsData={postsData} serverProfile={profileData} />
+      )}
+    </>
   )
 }
 

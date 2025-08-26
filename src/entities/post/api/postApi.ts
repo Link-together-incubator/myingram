@@ -14,7 +14,7 @@ export const postApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createPost: builder.mutation<void, FormData>({
       query: (formData) => ({
-        url: 'posts',
+        url: 'content/posts',
         method: 'POST',
         body: formData,
       }),
@@ -23,7 +23,7 @@ export const postApi = baseApi.injectEndpoints({
     updatePost: builder.mutation<UpdatePostResponse, UpdatePostPayload>({
       query: ({ postId, description }) => {
         return {
-          url: `posts/${postId}`,
+          url: `content/posts/${postId}`,
           method: 'PUT',
           body: { description },
         }
@@ -35,7 +35,7 @@ export const postApi = baseApi.injectEndpoints({
     getPostById: builder.query<PostPayload, PostByIdPayload>({
       query: ({ postId }) => {
         return {
-          url: `posts/${postId}`,
+          url: `content/posts/${postId}`,
           method: 'GET',
         }
       },
@@ -45,7 +45,7 @@ export const postApi = baseApi.injectEndpoints({
     }),
     deletePost: builder.mutation<void, { postId: string }>({
       query: ({ postId }) => ({
-        url: `posts/${postId}`,
+        url: `content/posts/${postId}`,
         method: 'DELETE',
       }),
       async onQueryStarted({ postId }, { dispatch, queryFulfilled, getState }) {
@@ -82,7 +82,7 @@ export const postApi = baseApi.injectEndpoints({
       query: (param = {}) => {
         const queries = buildQueryString(param)
         return {
-          url: `posts${queries}`,
+          url: `content/posts${queries}`,
           method: 'GET',
         }
       },
