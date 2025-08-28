@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import {
-  useEditUserProfileMutation,
+  useDeleteUserAvatarMutation,
   useGetUserProfileQuery,
 } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
@@ -17,10 +17,10 @@ const PROMPT_ID = 'deleteAvatar'
 
 export const useDeleteAvatar = () => {
   const dispatch = useAppDispatch()
-  const [editUserProfile] = useEditUserProfileMutation()
+  const [deleteAvatar] = useDeleteUserAvatarMutation()
   const { data: auth } = useAuthMeQuery()
   const userId = auth?.id
-  const { data: profile, refetch } = useGetUserProfileQuery(userId!, {
+  const { refetch } = useGetUserProfileQuery(userId!, {
     skip: !userId,
   })
   const userChoice = useAppSelector(selectUserChoice)
@@ -45,19 +45,8 @@ export const useDeleteAvatar = () => {
 
     const deletePhoto = async () => {
       try {
-        const formData = new FormData()
-        const emptyFile = new File([''], 'empty.jpg', { type: 'image/jpeg' })
-        formData.append('file', emptyFile)
-        formData.append('userName', profile?.userName || '')
-        formData.append('firstName', profile?.firstName || '')
-        formData.append('lastName', profile?.lastName || '')
-        formData.append('dateOfBirth', profile?.dateOfBirth || '')
-        formData.append('country', profile?.country || '')
-        formData.append('city', profile?.city || '')
-        formData.append('aboutMe', profile?.aboutMe || '')
-
-        if (userChoice.isConfirmed) {
-          await editUserProfile(formData).unwrap()
+        if (userChoice.isConfirmed && userId) {
+          await deleteAvatar().unwrap()
           await refetch()
           dispatch(setAppAlert({ message: 'Photo deleted', type: 'success' }))
         }

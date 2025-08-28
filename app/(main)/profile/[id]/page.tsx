@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import { ServerSideProvider } from '@/_app/providers'
 import { GetPostsPayload } from '@/entities/post/post.types'
@@ -10,7 +10,7 @@ import { baseFetch } from '@/shared/lib/utils/baseFetch'
 import Profile from '@/views/Profile/profile'
 
 function ProfilePage({ params }: ServerComponentProps<{ id: string }>) {
-  const { id } = params
+  const { id } = use(params)
   const [profileData, setProfileData] = useState<UserProfile | null>(null)
   const [postsData, setPostsData] = useState<GetPostsPayload | null>(null)
   useEffect(() => {

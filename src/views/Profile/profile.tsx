@@ -200,7 +200,7 @@ export default function Profile({
           <div className={s.imageContainer} key={post.id}>
             <Image
               src={post.urls[0]?.fileUrl || ''}
-              alt={post.description}
+              alt={post.description || 'Post image'}
               width={234}
               height={228}
               onClick={openPostModal.bind(null, post.id)}

@@ -7,7 +7,7 @@ import { useState } from 'react'
 
 import { PostPayload } from '@/entities/post/post.types'
 import { getTimeAgo } from '@/shared/lib/utils/getTimeAgo'
-import { ImageSlider } from '@/shared/ui'
+import { ImageSlider } from '@/shared/ui/ImageSlider/ImageSlider'
 
 import s from './PublicPostCard.module.scss'
 
