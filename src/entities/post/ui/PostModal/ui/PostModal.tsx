@@ -131,17 +131,13 @@ export function PostModal({ post: serverPost }: PostModalProps) {
         </PostHeader>
         <div className={s.scrollableArea}>
           <div className={s.postDescription}>
-            {profile?.photoUrl ? (
-              <Image
-                src={avatarSrc}
-                alt="avatar"
-                width={36}
-                height={36}
-                className={s.avatar}
-              />
-            ) : (
-              <div className={s.defaultAvatar} />
-            )}
+            <Image
+              src={avatarSrc}
+              alt="avatar"
+              width={36}
+              height={36}
+              className={s.avatar}
+            />
             <div className={s.commentBlock}>
               <div className={s.commentText}>
                 <span className={s.usernameBold}>
