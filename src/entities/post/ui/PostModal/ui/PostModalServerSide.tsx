@@ -43,5 +43,6 @@ export const PostModalServerSide = ({ postId }: PostModalServerSideProps) => {
   } catch (err) {
     return <AppAlertClient message={(err as Error).message} type="error" />
   }
+  if (!data) return null
   return <PostModal post={data} />
 }

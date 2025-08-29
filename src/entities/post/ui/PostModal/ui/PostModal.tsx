@@ -23,7 +23,6 @@ import s from './PostModal.module.scss'
 type PostModalProps = {
   post: PostPayload
 }
-
 export function PostModal({ post: serverPost }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
   // const [comments, setComments] = useState<PostComment[]>([])
