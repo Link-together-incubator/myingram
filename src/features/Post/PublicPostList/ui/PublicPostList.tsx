@@ -17,7 +17,7 @@ export const PublicPostList = async () => {
         return {
           id: post.id,
           description: post.description,
-          photoUrls: post.photoUrls,
+          urls: post.urls,
           createdAt: post.createdAt,
           username: user?.userName || 'Unknown',
           avatarUrl: user?.photoUrl || '/assets/images/avatarPhoto.webp',
