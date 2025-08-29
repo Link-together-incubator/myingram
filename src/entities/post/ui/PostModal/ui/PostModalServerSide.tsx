@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AppAlertClient } from '@/entities/post/ui/AppAlertClient/AppAlertClient'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
