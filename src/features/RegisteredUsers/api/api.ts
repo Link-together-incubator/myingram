@@ -1,4 +1,4 @@
-import { UserProfileListResponse } from '@/entities/profile/profile.types'
+import { UserProfileListResponse } from '@/entities/profile/model/profile.types'
 import { Endpoints } from '@/shared/constants/endpoints'
 
 export const fetchCountRegisteredUsers = async () => {
