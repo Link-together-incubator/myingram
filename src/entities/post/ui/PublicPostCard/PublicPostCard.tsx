@@ -7,11 +7,11 @@ import { useState } from 'react'
 
 import { PostPayload } from '@/entities/post/post.types'
 import { getTimeAgo } from '@/shared/lib/utils/getTimeAgo'
-import { ImageSlider } from '@/shared/ui'
+import { ImageSlider } from '@/shared/ui/ImageSlider/ImageSlider'
 
 import s from './PublicPostCard.module.scss'
 
-type Props = Pick<PostPayload, 'photoUrls' | 'description' | 'createdAt'> & {
+type Props = Pick<PostPayload, 'urls' | 'description' | 'createdAt'> & {
   postLink: string
   username: string
   avatarUrl: string
@@ -19,7 +19,7 @@ type Props = Pick<PostPayload, 'photoUrls' | 'description' | 'createdAt'> & {
 
 export const PublicPostCard = ({
   description,
-  photoUrls,
+  urls,
   createdAt,
   username,
   avatarUrl,
@@ -38,10 +38,14 @@ export const PublicPostCard = ({
     : (description.length > 100 && '... ') || ''
 
   const photo =
-    photoUrls.length === 1 || isDescriptionExpanded ? (
-      <Image alt={'post image'} priority fill src={photoUrls[0]} />
+    urls.length === 1 || isDescriptionExpanded ? (
+      <Image alt={'post image'} priority fill src={urls[0].fileUrl} />
     ) : (
-      <ImageSlider images={photoUrls} width={234} height={240} />
+      <ImageSlider
+        images={urls.map((u) => u.fileUrl)}
+        width={234}
+        height={240}
+      />
     )
 
   return (

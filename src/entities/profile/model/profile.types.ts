@@ -15,6 +15,13 @@ export type UserProfile = {
   createdAt: string
   paymentAccount: boolean
 }
+export type UserProfileListResponse = {
+  items: UserProfile[]
+  totalCount: number
+  pagesCount: number
+  page: number
+  pageSize: number
+}
 export type EditUserProfile = {
   file: File
   userName: string
@@ -25,5 +32,4 @@ export type EditUserProfile = {
   city: string
   aboutMe: string
 }
-
 export type EditUserProfileWithoutFile = Partial<Omit<EditUserProfile, 'file'>>

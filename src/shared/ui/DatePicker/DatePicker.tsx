@@ -23,8 +23,6 @@ type Props = {
 }
 
 export function DatePicker({ selected, onChange, error }: Props) {
-  const [date, setDate] = React.useState<Date>()
-
   return (
     <div className={s.datePickerWrapper}>
       <Popover>

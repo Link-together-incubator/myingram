@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
@@ -10,6 +11,7 @@ import {
   GeneralInformationSchema,
 } from '@/entities/profile/model/GeneralInformationSchem'
 import { UserProfile } from '@/entities/profile/model/profile.types'
+import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { Button, DatePicker, Input, Textarea } from '@/shared/ui'
 import { Separator } from '@/shared/ui/Separator/Separator'
 
@@ -21,6 +23,8 @@ type Props = {
 
 export const EditProfileForm = ({ profile }: Props) => {
   const [editProfile] = useEditUserProfilePatchMutation()
+  const router = useRouter()
+  const { data: user } = useAuthMeQuery()
 
   const {
     register,
@@ -57,6 +61,7 @@ export const EditProfileForm = ({ profile }: Props) => {
   const onSubmit: SubmitHandler<GeneralInformationData> = async (data) => {
     try {
       await editProfile(data).unwrap()
+      router.push(`/profile/${user?.id}`)
     } catch (e) {
       console.log(`Error ${e}`)
     }

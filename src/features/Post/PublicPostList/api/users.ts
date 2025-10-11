@@ -1,4 +1,4 @@
-import { UserProfile } from '@/entities/profile/profile.types'
+import { UserProfile } from '@/entities/profile/model/profile.types'
 import { Endpoints } from '@/shared/constants/endpoints'
 
 export const fetchUserProfile = async (

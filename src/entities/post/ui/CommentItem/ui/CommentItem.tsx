@@ -2,13 +2,21 @@
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
 
-import { PostComment } from '../../PostModal/ui/PostModal'
-
 import s from './CommentItem.module.scss'
 
 type Props = {
   comment: PostComment
   onLikeToggle: (id: string) => void
+}
+export type PostComment = {
+  id: string
+  postId: string
+  username: string
+  avatarUrl: string
+  text: string
+  timeAgo: string
+  liked: boolean
+  likesCount: number
 }
 
 export function CommentItem({ comment, onLikeToggle }: Props) {

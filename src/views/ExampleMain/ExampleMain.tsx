@@ -19,7 +19,7 @@ export default function ExampleMain() {
       Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
       подтвердил почту
       {postData &&
-        postData.items.map((post) => (
+        postData?.items?.map((post) => (
           <div key={post.id}>
             <h1>Author: {post.userId}</h1>
             <h2>PostId: {post.id}</h2>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AppAlertClient } from '@/entities/post/ui/AppAlertClient/AppAlertClient'
 import { ACCESS_TOKEN } from '@/shared/constants/const'
@@ -43,5 +43,6 @@ export const PostModalServerSide = ({ postId }: PostModalServerSideProps) => {
   } catch (err) {
     return <AppAlertClient message={(err as Error).message} type="error" />
   }
+  if (!data) return null
   return <PostModal post={data} />
 }

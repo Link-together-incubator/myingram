@@ -28,6 +28,13 @@ export const profileApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    deleteUserAvatar: builder.mutation<void, void>({
+      query: () => ({
+        url: `profile/photo`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['UserProfile'],
+    }),
   }),
 })
 
@@ -35,4 +42,5 @@ export const {
   useEditUserProfileMutation,
   useEditUserProfilePatchMutation,
   useGetUserProfileQuery,
+  useDeleteUserAvatarMutation,
 } = profileApi
