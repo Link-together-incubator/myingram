@@ -1,4 +1,4 @@
-import { GetPostsPayload } from '@/entities/post/post.types'
+import { GetPostsResponse } from '@/entities/post/post.types'
 import { Endpoints } from '@/shared/constants/endpoints'
 
 export const fetchPublicPosts = async () => {
@@ -15,6 +15,7 @@ export const fetchPublicPosts = async () => {
     throw new Error('Posts fetch failed')
   }
 
-  const data: GetPostsPayload = await res.json()
+  const data: GetPostsResponse = await res.json()
+  console.log('POSTS:', data.items)
   return data.items ?? []
 }

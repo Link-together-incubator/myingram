@@ -14,10 +14,12 @@ export const PublicPostList = async () => {
       posts.map(async (post) => {
         const user = await fetchUserProfile(post.userId)
 
+        const photoUrls = post?.urls.map((el) => el?.fileUrl)
+
         return {
           id: post.id,
-          description: post.description,
-          urls: post.urls,
+          title: post.title,
+          photoUrls: photoUrls,
           createdAt: post.createdAt,
           username: user?.userName || 'Unknown',
           avatarUrl: user?.photoUrl || '/assets/images/avatarPhoto.webp',

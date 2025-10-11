@@ -5,21 +5,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { PostPayload } from '@/entities/post/post.types'
+import { Post } from '@/entities/post/post.types'
 import { getTimeAgo } from '@/shared/lib/utils/getTimeAgo'
 import { ImageSlider } from '@/shared/ui/ImageSlider/ImageSlider'
 
 import s from './PublicPostCard.module.scss'
 
-type Props = Pick<PostPayload, 'urls' | 'description' | 'createdAt'> & {
+type Props = Pick<Post, 'title' | 'createdAt'> & {
   postLink: string
   username: string
   avatarUrl: string
+  photoUrls: string[]
 }
 
 export const PublicPostCard = ({
-  description,
-  urls,
+  title,
+  photoUrls,
   createdAt,
   username,
   avatarUrl,
@@ -31,21 +32,17 @@ export const PublicPostCard = ({
     setIsDescriptionExpanded(!isDescriptionExpanded)
 
   const descriptionText = isDescriptionExpanded
-    ? description
-    : description.slice(0, 100).trim()
+    ? title
+    : title.slice(0, 100).trim()
   const descriptionEnding = isDescriptionExpanded
     ? ' '
-    : (description.length > 100 && '... ') || ''
+    : (title.length > 100 && '... ') || ''
 
   const photo =
-    urls.length === 1 || isDescriptionExpanded ? (
-      <Image alt={'post image'} priority fill src={urls[0].fileUrl} />
+    photoUrls.length === 1 || isDescriptionExpanded ? (
+      <ImageSlider images={[photoUrls[0]]} width={234} height={240} />
     ) : (
-      <ImageSlider
-        images={urls.map((u) => u.fileUrl)}
-        width={234}
-        height={240}
-      />
+      <ImageSlider images={photoUrls} width={234} height={240} />
     )
 
   return (
@@ -76,7 +73,7 @@ export const PublicPostCard = ({
       <p className={s.description}>
         {descriptionText + descriptionEnding}
 
-        {description.length > 100 && (
+        {title.length > 100 && (
           <button
             className={s.showMore}
             onClick={onShowMoreClickHandler}

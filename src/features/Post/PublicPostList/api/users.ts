@@ -10,13 +10,14 @@ export const fetchUserProfile = async (
       next: { revalidate: 60 },
     },
   )
-  if (!res.ok) {
-    throw new Error(`Failed to fetch profile for user ${userId}`)
-  }
+
+  console.log('res', res)
+  // if (!res.ok) {
+  //   throw new Error(`Failed to fetch profile for user ${userId}`)
+  // }
   const text = await res.text()
   if (!text || res.status === 204) {
     return null
   }
-
   return JSON.parse(text)
 }

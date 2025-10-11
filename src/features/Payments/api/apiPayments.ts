@@ -20,15 +20,16 @@ export const paymentsApi = baseApi.injectEndpoints({
     }),
     getSubscriptions: builder.query<
       SubscriptionsResponse,
-      Partial<SubscriptionsQueryParams> | undefined
+      Partial<SubscriptionsQueryParams> | void
     >({
-      query: (params = {}) => {
+      query: (params) => {
+        const paramsArg = params ?? {}
         const {
           pageNumber = 1,
           pageSize = 10,
           sortBy = 'createdAt',
           sortDirection = 'DESC',
-        } = params
+        } = paramsArg
         return {
           url: 'payments/subscriptions',
           method: 'GET',

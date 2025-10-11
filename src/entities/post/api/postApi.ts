@@ -2,10 +2,10 @@ import { baseApi } from '@/shared/api/baseApi'
 import { buildQueryString } from '@/shared/lib/utils/queryParams'
 
 import {
-  GetPostsPayload,
   GetPostsQueryParamPayload,
-  PostByIdPayload,
-  PostPayload,
+  GetPostsResponse,
+  Post,
+  PostByIdResponse,
   UpdatePostPayload,
   UpdatePostResponse,
 } from '../post.types'
@@ -32,7 +32,7 @@ export const postApi = baseApi.injectEndpoints({
         return [{ type: 'Post', id: postId }]
       },
     }),
-    getPostById: builder.query<PostPayload, PostByIdPayload>({
+    getPostById: builder.query<Post, PostByIdResponse>({
       query: ({ postId }) => {
         return {
           url: `content/posts/${postId}`,
@@ -78,7 +78,7 @@ export const postApi = baseApi.injectEndpoints({
         }
       },
     }),
-    getPosts: builder.query<GetPostsPayload, GetPostsQueryParamPayload>({
+    getPosts: builder.query<GetPostsResponse, GetPostsQueryParamPayload>({
       query: (param = {}) => {
         const queries = buildQueryString(param)
         return {
@@ -90,7 +90,7 @@ export const postApi = baseApi.injectEndpoints({
         return `${endpointName}-${queryArgs.userId}`
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.pageNumber === 1 && currentCache.items.length > 0)
+        if (arg.pageNumber === 1 && currentCache?.items.length > 0)
           return currentCache
         return {
           ...newItems,

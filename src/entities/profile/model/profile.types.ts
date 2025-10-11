@@ -32,4 +32,13 @@ export type EditUserProfile = {
   city: string
   aboutMe: string
 }
+
+export type UserProfileListResponse = {
+  items: UserProfile[]
+  totalCount: number
+  pagesCount: number
+  page: number
+  pageSize: number
+}
+
 export type EditUserProfileWithoutFile = Partial<Omit<EditUserProfile, 'file'>>
