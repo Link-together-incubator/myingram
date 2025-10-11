@@ -44,3 +44,5 @@ export {
   SelectTrigger,
   SelectValue,
 } from './Select/select'
+
+export { ImageSlider } from './ImageSlider/ImageSlider'

@@ -4,6 +4,7 @@ import { useGetPostsQuery } from '@/entities/post/api/postApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { Button } from '@/shared/ui'
+
 export default function ExampleMain() {
   const { data: user } = useAuthMeQuery()
   const { data: postData } = useGetPostsQuery({ pageNumber: 1, pageSize: 10 })
@@ -11,6 +12,8 @@ export default function ExampleMain() {
   const handlePostModal = (postId: string) => () => {
     openPostModal(postId)
   }
+
+  console.log('data', postData)
 
   return (
     <div

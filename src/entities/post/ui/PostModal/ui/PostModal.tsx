@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
 import { postApi, useGetPostByIdQuery } from '@/entities/post/api/postApi'
-import { PostPayload } from '@/entities/post/post.types'
+import { Post } from '@/entities/post/post.types'
 import { DropdownMenu, PostHeader } from '@/entities/post/ui'
 import { useGetUserProfileQuery } from '@/entities/profile/api/profileApi'
 import { useAuthMeQuery } from '@/features/auth/api/authApi'
@@ -13,15 +13,14 @@ import { DeletePostModal } from '@/features/Post/DeletePostModal/ui/DeletePostMo
 import { EditPostModal } from '@/features/Post/EditPostModal/ui/EditPostModal'
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
-import { Button } from '@/shared/ui'
-import { ImageSlider } from '@/shared/ui/ImageSlider/ImageSlider'
+import { Button, ImageSlider } from '@/shared/ui'
 import { ModalWrapper } from '@/shared/ui/ModalWrapper/ModalWrapper'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
 
 import s from './PostModal.module.scss'
 
 type PostModalProps = {
-  post: PostPayload
+  post: Post
 }
 export function PostModal({ post: serverPost }: PostModalProps) {
   const [showMenu, setShowMenu] = useState(false)
@@ -69,7 +68,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
     return (
       <EditPostModal
         postId={post.id}
-        initialDescription={post.description}
+        initialDescription={post.title}
         urls={post.urls}
         onClose={() => setShowEditModal(false)}
         profile={profile}
@@ -148,7 +147,7 @@ export function PostModal({ post: serverPost }: PostModalProps) {
                     </div>
                   )}
                 </span>{' '}
-                {post.description}
+                {post.title}
               </div>
               <span className={s.time}>
                 {new Date(post.createdAt).toLocaleDateString('en-US', {

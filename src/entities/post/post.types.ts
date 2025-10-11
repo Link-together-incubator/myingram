@@ -31,12 +31,53 @@ export type GetPostsPayload = {
   items: PostPayload[]
 }
 
+export const Statuses = [
+  'PENDING',
+  'IN_PROGRESS',
+  'COMPLETED',
+  'FAILED',
+] as const
+
+export type Status = (typeof Statuses)[number]
+
+type Urls = {
+  id: string
+  createdAt: string
+  updatedAt: string
+  fileName: string
+  fileUrl: string
+  postId: string
+}
+
+export type Post = {
+  id: string
+  userId: string
+  title: string
+  urls: Urls[]
+  createdAt: string
+  updatedAt: string
+  photoUploadStatus: Status
+  published: boolean
+  bunned: boolean
+}
+
+export type GetPostsResponse = {
+  items: Post[]
+  totalCount: number
+  pageSize: number
+  pageNumber: number
+}
+
 export type UpdatePostPayload = {
   postId: string
   description: string
 }
 
-export type PostByIdPayload = {
+// export type PostByIdPayload = {
+//   postId: string
+// }
+
+export type PostByIdResponse = {
   postId: string
 }
 

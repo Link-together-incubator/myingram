@@ -1,5 +1,5 @@
 export const Endpoints = {
-  posts: 'posts',
+  posts: 'content/posts',
   profile: 'profile',
 } as const
 

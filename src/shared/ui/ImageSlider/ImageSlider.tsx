@@ -6,7 +6,7 @@ import { useState } from 'react'
 import s from './ImageSlider.module.scss'
 
 type ImageSliderProps = {
-  images: string[]
+  images: string[] | string
   width?: number
   height?: number
 }
@@ -16,15 +16,20 @@ export const ImageSlider = ({
   width = 490,
   height = 564,
 }: ImageSliderProps) => {
+  const normalizedImages = Array.isArray(images) ? images : [images]
   const [current, setCurrent] = useState(0)
 
   const prevSlide = () => {
-    setCurrent((prev) => (prev - 1 + images.length) % images.length)
+    setCurrent(
+      (prev) => (prev - 1 + normalizedImages.length) % normalizedImages.length,
+    )
   }
 
   const nextSlide = () => {
-    setCurrent((prev) => (prev + 1) % images.length)
+    setCurrent((prev) => (prev + 1) % normalizedImages.length)
   }
+
+  const currentImage = normalizedImages[current]
 
   return (
     <div
@@ -32,29 +37,38 @@ export const ImageSlider = ({
       style={{ width: `${width}px`, height: `${height}px` }}
     >
       <div className={s.imageWrapper}>
-        <Image
-          src={images[current]}
-          alt={`Slide ${current + 1}`}
-          className={s.image}
-          priority
-          fill
-        />
+        {currentImage ? (
+          <Image
+            src={currentImage}
+            alt={`Slide ${current + 1}`}
+            className={s.image}
+            priority
+            fill
+            sizes="(max-width: 768px) 100vw, 490px"
+          />
+        ) : (
+          <div className={s.imageFallback}>Нет изображения</div>
+        )}
       </div>
 
-      <button className={`${s.nav} ${s.left}`} onClick={prevSlide}>
-        <ChevronLeft size={28} />
-      </button>
-      <button className={`${s.nav} ${s.right}`} onClick={nextSlide}>
-        <ChevronRight size={28} />
-      </button>
-      <div className={s.dots}>
-        {images.map((_, index) => (
-          <div
-            key={index}
-            className={`${s.dot} ${index === current ? s.active : ''}`}
-          />
-        ))}
-      </div>
+      {normalizedImages.length > 1 && (
+        <>
+          <button className={`${s.nav} ${s.left}`} onClick={prevSlide}>
+            <ChevronLeft size={28} />
+          </button>
+          <button className={`${s.nav} ${s.right}`} onClick={nextSlide}>
+            <ChevronRight size={28} />
+          </button>
+          <div className={s.dots}>
+            {normalizedImages.map((_, index) => (
+              <div
+                key={index}
+                className={`${s.dot} ${index === current ? s.active : ''}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }
