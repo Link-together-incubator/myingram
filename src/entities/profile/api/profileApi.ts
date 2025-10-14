@@ -27,6 +27,7 @@ export const profileApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['UserProfile'],
     }),
     deleteUserAvatar: builder.mutation<void, void>({
       query: () => ({
