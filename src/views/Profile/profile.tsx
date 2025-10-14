@@ -50,7 +50,7 @@ export default function Profile({
   })
 
   const profile = clientProfile ?? serverProfile
-  const posts = postData?.items ?? serverPostsData.items
+  const posts = postData?.items ?? serverPostsData.items ?? []
   const postsCount = postData?.totalCount ?? serverPostsData.totalCount
 
   const { openPostModal } = usePostModal()
