@@ -1,7 +1,17 @@
+import { Metadata } from 'next'
+
 import { ServerSideProvider } from '@/_app/providers'
-import ExampleMain from '@/views/ExampleMain/ExampleMain'
+import { MainPage } from '@/views'
+
+export const metadata: Metadata = {
+  title: 'Home',
+}
 
 function Home() {
-  return <ExampleMain />
+  return (
+    <div className="mt-18">
+      <MainPage />
+    </div>
+  )
 }
 export default ServerSideProvider(Home)
