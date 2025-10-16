@@ -8,4 +8,4 @@ export { PrivacyPolicy } from './PrivacyPolicy/PrivacyPolicy'
 
 export { SignUp } from './SignUp/SignUp'
 
-export { PublicPage } from './PublicPage/PublicPage'
+export { MainPage } from './MainPage/MainPage'

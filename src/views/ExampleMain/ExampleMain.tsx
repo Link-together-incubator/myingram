@@ -20,7 +20,7 @@ export default function ExampleMain() {
       className={`flex gap-72 flex-col pt-[80px] px-9 mx-auto w-full max-w-[1180px] text-3xl text-amber-100`}
     >
       Привет! Твой логин - {user?.name} и ты {user?.isConfirmed || 'не '}
-      подтвердил почту
+      подтвердил почту.
       {postData &&
         postData?.items?.map((post) => (
           <div key={post.id}>
