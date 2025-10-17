@@ -1,20 +1,20 @@
 #Устанавливаем зависимости
-FROM node:22.11-alpine as dependencies
+FROM node:20.11-alpine as dependencies
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 #Билдим приложение
 #Кэширование зависимостей — если файлы в проекте изменились,
 #но package.json остался неизменным, то стейдж с установкой зависимостей повторно не выполняется, что экономит время.
-FROM node:22.11-alpine as builder
+FROM node:20.11-alpine as builder
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN npm run build:production
 
 #Стейдж запуска
-FROM node:22.11-alpine as runner
+FROM node:20.11-alpine as runner
 WORKDIR /app
 ENV NODE_ENV production
 COPY --from=builder /app/ ./
