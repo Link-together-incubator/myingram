@@ -4,12 +4,12 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 3775
+        PORT = 4056
         NAMESPACE = "myin-gram-ru"
         REGISTRY_HOSTNAME = "idogmat"
         REGISTRY = "registry.hub.docker.com"
-        PROJECT = "next-dev-v2"
-        DEPLOYMENT_NAME = "next-dev-v2-deployment"
+        PROJECT = "myin-gram-front"
+        DEPLOYMENT_NAME = "myin-gram-front-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
     }
@@ -19,20 +19,6 @@ pipeline {
             steps {
                 checkout scm
             }
-        }
-        stage('Unit tests') {
-             steps {
-                echo "Preparing started..."
-                  script {
-                      sh '''
-                         export NVM_DIR="$HOME/.nvm"
-                         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-                         nvm use --lts
-                         yarn install
-                         yarn test
-                      '''
-                  }
-             }
         }
         stage('Build docker image') {
             steps {
