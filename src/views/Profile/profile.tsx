@@ -13,6 +13,7 @@ import {
   useGetSubscriptionsQuery,
   useUnsubscribeMutation,
 } from '@/features/Payments/api/apiPayments'
+import { ROUTES } from '@/shared/constants/routes'
 import { usePostModal } from '@/shared/lib/hooks/usePostModal'
 import { useScroll } from '@/shared/lib/hooks/useScroll'
 import { Button } from '@/shared/ui'
@@ -74,7 +75,7 @@ export default function Profile({
   }, [postData])
 
   const handleProfileSettingsRoute = () => {
-    router.push('/settings')
+    router.push(ROUTES.SETTINGS)
   }
 
   useEffect(() => {

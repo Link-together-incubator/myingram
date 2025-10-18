@@ -5,6 +5,7 @@ export const ROUTES = {
   LINK_EXPIRED: '/link-expired',
   CONFIRM_EMAIL: '/confirm-email',
   RESET_PASSWORD: '/reset-password',
+  SETTINGS: '/settings',
   // todo: Если маршрут динамический можно сделать функцию. Например:
   // getUserProfile: (userId: string) => `/profile/${userId}`
 } as const
